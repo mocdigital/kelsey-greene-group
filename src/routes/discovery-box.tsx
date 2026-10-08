@@ -1,0 +1,4 @@
+import {createFileRoute,Link} from '@tanstack/react-router';
+import {PageIntro,ProductGrid} from '@/components/editorial';
+import {assets,meta} from '@/lib/content';
+export const Route=createFileRoute('/discovery-box')({head:()=>meta('Discovery Box','Discover all five products in the Kelsey Greene African breakfast range.'),component:()=> <><PageIntro eyebrow="1 MILLION BREAKFAST MOVEMENT" title="Five products. A world of breakfasts." description="Discover Plain, Milky and Spicy Millet Pap, Date Powder and Beans Flour." photo={assets.breakfast}/><section className="section"><div className="container"><h2>The Discovery Box.</h2><p className="mt-5">Bundle contents, pricing and availability will be confirmed by the product team.</p><Link to="/enquiry" className="arrow-link mt-5">Enquire about a Discovery Box →</Link></div></section><ProductGrid/></>});

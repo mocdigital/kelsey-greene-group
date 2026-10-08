@@ -1,24 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import { createFileRoute, Link } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
+import { ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Eyebrow, ArrowLink, BusinessExplorer, ProductGrid, MovementSection, PartnershipsSection } from '@/components/editorial';
+import { EnquiryForm } from '@/components/enquiry-form';
+import { assets, contentOptions, meta } from '@/lib/content';
+export const Route=createFileRoute('/')({head:()=>meta('Creating Value. Improving Lives.','A diversified African business group with global ambition. Discover our businesses across food, agriculture, manufacturing, apparel and property.'),component:Home});
+function Home(){const {data}=useSuspenseQuery(contentOptions);const home=data.find(r=>r.kind==='page'&&r.slug==='home');return <><section className="hero"><img src={assets.hero} alt="Fresh greens, beans and grains in an African food market"/><div className="container hero-inner"><Eyebrow>KELSEY GREENE GROUP</Eyebrow><h1>{home?.title??'Creating Value. Improving Lives.'}</h1><div className="hero-positioning">A DIVERSIFIED AFRICAN BUSINESS GROUP WITH GLOBAL AMBITION.</div><p>{home?.description}</p><div className="hero-actions"><Button variant="cream" asChild><Link to="/businesses">Explore our businesses <ArrowRight/></Link></Button><ArrowLink to="/group">Discover the group</ArrowLink></div></div><div className="hero-sectors"><div className="container"><span>FOOD & AGRO-ALLIED</span><span>POULTRY & MEAT</span><span>GREENHOUSE FARMING</span><span>MANUFACTURING & APPAREL</span><span>PROPERTY</span></div></div></section><section className="section"><div className="container group-layout"><div><Eyebrow>THE GROUP</Eyebrow><h2>One group.<br/>Multiple businesses.<br/>Connected opportunities.</h2><span className="small-note">ONE GROUP. MULTIPLE BUSINESSES. CONNECTED OPPORTUNITIES.</span></div><div className="group-copy"><p>Kelsey Greene Group brings together businesses with distinct operational focus and commercial identity. Our diversified portfolio serves both consumer and business-to-business markets.</p><p>From developing products to pursuing new commercial opportunities, we are guided by a shared philosophy: operate quality businesses, serve customers and create sustainable, long-term value.</p><ArrowLink to="/group">Meet Kelsey Greene Group</ArrowLink></div></div></section><BusinessExplorer/><ProductGrid preview/><MovementSection/><PartnershipsSection/><EnquiryForm/></>}
