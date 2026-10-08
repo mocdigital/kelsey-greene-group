@@ -14,16 +14,341 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      audit_logs: {
+        Row: {
+          action: string
+          actor: string | null
+          created_at: string
+          details: Json
+          entity: string
+          entity_id: string | null
+          id: string
+        }
+        Insert: {
+          action: string
+          actor?: string | null
+          created_at?: string
+          details?: Json
+          entity: string
+          entity_id?: string | null
+          id?: string
+        }
+        Update: {
+          action?: string
+          actor?: string | null
+          created_at?: string
+          details?: Json
+          entity?: string
+          entity_id?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      cms_records: {
+        Row: {
+          description: string
+          id: string
+          kind: string
+          payload: Json
+          position: number
+          seo_description: string
+          seo_title: string
+          slug: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          description?: string
+          id?: string
+          kind: string
+          payload?: Json
+          position?: number
+          seo_description?: string
+          seo_title?: string
+          slug: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          description?: string
+          id?: string
+          kind?: string
+          payload?: Json
+          position?: number
+          seo_description?: string
+          seo_title?: string
+          slug?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      content_versions: {
+        Row: {
+          actor: string | null
+          created_at: string
+          id: string
+          new_record: Json | null
+          old_record: Json | null
+          record_id: string
+        }
+        Insert: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          new_record?: Json | null
+          old_record?: Json | null
+          record_id: string
+        }
+        Update: {
+          actor?: string | null
+          created_at?: string
+          id?: string
+          new_record?: Json | null
+          old_record?: Json | null
+          record_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_versions_record_id_fkey"
+            columns: ["record_id"]
+            isOneToOne: false
+            referencedRelation: "cms_records"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      enquiry_submissions: {
+        Row: {
+          business_area: string
+          created_at: string
+          email: string
+          enquiry_type: string
+          full_name: string
+          id: string
+          message: string
+          organisation: string
+          status: string
+        }
+        Insert: {
+          business_area: string
+          created_at?: string
+          email: string
+          enquiry_type: string
+          full_name: string
+          id?: string
+          message: string
+          organisation?: string
+          status?: string
+        }
+        Update: {
+          business_area?: string
+          created_at?: string
+          email?: string
+          enquiry_type?: string
+          full_name?: string
+          id?: string
+          message?: string
+          organisation?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          created_at: string
+          id: string
+          items: Json
+          payment_reference: string | null
+          referral_code: string | null
+          status: string
+          total_ngn: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          items: Json
+          payment_reference?: string | null
+          referral_code?: string | null
+          status?: string
+          total_ngn?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          items?: Json
+          payment_reference?: string | null
+          referral_code?: string | null
+          status?: string
+          total_ngn?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          organisation: string
+          phone: string
+          preferences: Json
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string
+          id: string
+          organisation?: string
+          phone?: string
+          preferences?: Json
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          organisation?: string
+          phone?: string
+          preferences?: Json
+        }
+        Relationships: []
+      }
+      programme_applications: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          location: string
+          message: string
+          organisation: string
+          phone: string
+          programme: string
+          referral_code: string | null
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          location?: string
+          message?: string
+          organisation?: string
+          phone?: string
+          programme: string
+          referral_code?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          location?: string
+          message?: string
+          organisation?: string
+          phone?: string
+          programme?: string
+          referral_code?: string | null
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      submission_limits: {
+        Row: {
+          attempts: number
+          id: string
+          window_start: string
+        }
+        Insert: {
+          attempts?: number
+          id: string
+          window_start?: string
+        }
+        Update: {
+          attempts?: number
+          id?: string
+          window_start?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          created_at: string
+          frequency: string
+          id: string
+          product_slug: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          frequency: string
+          id?: string
+          product_slug: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          frequency?: string
+          id?: string
+          product_slug?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      consume_submission_limit: {
+        Args: { limit_key: string }
+        Returns: boolean
+      }
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "admin"
+        | "content_editor"
+        | "publisher"
+        | "commerce_manager"
+        | "community_manager"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +475,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: [
+        "admin",
+        "content_editor",
+        "publisher",
+        "commerce_manager",
+        "community_manager",
+      ],
+    },
   },
 } as const

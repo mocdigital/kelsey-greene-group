@@ -1,0 +1,4 @@
+import {createFileRoute,Link} from '@tanstack/react-router';
+import {MovementSection,Eyebrow,ArrowLink} from '@/components/editorial';
+import {meta} from '@/lib/content';
+export const Route=createFileRoute('/movement')({head:()=>meta('1 Million Breakfast Movement','Nourishing people, empowering communities and feeding a global future through African breakfast products.'),component:()=> <><MovementSection full/><section className="section"><div className="container"><Eyebrow>BREAKFAST, TOGETHER</Eyebrow><h2 className="mt-5">Culture on the table.<br/>Community at the heart.</h2><div className="link-row"><ArrowLink to="/recipes">Explore recipes</ArrowLink><ArrowLink to="/stories">Read our stories</ArrowLink><ArrowLink to="/stores">Find our products</ArrowLink><ArrowLink to="/breakfast-day">Global African Breakfast Day</ArrowLink><Link to="/discovery-box" className="arrow-link">Discover the range</Link></div></div></section></>});
