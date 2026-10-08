@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Combine the sketch About and Leadership content on /group while retaining this project's design.
 - [x] Recreate PDF homepage and shared design; install supplied logo/favicon.
 - [x] Corporate, business directory/detail, values and partnership pages.
 - [x] Product catalogue, details, cart and explicit inactive checkout.
