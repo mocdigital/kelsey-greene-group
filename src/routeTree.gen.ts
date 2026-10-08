@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BreakfastDayRouteImport } from './routes/breakfast-day'
 import { Route as BusinessesRouteImport } from './routes/businesses'
 import { Route as CartRouteImport } from './routes/cart'
@@ -19,17 +21,38 @@ import { Route as EnquiryRouteImport } from './routes/enquiry'
 import { Route as GroupRouteImport } from './routes/group'
 import { Route as MovementRouteImport } from './routes/movement'
 import { Route as PartnershipsRouteImport } from './routes/partnerships'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RecipesRouteImport } from './routes/recipes'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ShopRouteImport } from './routes/shop'
+import { Route as StoresRouteImport } from './routes/stores'
+import { Route as StoriesRouteImport } from './routes/stories'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ValuesRouteImport } from './routes/values'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 import { Route as BusinessesIndexRouteImport } from './routes/businesses.index'
 import { Route as BusinessesSlugRouteImport } from './routes/businesses.$slug'
 import { Route as ParticipateProgrammeRouteImport } from './routes/participate.$programme'
+import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
+import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
 import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
+import { Route as StoriesIndexRouteImport } from './routes/stories.index'
+import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BreakfastDayRoute = BreakfastDayRouteImport.update({
@@ -77,15 +100,55 @@ const PartnershipsRoute = PartnershipsRouteImport.update({
   path: '/partnerships',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecipesRoute = RecipesRouteImport.update({
+  id: '/recipes',
+  path: '/recipes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoresRoute = StoresRouteImport.update({
+  id: '/stores',
+  path: '/stores',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StoriesRoute = StoriesRouteImport.update({
+  id: '/stories',
+  path: '/stories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ValuesRoute = ValuesRouteImport.update({
   id: '/values',
   path: '/values',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const BusinessesIndexRoute = BusinessesIndexRouteImport.update({
   id: '/',
@@ -102,6 +165,16 @@ const ParticipateProgrammeRoute = ParticipateProgrammeRouteImport.update({
   path: '/participate/$programme',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecipesIndexRoute = RecipesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => RecipesRoute,
+} as any)
+const RecipesSlugRoute = RecipesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => RecipesRoute,
+} as any)
 const ShopIndexRoute = ShopIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -112,9 +185,20 @@ const ShopSlugRoute = ShopSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => ShopRoute,
 } as any)
+const StoriesIndexRoute = StoriesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => StoriesRoute,
+} as any)
+const StoriesSlugRoute = StoriesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => StoriesRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
   '/cart': typeof CartRoute
@@ -124,16 +208,29 @@ export interface FileRoutesByFullPath {
   '/group': typeof GroupRoute
   '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
+  '/privacy': typeof PrivacyRoute
+  '/recipes': typeof RecipesRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRouteWithChildren
+  '/stores': typeof StoresRoute
+  '/stories': typeof StoriesRouteWithChildren
+  '/terms': typeof TermsRoute
   '/values': typeof ValuesRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/businesses/': typeof BusinessesIndexRoute
+  '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
@@ -142,16 +239,28 @@ export interface FileRoutesByTo {
   '/group': typeof GroupRoute
   '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/stores': typeof StoresRoute
+  '/terms': typeof TermsRoute
   '/values': typeof ValuesRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/admin': typeof AuthenticatedAdminRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/businesses': typeof BusinessesIndexRoute
+  '/recipes': typeof RecipesIndexRoute
   '/shop': typeof ShopIndexRoute
+  '/stories': typeof StoriesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
   '/cart': typeof CartRoute
@@ -161,18 +270,31 @@ export interface FileRoutesById {
   '/group': typeof GroupRoute
   '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
+  '/privacy': typeof PrivacyRoute
+  '/recipes': typeof RecipesRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
   '/shop': typeof ShopRouteWithChildren
+  '/stores': typeof StoresRoute
+  '/stories': typeof StoriesRouteWithChildren
+  '/terms': typeof TermsRoute
   '/values': typeof ValuesRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
+  '/stories/$slug': typeof StoriesSlugRoute
   '/businesses/': typeof BusinessesIndexRoute
+  '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
+  '/stories/': typeof StoriesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/breakfast-day'
     | '/businesses'
     | '/cart'
@@ -182,16 +304,29 @@ export interface FileRouteTypes {
     | '/group'
     | '/movement'
     | '/partnerships'
+    | '/privacy'
+    | '/recipes'
+    | '/reset-password'
     | '/shop'
+    | '/stores'
+    | '/stories'
+    | '/terms'
     | '/values'
+    | '/account'
+    | '/admin'
     | '/businesses/$slug'
     | '/participate/$programme'
+    | '/recipes/$slug'
     | '/shop/$slug'
+    | '/stories/$slug'
     | '/businesses/'
+    | '/recipes/'
     | '/shop/'
+    | '/stories/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/breakfast-day'
     | '/cart'
     | '/checkout'
@@ -200,15 +335,27 @@ export interface FileRouteTypes {
     | '/group'
     | '/movement'
     | '/partnerships'
+    | '/privacy'
+    | '/reset-password'
+    | '/stores'
+    | '/terms'
     | '/values'
+    | '/account'
+    | '/admin'
     | '/businesses/$slug'
     | '/participate/$programme'
+    | '/recipes/$slug'
     | '/shop/$slug'
+    | '/stories/$slug'
     | '/businesses'
+    | '/recipes'
     | '/shop'
+    | '/stories'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/breakfast-day'
     | '/businesses'
     | '/cart'
@@ -218,17 +365,31 @@ export interface FileRouteTypes {
     | '/group'
     | '/movement'
     | '/partnerships'
+    | '/privacy'
+    | '/recipes'
+    | '/reset-password'
     | '/shop'
+    | '/stores'
+    | '/stories'
+    | '/terms'
     | '/values'
+    | '/_authenticated/account'
+    | '/_authenticated/admin'
     | '/businesses/$slug'
     | '/participate/$programme'
+    | '/recipes/$slug'
     | '/shop/$slug'
+    | '/stories/$slug'
     | '/businesses/'
+    | '/recipes/'
     | '/shop/'
+    | '/stories/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   BreakfastDayRoute: typeof BreakfastDayRoute
   BusinessesRoute: typeof BusinessesRouteWithChildren
   CartRoute: typeof CartRoute
@@ -238,7 +399,13 @@ export interface RootRouteChildren {
   GroupRoute: typeof GroupRoute
   MovementRoute: typeof MovementRoute
   PartnershipsRoute: typeof PartnershipsRoute
+  PrivacyRoute: typeof PrivacyRoute
+  RecipesRoute: typeof RecipesRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
   ShopRoute: typeof ShopRouteWithChildren
+  StoresRoute: typeof StoresRoute
+  StoriesRoute: typeof StoriesRouteWithChildren
+  TermsRoute: typeof TermsRoute
   ValuesRoute: typeof ValuesRoute
   ParticipateProgrammeRoute: typeof ParticipateProgrammeRoute
 }
@@ -250,6 +417,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/breakfast-day': {
@@ -315,11 +496,53 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PartnershipsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recipes': {
+      id: '/recipes'
+      path: '/recipes'
+      fullPath: '/recipes'
+      preLoaderRoute: typeof RecipesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
       fullPath: '/shop'
       preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stores': {
+      id: '/stores'
+      path: '/stores'
+      fullPath: '/stores'
+      preLoaderRoute: typeof StoresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/stories': {
+      id: '/stories'
+      path: '/stories'
+      fullPath: '/stories'
+      preLoaderRoute: typeof StoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/values': {
@@ -328,6 +551,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/values'
       preLoaderRoute: typeof ValuesRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/businesses/': {
       id: '/businesses/'
@@ -350,6 +587,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ParticipateProgrammeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recipes/': {
+      id: '/recipes/'
+      path: '/'
+      fullPath: '/recipes/'
+      preLoaderRoute: typeof RecipesIndexRouteImport
+      parentRoute: typeof RecipesRoute
+    }
+    '/recipes/$slug': {
+      id: '/recipes/$slug'
+      path: '/$slug'
+      fullPath: '/recipes/$slug'
+      preLoaderRoute: typeof RecipesSlugRouteImport
+      parentRoute: typeof RecipesRoute
+    }
     '/shop/': {
       id: '/shop/'
       path: '/'
@@ -364,8 +615,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ShopSlugRouteImport
       parentRoute: typeof ShopRoute
     }
+    '/stories/': {
+      id: '/stories/'
+      path: '/'
+      fullPath: '/stories/'
+      preLoaderRoute: typeof StoriesIndexRouteImport
+      parentRoute: typeof StoriesRoute
+    }
+    '/stories/$slug': {
+      id: '/stories/$slug'
+      path: '/$slug'
+      fullPath: '/stories/$slug'
+      preLoaderRoute: typeof StoriesSlugRouteImport
+      parentRoute: typeof StoriesRoute
+    }
   }
 }
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
 interface BusinessesRouteChildren {
   BusinessesSlugRoute: typeof BusinessesSlugRoute
@@ -381,6 +659,19 @@ const BusinessesRouteWithChildren = BusinessesRoute._addFileChildren(
   BusinessesRouteChildren,
 )
 
+interface RecipesRouteChildren {
+  RecipesSlugRoute: typeof RecipesSlugRoute
+  RecipesIndexRoute: typeof RecipesIndexRoute
+}
+
+const RecipesRouteChildren: RecipesRouteChildren = {
+  RecipesSlugRoute: RecipesSlugRoute,
+  RecipesIndexRoute: RecipesIndexRoute,
+}
+
+const RecipesRouteWithChildren =
+  RecipesRoute._addFileChildren(RecipesRouteChildren)
+
 interface ShopRouteChildren {
   ShopSlugRoute: typeof ShopSlugRoute
   ShopIndexRoute: typeof ShopIndexRoute
@@ -393,8 +684,23 @@ const ShopRouteChildren: ShopRouteChildren = {
 
 const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
 
+interface StoriesRouteChildren {
+  StoriesSlugRoute: typeof StoriesSlugRoute
+  StoriesIndexRoute: typeof StoriesIndexRoute
+}
+
+const StoriesRouteChildren: StoriesRouteChildren = {
+  StoriesSlugRoute: StoriesSlugRoute,
+  StoriesIndexRoute: StoriesIndexRoute,
+}
+
+const StoriesRouteWithChildren =
+  StoriesRoute._addFileChildren(StoriesRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   BreakfastDayRoute: BreakfastDayRoute,
   BusinessesRoute: BusinessesRouteWithChildren,
   CartRoute: CartRoute,
@@ -404,7 +710,13 @@ const rootRouteChildren: RootRouteChildren = {
   GroupRoute: GroupRoute,
   MovementRoute: MovementRoute,
   PartnershipsRoute: PartnershipsRoute,
+  PrivacyRoute: PrivacyRoute,
+  RecipesRoute: RecipesRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
   ShopRoute: ShopRouteWithChildren,
+  StoresRoute: StoresRoute,
+  StoriesRoute: StoriesRouteWithChildren,
+  TermsRoute: TermsRoute,
   ValuesRoute: ValuesRoute,
   ParticipateProgrammeRoute: ParticipateProgrammeRoute,
 }
