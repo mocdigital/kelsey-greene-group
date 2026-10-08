@@ -10,33 +10,237 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BreakfastDayRouteImport } from './routes/breakfast-day'
+import { Route as BusinessesRouteImport } from './routes/businesses'
+import { Route as CartRouteImport } from './routes/cart'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as DiscoveryBoxRouteImport } from './routes/discovery-box'
+import { Route as EnquiryRouteImport } from './routes/enquiry'
+import { Route as GroupRouteImport } from './routes/group'
+import { Route as MovementRouteImport } from './routes/movement'
+import { Route as PartnershipsRouteImport } from './routes/partnerships'
+import { Route as ShopRouteImport } from './routes/shop'
+import { Route as ValuesRouteImport } from './routes/values'
+import { Route as BusinessesIndexRouteImport } from './routes/businesses.index'
+import { Route as BusinessesSlugRouteImport } from './routes/businesses.$slug'
+import { Route as ParticipateProgrammeRouteImport } from './routes/participate.$programme'
+import { Route as ShopIndexRouteImport } from './routes/shop.index'
+import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BreakfastDayRoute = BreakfastDayRouteImport.update({
+  id: '/breakfast-day',
+  path: '/breakfast-day',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessesRoute = BusinessesRouteImport.update({
+  id: '/businesses',
+  path: '/businesses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CartRoute = CartRouteImport.update({
+  id: '/cart',
+  path: '/cart',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscoveryBoxRoute = DiscoveryBoxRouteImport.update({
+  id: '/discovery-box',
+  path: '/discovery-box',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnquiryRoute = EnquiryRouteImport.update({
+  id: '/enquiry',
+  path: '/enquiry',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GroupRoute = GroupRouteImport.update({
+  id: '/group',
+  path: '/group',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MovementRoute = MovementRouteImport.update({
+  id: '/movement',
+  path: '/movement',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PartnershipsRoute = PartnershipsRouteImport.update({
+  id: '/partnerships',
+  path: '/partnerships',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopRoute = ShopRouteImport.update({
+  id: '/shop',
+  path: '/shop',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ValuesRoute = ValuesRouteImport.update({
+  id: '/values',
+  path: '/values',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BusinessesIndexRoute = BusinessesIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => BusinessesRoute,
+} as any)
+const BusinessesSlugRoute = BusinessesSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BusinessesRoute,
+} as any)
+const ParticipateProgrammeRoute = ParticipateProgrammeRouteImport.update({
+  id: '/participate/$programme',
+  path: '/participate/$programme',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShopIndexRoute = ShopIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ShopRoute,
+} as any)
+const ShopSlugRoute = ShopSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ShopRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/breakfast-day': typeof BreakfastDayRoute
+  '/businesses': typeof BusinessesRouteWithChildren
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/discovery-box': typeof DiscoveryBoxRoute
+  '/enquiry': typeof EnquiryRoute
+  '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
+  '/partnerships': typeof PartnershipsRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/values': typeof ValuesRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
+  '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/businesses/': typeof BusinessesIndexRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/breakfast-day': typeof BreakfastDayRoute
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/discovery-box': typeof DiscoveryBoxRoute
+  '/enquiry': typeof EnquiryRoute
+  '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
+  '/partnerships': typeof PartnershipsRoute
+  '/values': typeof ValuesRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
+  '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/businesses': typeof BusinessesIndexRoute
+  '/shop': typeof ShopIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/breakfast-day': typeof BreakfastDayRoute
+  '/businesses': typeof BusinessesRouteWithChildren
+  '/cart': typeof CartRoute
+  '/checkout': typeof CheckoutRoute
+  '/discovery-box': typeof DiscoveryBoxRoute
+  '/enquiry': typeof EnquiryRoute
+  '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
+  '/partnerships': typeof PartnershipsRoute
+  '/shop': typeof ShopRouteWithChildren
+  '/values': typeof ValuesRoute
+  '/businesses/$slug': typeof BusinessesSlugRoute
+  '/participate/$programme': typeof ParticipateProgrammeRoute
+  '/shop/$slug': typeof ShopSlugRoute
+  '/businesses/': typeof BusinessesIndexRoute
+  '/shop/': typeof ShopIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/breakfast-day'
+    | '/businesses'
+    | '/cart'
+    | '/checkout'
+    | '/discovery-box'
+    | '/enquiry'
+    | '/group'
+    | '/movement'
+    | '/partnerships'
+    | '/shop'
+    | '/values'
+    | '/businesses/$slug'
+    | '/participate/$programme'
+    | '/shop/$slug'
+    | '/businesses/'
+    | '/shop/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/breakfast-day'
+    | '/cart'
+    | '/checkout'
+    | '/discovery-box'
+    | '/enquiry'
+    | '/group'
+    | '/movement'
+    | '/partnerships'
+    | '/values'
+    | '/businesses/$slug'
+    | '/participate/$programme'
+    | '/shop/$slug'
+    | '/businesses'
+    | '/shop'
+  id:
+    | '__root__'
+    | '/'
+    | '/breakfast-day'
+    | '/businesses'
+    | '/cart'
+    | '/checkout'
+    | '/discovery-box'
+    | '/enquiry'
+    | '/group'
+    | '/movement'
+    | '/partnerships'
+    | '/shop'
+    | '/values'
+    | '/businesses/$slug'
+    | '/participate/$programme'
+    | '/shop/$slug'
+    | '/businesses/'
+    | '/shop/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BreakfastDayRoute: typeof BreakfastDayRoute
+  BusinessesRoute: typeof BusinessesRouteWithChildren
+  CartRoute: typeof CartRoute
+  CheckoutRoute: typeof CheckoutRoute
+  DiscoveryBoxRoute: typeof DiscoveryBoxRoute
+  EnquiryRoute: typeof EnquiryRoute
+  GroupRoute: typeof GroupRoute
+  MovementRoute: typeof MovementRoute
+  PartnershipsRoute: typeof PartnershipsRoute
+  ShopRoute: typeof ShopRouteWithChildren
+  ValuesRoute: typeof ValuesRoute
+  ParticipateProgrammeRoute: typeof ParticipateProgrammeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +252,161 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/breakfast-day': {
+      id: '/breakfast-day'
+      path: '/breakfast-day'
+      fullPath: '/breakfast-day'
+      preLoaderRoute: typeof BreakfastDayRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/businesses': {
+      id: '/businesses'
+      path: '/businesses'
+      fullPath: '/businesses'
+      preLoaderRoute: typeof BusinessesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discovery-box': {
+      id: '/discovery-box'
+      path: '/discovery-box'
+      fullPath: '/discovery-box'
+      preLoaderRoute: typeof DiscoveryBoxRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/enquiry': {
+      id: '/enquiry'
+      path: '/enquiry'
+      fullPath: '/enquiry'
+      preLoaderRoute: typeof EnquiryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/group': {
+      id: '/group'
+      path: '/group'
+      fullPath: '/group'
+      preLoaderRoute: typeof GroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movement': {
+      id: '/movement'
+      path: '/movement'
+      fullPath: '/movement'
+      preLoaderRoute: typeof MovementRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/partnerships': {
+      id: '/partnerships'
+      path: '/partnerships'
+      fullPath: '/partnerships'
+      preLoaderRoute: typeof PartnershipsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop': {
+      id: '/shop'
+      path: '/shop'
+      fullPath: '/shop'
+      preLoaderRoute: typeof ShopRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/values': {
+      id: '/values'
+      path: '/values'
+      fullPath: '/values'
+      preLoaderRoute: typeof ValuesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/businesses/': {
+      id: '/businesses/'
+      path: '/'
+      fullPath: '/businesses/'
+      preLoaderRoute: typeof BusinessesIndexRouteImport
+      parentRoute: typeof BusinessesRoute
+    }
+    '/businesses/$slug': {
+      id: '/businesses/$slug'
+      path: '/$slug'
+      fullPath: '/businesses/$slug'
+      preLoaderRoute: typeof BusinessesSlugRouteImport
+      parentRoute: typeof BusinessesRoute
+    }
+    '/participate/$programme': {
+      id: '/participate/$programme'
+      path: '/participate/$programme'
+      fullPath: '/participate/$programme'
+      preLoaderRoute: typeof ParticipateProgrammeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shop/': {
+      id: '/shop/'
+      path: '/'
+      fullPath: '/shop/'
+      preLoaderRoute: typeof ShopIndexRouteImport
+      parentRoute: typeof ShopRoute
+    }
+    '/shop/$slug': {
+      id: '/shop/$slug'
+      path: '/$slug'
+      fullPath: '/shop/$slug'
+      preLoaderRoute: typeof ShopSlugRouteImport
+      parentRoute: typeof ShopRoute
+    }
   }
 }
 
+interface BusinessesRouteChildren {
+  BusinessesSlugRoute: typeof BusinessesSlugRoute
+  BusinessesIndexRoute: typeof BusinessesIndexRoute
+}
+
+const BusinessesRouteChildren: BusinessesRouteChildren = {
+  BusinessesSlugRoute: BusinessesSlugRoute,
+  BusinessesIndexRoute: BusinessesIndexRoute,
+}
+
+const BusinessesRouteWithChildren = BusinessesRoute._addFileChildren(
+  BusinessesRouteChildren,
+)
+
+interface ShopRouteChildren {
+  ShopSlugRoute: typeof ShopSlugRoute
+  ShopIndexRoute: typeof ShopIndexRoute
+}
+
+const ShopRouteChildren: ShopRouteChildren = {
+  ShopSlugRoute: ShopSlugRoute,
+  ShopIndexRoute: ShopIndexRoute,
+}
+
+const ShopRouteWithChildren = ShopRoute._addFileChildren(ShopRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BreakfastDayRoute: BreakfastDayRoute,
+  BusinessesRoute: BusinessesRouteWithChildren,
+  CartRoute: CartRoute,
+  CheckoutRoute: CheckoutRoute,
+  DiscoveryBoxRoute: DiscoveryBoxRoute,
+  EnquiryRoute: EnquiryRoute,
+  GroupRoute: GroupRoute,
+  MovementRoute: MovementRoute,
+  PartnershipsRoute: PartnershipsRoute,
+  ShopRoute: ShopRouteWithChildren,
+  ValuesRoute: ValuesRoute,
+  ParticipateProgrammeRoute: ParticipateProgrammeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
