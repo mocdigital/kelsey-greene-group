@@ -28,7 +28,10 @@ export const submitApplication = createServerFn({method:'POST'}).inputValidator(
   const {data:allowed,error:limitError}=await supabaseAdmin.rpc('consume_submission_limit',{limit_key:`application:${data.email.toLowerCase()}`});
   if(limitError || !allowed) throw new Error('Too many applications. Please try again later.');
   const {website,...entry}=data;
-  const {data:record,error}=await supabaseAdmin.from('programme_applications').insert(entry).select('id').single();
+  const bearer=getRequest().headers.get('authorization')?.replace(/^Bearer /i,'');
+   let userId:string|null=null;
+   if(bearer){const {data:identity,error:identityError}=await supabaseAdmin.auth.getUser(bearer);if(!identityError && identity.user?.email?.toLowerCase()===entry.email.toLowerCase())userId=identity.user.id;}
+   const {data:record,error}=await supabaseAdmin.from('programme_applications').insert({...entry,user_id:userId}).select('id').single();
   if(error) throw new Error('Your application could not be saved. Please try again.');
   return {id:record.id};
 });
@@ -65,9 +68,11 @@ export const saveContent = createServerFn({method:'POST'}).middleware([requireSu
   const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
   const previous=data.id ? await supabaseAdmin.from('cms_records').select('*').eq('id',data.id).single() : null;
   const admin=names.includes('admin');
-  const canEdit=admin || (names.includes('content_editor') && !['product','setting'].includes(data.kind)) || (names.includes('commerce_manager') && ['product','bundle'].includes(data.kind));
+  const canEdit=admin || names.includes('publisher') || (names.includes('content_editor') && !['product','setting'].includes(data.kind)) || (names.includes('commerce_manager') && ['product','bundle'].includes(data.kind));
   const canPublish=admin || names.includes('publisher');
-  const publishing=data.status!==(previous?.data?.status??'draft');
+  if(previous?.error) throw new Error('The record could not be loaded.');
+   if(previous?.data && previous.data.kind!==data.kind && !admin) throw new Error('Only administrators can change a content type.');
+   const publishing=data.status==='published' || previous?.data?.status==='published' || data.status!==(previous?.data?.status??'draft');
   if(!canEdit || (publishing && !canPublish)) throw new Error('Your role cannot make this change. Editing and publishing have separate permissions.');
   const {data:record,error}=await supabaseAdmin.from('cms_records').upsert(data as never).select('id').single();
   if(error) throw new Error('Content could not be saved. Check the fields and unique slug.');
@@ -80,6 +85,6 @@ export const reviewApplication = createServerFn({method:'POST'}).middleware([req
   const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
   const {data:application}=await supabaseAdmin.from('programme_applications').select('programme,referral_code').eq('id',data.id).single();
   const code=application?.programme==='ambassador'&&data.status==='approved' ? application.referral_code??`KG-${crypto.randomUUID().slice(0,8).toUpperCase()}` : application?.referral_code;
-  const {error}=await supabaseAdmin.from('programme_applications').update({status:data.status,referral_code:code}).eq('id',data.id); if(error) throw new Error('The application could not be updated.');
+  const {error}=await supabaseAdmin.from('programme_applications').update({status:data.status,referral_code:code??null}).eq('id',data.id); if(error) throw new Error('The application could not be updated.');
   await supabaseAdmin.from('audit_logs').insert({actor:context.userId,action:`application_${data.status}`,entity:'programme_applications',entity_id:data.id}); return {ok:true};
 });
