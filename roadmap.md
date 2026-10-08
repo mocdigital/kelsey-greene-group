@@ -1,10 +1,13 @@
 # Kelsey Greene Group platform
-- [ ] Recreate PDF homepage and shared design; install supplied logo/favicon.
-- [ ] Corporate, business directory/detail, values and partnership pages.
-- [ ] Product catalogue, details, cart, checkout and currency configuration.
-- [ ] Movement, participation applications, recipes/stories, club and locations.
-- [ ] Customer profiles, authentication, orders/subscriptions and ambassador account.
-- [ ] Structured CMS, publishing workflow, roles, version history and audit records.
-- [ ] Validate navigation, forms, security and desktop/mobile presentation.
+- [x] Recreate PDF homepage and shared design; install supplied logo/favicon.
+- [x] Corporate, business directory/detail, values and partnership pages.
+- [x] Product catalogue, details, cart and explicit inactive checkout.
+- [x] Movement, participation applications, recipes/stories publishing, club applications and searchable locations.
+- [x] Customer profiles, authentication, orders/subscriptions views and ambassador application/referral-code view.
+- [x] Structured CMS editor, publishing permissions, application review, version history and audit views.
+- [x] Validate all linked routes, public forms and desktop/mobile presentation: 22 routing tests passed; enquiry/application submissions verified and test rows removed; no mobile overflow or page errors.
+- [ ] Verify signed-in account and administration flows — blocked by no registered account; owner must sign up and identify the initial administrator.
+- [ ] Complete commissioned-referral analytics and breakfast progress accounting — blocked by approved commission rates and breakfast-experience formula.
+- [ ] Publish approved recipes, stories, locations, bundle contents and final legal policies — blocked by owner content approval.
 - [ ] Activate live commerce and recurring payments — blocked by shop/provider setup and commercial rules.
 - [ ] Owner email notifications — blocked by verified sending domain and owner email address.
