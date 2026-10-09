@@ -24,6 +24,8 @@ import { Route as PartnershipsRouteImport } from './routes/partnerships'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ReturnsRouteImport } from './routes/returns'
+import { Route as ShippingRouteImport } from './routes/shipping'
 import { Route as ShopRouteImport } from './routes/shop'
 import { Route as StoresRouteImport } from './routes/stores'
 import { Route as StoriesRouteImport } from './routes/stories'
@@ -31,8 +33,12 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ValuesRouteImport } from './routes/values'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedAmbassadorRouteImport } from './routes/_authenticated/ambassador'
 import { Route as BusinessesIndexRouteImport } from './routes/businesses.index'
 import { Route as BusinessesSlugRouteImport } from './routes/businesses.$slug'
+import { Route as CareersIndexRouteImport } from './routes/careers.index'
+import { Route as CareersIdRouteImport } from './routes/careers.$id'
+import { Route as OrdersIdRouteImport } from './routes/orders.$id'
 import { Route as ParticipateProgrammeRouteImport } from './routes/participate.$programme'
 import { Route as RecipesIndexRouteImport } from './routes/recipes.index'
 import { Route as RecipesSlugRouteImport } from './routes/recipes.$slug'
@@ -115,6 +121,16 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ReturnsRoute = ReturnsRouteImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ShippingRoute = ShippingRouteImport.update({
+  id: '/shipping',
+  path: '/shipping',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ShopRoute = ShopRouteImport.update({
   id: '/shop',
   path: '/shop',
@@ -150,6 +166,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedAmbassadorRoute = AuthenticatedAmbassadorRouteImport.update({
+  id: '/ambassador',
+  path: '/ambassador',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const BusinessesIndexRoute = BusinessesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -159,6 +180,21 @@ const BusinessesSlugRoute = BusinessesSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => BusinessesRoute,
+} as any)
+const CareersIndexRoute = CareersIndexRouteImport.update({
+  id: '/careers/',
+  path: '/careers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersIdRoute = CareersIdRouteImport.update({
+  id: '/careers/$id',
+  path: '/careers/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrdersIdRoute = OrdersIdRouteImport.update({
+  id: '/orders/$id',
+  path: '/orders/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ParticipateProgrammeRoute = ParticipateProgrammeRouteImport.update({
   id: '/participate/$programme',
@@ -211,6 +247,8 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
   '/shop': typeof ShopRouteWithChildren
   '/stores': typeof StoresRoute
   '/stories': typeof StoriesRouteWithChildren
@@ -218,12 +256,16 @@ export interface FileRoutesByFullPath {
   '/values': typeof ValuesRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ambassador': typeof AuthenticatedAmbassadorRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/orders/$id': typeof OrdersIdRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/businesses/': typeof BusinessesIndexRoute
+  '/careers/': typeof CareersIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
   '/stories/': typeof StoriesIndexRoute
@@ -241,17 +283,23 @@ export interface FileRoutesByTo {
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
   '/stores': typeof StoresRoute
   '/terms': typeof TermsRoute
   '/values': typeof ValuesRoute
   '/account': typeof AuthenticatedAccountRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/ambassador': typeof AuthenticatedAmbassadorRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/orders/$id': typeof OrdersIdRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/businesses': typeof BusinessesIndexRoute
+  '/careers': typeof CareersIndexRoute
   '/recipes': typeof RecipesIndexRoute
   '/shop': typeof ShopIndexRoute
   '/stories': typeof StoriesIndexRoute
@@ -273,6 +321,8 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/returns': typeof ReturnsRoute
+  '/shipping': typeof ShippingRoute
   '/shop': typeof ShopRouteWithChildren
   '/stores': typeof StoresRoute
   '/stories': typeof StoriesRouteWithChildren
@@ -280,12 +330,16 @@ export interface FileRoutesById {
   '/values': typeof ValuesRoute
   '/_authenticated/account': typeof AuthenticatedAccountRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/ambassador': typeof AuthenticatedAmbassadorRoute
   '/businesses/$slug': typeof BusinessesSlugRoute
+  '/careers/$id': typeof CareersIdRoute
+  '/orders/$id': typeof OrdersIdRoute
   '/participate/$programme': typeof ParticipateProgrammeRoute
   '/recipes/$slug': typeof RecipesSlugRoute
   '/shop/$slug': typeof ShopSlugRoute
   '/stories/$slug': typeof StoriesSlugRoute
   '/businesses/': typeof BusinessesIndexRoute
+  '/careers/': typeof CareersIndexRoute
   '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
   '/stories/': typeof StoriesIndexRoute
@@ -307,6 +361,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/recipes'
     | '/reset-password'
+    | '/returns'
+    | '/shipping'
     | '/shop'
     | '/stores'
     | '/stories'
@@ -314,12 +370,16 @@ export interface FileRouteTypes {
     | '/values'
     | '/account'
     | '/admin'
+    | '/ambassador'
     | '/businesses/$slug'
+    | '/careers/$id'
+    | '/orders/$id'
     | '/participate/$programme'
     | '/recipes/$slug'
     | '/shop/$slug'
     | '/stories/$slug'
     | '/businesses/'
+    | '/careers/'
     | '/recipes/'
     | '/shop/'
     | '/stories/'
@@ -337,17 +397,23 @@ export interface FileRouteTypes {
     | '/partnerships'
     | '/privacy'
     | '/reset-password'
+    | '/returns'
+    | '/shipping'
     | '/stores'
     | '/terms'
     | '/values'
     | '/account'
     | '/admin'
+    | '/ambassador'
     | '/businesses/$slug'
+    | '/careers/$id'
+    | '/orders/$id'
     | '/participate/$programme'
     | '/recipes/$slug'
     | '/shop/$slug'
     | '/stories/$slug'
     | '/businesses'
+    | '/careers'
     | '/recipes'
     | '/shop'
     | '/stories'
@@ -368,6 +434,8 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/recipes'
     | '/reset-password'
+    | '/returns'
+    | '/shipping'
     | '/shop'
     | '/stores'
     | '/stories'
@@ -375,12 +443,16 @@ export interface FileRouteTypes {
     | '/values'
     | '/_authenticated/account'
     | '/_authenticated/admin'
+    | '/_authenticated/ambassador'
     | '/businesses/$slug'
+    | '/careers/$id'
+    | '/orders/$id'
     | '/participate/$programme'
     | '/recipes/$slug'
     | '/shop/$slug'
     | '/stories/$slug'
     | '/businesses/'
+    | '/careers/'
     | '/recipes/'
     | '/shop/'
     | '/stories/'
@@ -402,12 +474,17 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ReturnsRoute: typeof ReturnsRoute
+  ShippingRoute: typeof ShippingRoute
   ShopRoute: typeof ShopRouteWithChildren
   StoresRoute: typeof StoresRoute
   StoriesRoute: typeof StoriesRouteWithChildren
   TermsRoute: typeof TermsRoute
   ValuesRoute: typeof ValuesRoute
+  CareersIdRoute: typeof CareersIdRoute
+  OrdersIdRoute: typeof OrdersIdRoute
   ParticipateProgrammeRoute: typeof ParticipateProgrammeRoute
+  CareersIndexRoute: typeof CareersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -517,6 +594,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/returns': {
+      id: '/returns'
+      path: '/returns'
+      fullPath: '/returns'
+      preLoaderRoute: typeof ReturnsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/shipping': {
+      id: '/shipping'
+      path: '/shipping'
+      fullPath: '/shipping'
+      preLoaderRoute: typeof ShippingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/shop': {
       id: '/shop'
       path: '/shop'
@@ -566,6 +657,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/ambassador': {
+      id: '/_authenticated/ambassador'
+      path: '/ambassador'
+      fullPath: '/ambassador'
+      preLoaderRoute: typeof AuthenticatedAmbassadorRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/businesses/': {
       id: '/businesses/'
       path: '/'
@@ -579,6 +677,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/businesses/$slug'
       preLoaderRoute: typeof BusinessesSlugRouteImport
       parentRoute: typeof BusinessesRoute
+    }
+    '/careers/': {
+      id: '/careers/'
+      path: '/careers'
+      fullPath: '/careers/'
+      preLoaderRoute: typeof CareersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers/$id': {
+      id: '/careers/$id'
+      path: '/careers/$id'
+      fullPath: '/careers/$id'
+      preLoaderRoute: typeof CareersIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/orders/$id': {
+      id: '/orders/$id'
+      path: '/orders/$id'
+      fullPath: '/orders/$id'
+      preLoaderRoute: typeof OrdersIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/participate/$programme': {
       id: '/participate/$programme'
@@ -635,11 +754,13 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedAmbassadorRoute: typeof AuthenticatedAmbassadorRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedAmbassadorRoute: AuthenticatedAmbassadorRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -713,12 +834,17 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
+  ReturnsRoute: ReturnsRoute,
+  ShippingRoute: ShippingRoute,
   ShopRoute: ShopRouteWithChildren,
   StoresRoute: StoresRoute,
   StoriesRoute: StoriesRouteWithChildren,
   TermsRoute: TermsRoute,
   ValuesRoute: ValuesRoute,
+  CareersIdRoute: CareersIdRoute,
+  OrdersIdRoute: OrdersIdRoute,
   ParticipateProgrammeRoute: ParticipateProgrammeRoute,
+  CareersIndexRoute: CareersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

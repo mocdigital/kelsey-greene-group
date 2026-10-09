@@ -23,7 +23,7 @@ export const submitEnquiry = createServerFn({method:'POST'}).inputValidator(z.ob
   return {id:record.id};
 });
 
-export const submitApplication = createServerFn({method:'POST'}).inputValidator(z.object({programme:z.enum(['ambassador','distributor','retailer','breakfast-club','sponsorship']),full_name:z.string().trim().min(2).max(150),email:z.string().email().max(200),phone:z.string().max(80).default(''),location:z.string().max(200).default(''),organisation:z.string().max(200).default(''),message:z.string().max(5000).default(''),website:z.string().max(0).default('') })).handler(async({data})=>{
+export const submitApplication = createServerFn({method:'POST'}).inputValidator(z.object({programme:z.enum(['ambassador','distributor','retailer','breakfast-club','sponsorship','breakfast-day']),full_name:z.string().trim().min(2).max(150),email:z.string().email().max(200),phone:z.string().max(80).default(''),location:z.string().max(200).default(''),organisation:z.string().max(200).default(''),message:z.string().max(5000).default(''),website:z.string().max(0).default('') })).handler(async({data})=>{
   const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
   const {data:allowed,error:limitError}=await supabaseAdmin.rpc('consume_submission_limit',{limit_key:`application:${data.email.toLowerCase()}`});
   if(limitError || !allowed) throw new Error('Too many applications. Please try again later.');
