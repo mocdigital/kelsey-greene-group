@@ -22,3 +22,6 @@
 - Keep progressive page motion and homepage section tracking in the shared page-experience component, respecting reduced-motion settings and keeping content visible without JavaScript.
 - Scope Movement editorial styles to its page and send participation enquiries through the existing enquiry handler, including region and participation details in the message; this preserves shared navigation and avoids a separate submission pipeline.
 - Isolate Businesses and Partnerships editorial layouts in page-specific components with scoped shared styles, retain CMS-driven business records, and reuse the enquiry handler for partnership details; this prevents redesigns from changing the homepage or shared shell.
+- Keep the cross-business marketplace in CMS product records with a listing_type discriminator; property listings stay enquiry-led and are excluded from bag purchases.
+- Resolve all displayed prices and bag totals through shared ESPEE-based pricing helpers and CMS conversion settings; this prevents stale conversions across catalogue and bag views.
+- Give /admin a dedicated workspace shell while retaining authenticated server mutations; administration styling and navigation must not affect the public site.

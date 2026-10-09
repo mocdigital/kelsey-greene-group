@@ -7,6 +7,7 @@ import {
   HeadContent,
   Scripts,
   type ErrorComponentProps,
+  useRouterState,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 
@@ -128,6 +129,7 @@ function RootShell({ children }: { children: ReactNode }) {
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const router = useRouter();
+  const administration = useRouterState({select:state=>state.location.pathname==='/admin'});
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(event => {
       if (!["SIGNED_IN", "SIGNED_OUT", "USER_UPDATED"].includes(event)) return;
@@ -139,7 +141,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SiteProvider><Header /><main id="main-content"><Outlet /></main><PageExperience/><Footer /></SiteProvider>
+      <SiteProvider>{!administration&&<Header />}<main id="main-content"><Outlet /></main>{!administration&&<><PageExperience/><Footer /></>}</SiteProvider>
     </QueryClientProvider>
   );
 }
