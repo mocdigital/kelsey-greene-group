@@ -1,0 +1,9 @@
+import {createFileRoute,Link} from '@tanstack/react-router';
+import {useSuspenseQuery} from '@tanstack/react-query';
+import {useState} from 'react';
+import {PageIntro,Eyebrow} from '@/components/editorial';
+import {contentOptions,payload,meta,assets} from '@/lib/content';
+import '@/components/commerce-pages.css';
+export const Route=createFileRoute('/careers/')({head:()=>meta('Careers','Explore open roles across Kelsey Greene Group businesses and apply online.'),component:Careers});
+function Careers(){const {data}=useSuspenseQuery(contentOptions),jobs=data.filter(r=>r.kind==='job'),divisions=[...new Set(jobs.map(j=>String(payload(j)['division']??'')))],[division,setDivision]=useState('all');const rows=jobs.filter(j=>division==='all'||payload(j)['division']===division);
+ return <><PageIntro eyebrow="CAREERS" title="Build what comes next." description="Join a diversified African group creating value across food, farming, apparel and property." photo={assets.agro}/><section className="section"><div className="container"><Eyebrow>OPEN ROLES · {jobs.length}</Eyebrow><div className="kg-filters mt-6"><select value={division} onChange={e=>setDivision(e.target.value)} aria-label="Filter by division"><option value="all">All divisions</option>{divisions.map(d=><option key={d}>{d}</option>)}</select></div>{rows.length?<div className="kg-card-grid">{rows.map(j=>{const p=payload(j);return <Link key={j.id} to="/careers/$id" params={{id:j.slug}} className="kg-card"><span className="kg-tag">{String(p['division']??'')}</span><h3>{j.title}</h3><p>{String(p['summary']??j.description)}</p><small>{String(p['location']??'')} · {String(p['type']??'')}</small><span className="arrow-link">View role →</span></Link>})}</div>:<p className="empty-state">There are no open roles right now. Please check back soon.</p>}{jobs.some(j=>payload(j)['illustrative'])&&<p className="kg-sample mt-6">Roles shown are sample listings pending HR confirmation.</p>}</div></section></>}
