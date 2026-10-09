@@ -12,6 +12,7 @@
 .movement-page p{font-size:17px;line-height:1.75}
 .movement-page .arrow-link{font-size:13px}
 .movement-page .movement-button{border-radius:0;min-height:46px;height:auto;white-space:normal;font-size:13px;padding:13px 20px;box-shadow:none}
+.movement-page .movement-button.bg-primary{color:var(--primary-foreground)}
 .movement-two-column{display:grid;grid-template-columns:1fr 1.1fr;gap:72px;align-items:start}
 .movement-page .movement-hero{padding-top:48px;padding-bottom:30px}
 .movement-hero-layout{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
@@ -87,8 +88,8 @@
 .movement-enquiry input::placeholder,.movement-enquiry textarea::placeholder{color:var(--light-muted)}
 .movement-enquiry select{padding-right:25px;text-overflow:ellipsis}
 .movement-enquiry select option{background:var(--forest);color:var(--cream)}
-.movement-consent{display:flex;align-items:start;gap:10px;margin:22px 0;font-size:12px!important;line-height:1.6}
-.movement-consent input{width:16px;height:16px;min-height:0;flex-shrink:0;margin:3px 0 0;accent-color:var(--gold)}
+.movement-enquiry label.movement-consent{display:flex;flex-direction:row;align-items:start;gap:10px;margin:22px 0;font-size:12px!important;line-height:1.6}
+.movement-enquiry .movement-consent input{width:16px;height:16px;min-height:0;flex-shrink:0;margin:3px 0 0;padding:0;accent-color:var(--gold)}
 .movement-consent a{text-decoration:underline}
 .movement-enquiry .cream-button{height:auto;min-height:46px;font-size:13px;white-space:normal;padding:12px 18px}
 .movement-page .movement-invitation{background:var(--secondary);text-align:center;padding:64px 0}
