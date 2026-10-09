@@ -10,7 +10,7 @@ vi.mock('@/components/editorial', () => ({ Eyebrow: ({ children }: { children: R
 import { PartnershipEnquiry } from '@/components/partnership-enquiry';
 afterEach(() => { cleanup(); vi.clearAllMocks(); });
 function fill() {
-  for (const [label, value] of [['Full name *', 'Test Partner'], ['Email address *', 'partner@example.invalid'], ['Organisation *', 'Test Organisation'], ['Your role', 'Director'], ['Country / market *', 'Nigeria'], ['Phone (optional)', '+234000000000'], ['Partnership interest *', 'Commercial & supply'], ['Business area *', 'Foods & Agro-Allied'], ['Your message *', 'Interested in a supply relationship.']]) fireEvent.change(screen.getByLabelText(label), { target: { value } });
+  for (const [label, value] of [['Full name *', 'Test Partner'], ['Email address *', 'partner@example.invalid'], ['Organisation *', 'Test Organisation'], ['Your role', 'Director'], ['Country / market *', 'Nigeria'], ['Phone (optional)', '+234000000000'], ['Partnership interest *', 'Commercial & supply'], ['Business area *', 'Foods & Agro-Allied'], ['Your message *', 'Interested in a supply relationship.']] as const) fireEvent.change(screen.getByLabelText(label), { target: { value } });
 }
 describe('Partnership enquiry', () => {
   it('preserves all partnership details and shows confirmation', async () => {
