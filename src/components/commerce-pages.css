@@ -43,3 +43,7 @@
 .kg-cookie div{display:flex;gap:.75rem}
 .kg-table-wrap{overflow-x:auto}
 @media (max-width:860px){.kg-two,.kg-recipe{grid-template-columns:1fr;gap:2rem}}
+.kg-actions > a.bg-primary{color:var(--primary-foreground)}
+.kg-cookie,.kg-cookie p{color:var(--foreground)}
+.kg-cookie a{color:var(--primary)}
+.kg-cookie button[class*="outline"]{color:var(--foreground)}
