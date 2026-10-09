@@ -15,6 +15,13 @@
       "when": 1791538204603,
       "tag": "0001_add_super_admin_role",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791538301135,
+      "tag": "0002_commerce_careers_ambassadors",
+      "breakpoints": true
     }
   ]
 }
