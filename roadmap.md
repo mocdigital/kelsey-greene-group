@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Review every page; improve typography, relevant imagery, restrained motion, hover/focus states and homepage navigation rail; verify the six principal pages and provide page-specific recommendations.
 - [x] Combine the sketch About and Leadership content on /group while retaining this project's design; page verified with all eight values and six leadership roles, no page errors or horizontal overflow, and 22 routing tests passed.
 - [x] Recreate PDF homepage and shared design; install supplied logo/favicon.
 - [x] Corporate, business directory/detail, values and partnership pages.
