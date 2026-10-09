@@ -16,5 +16,6 @@
 - Store the shopping bag in browser session storage and leave payment execution disabled until approved commerce settings and a provider are available; browsing must never imply an order was placed.
 - Use shared editorial components and semantic CSS tokens throughout the site; this preserves the supplied design direction across pages.
 - Keep the combined Group/about and leadership sections in the Group page CMS payload; this keeps imported editorial content centrally editable without a separate leadership route.
+- Render the standalone Values page from the Group payload's values array so the two pages cannot present conflicting brand principles.
 - Keep illustrative sector imagery in a browser-safe shared business-visuals mapping, distinct from CMS editorial content, so directory and detail pages show consistent sector-specific images without claiming company operations.
 - Keep progressive page motion and homepage section tracking in the shared page-experience component, respecting reduced-motion settings and keeping content visible without JavaScript.
