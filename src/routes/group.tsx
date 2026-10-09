@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { PageIntro, Eyebrow, ArrowLink, PortfolioStrip } from '@/components/editorial';
+import { LeadershipCard } from '@/components/leadership-card';
 import { contentOptions, meta, payload } from '@/lib/content';
 
 export const Route = createFileRoute('/group')({
@@ -46,7 +47,7 @@ function Group() {
     <section id="leadership" className="section products-section group-leadership">
       <div className="container">
         <div className="group-leadership-heading"><div><Eyebrow>03 / LEADERSHIP</Eyebrow><h2>{String(content['leadership_title'] ?? '')}</h2></div><p>{String(content['leadership_intro'] ?? '')}</p></div>
-        <div className="group-leaders">{records(content['leadership']).map((leader, index) => <article key={String(leader['role'])}><span className="gold-note">{String(index + 1).padStart(2, '0')} / LEADERSHIP</span><h3>{String(leader['role'] ?? '')}</h3><p>{String(leader['bio'] ?? '')}</p></article>)}</div>
+        <div className="group-leaders">{records(content['leadership']).map((leader, index) => <LeadershipCard key={String(leader['role'])} leader={leader} index={index} />)}</div>
       </div>
     </section>
   </>;
