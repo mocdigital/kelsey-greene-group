@@ -25,3 +25,8 @@
 - Keep the cross-business marketplace in CMS product records with a listing_type discriminator; property listings stay enquiry-led and are excluded from bag purchases.
 - Resolve all displayed prices and bag totals through shared ESPEE-based pricing helpers and CMS conversion settings; this prevents stale conversions across catalogue and bag views.
 - Give /admin a dedicated workspace shell while retaining authenticated server mutations; administration styling and navigation must not affect the public site.
+
+- Create orders only through the server checkout function, which re-prices the bag from CMS records and settings; client totals are display-only and must never be trusted.
+- Guest order receipts are read by order id plus a secret access token; never expose orders by id alone.
+- Only super_admin may change user roles, through server functions that re-check the caller's roles.
+- Shared announcement, menu highlights and footer links live in the CMS site/shell record so they have one edit location.
