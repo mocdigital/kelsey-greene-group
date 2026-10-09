@@ -4,6 +4,7 @@ const {save,records}=vi.hoisted(()=>({save:vi.fn(),records:[{id:'currency-id',ki
 vi.mock('@tanstack/react-query',()=>({useQuery:()=>({data:{records,roles:['admin'],enquiries:[],applications:[],versions:[],logs:[]},error:null,isPending:false}),useQueryClient:()=>({invalidateQueries:vi.fn(),cancelQueries:vi.fn(),clear:vi.fn()})}));
 vi.mock('@tanstack/react-start',()=>({useServerFn:()=>save}));
 vi.mock('@/lib/platform.functions',()=>({getAdminData:vi.fn(),saveContent:vi.fn(),reviewApplication:vi.fn()}));
+vi.mock('@/components/admin-operations',()=>({AdminOperations:()=>null}));
 vi.mock('@/components/site-shell',()=>({Brand:()=> <a>Kelsey Greene Group</a>}));
 vi.mock('@/components/site-provider',()=>({useSite:()=>({user:null})}));
 vi.mock('@/integrations/supabase/client',()=>({supabase:{auth:{signOut:vi.fn()}}}));

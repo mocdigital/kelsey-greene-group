@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      ambassador_payouts: {
+        Row: {
+          amount_ngn: number
+          created_at: string
+          id: string
+          note: string
+          period_label: string
+          referral_code: string
+          status: string
+          user_id: string
+        }
+        Insert: {
+          amount_ngn?: number
+          created_at?: string
+          id?: string
+          note?: string
+          period_label?: string
+          referral_code: string
+          status?: string
+          user_id: string
+        }
+        Update: {
+          amount_ngn?: number
+          created_at?: string
+          id?: string
+          note?: string
+          period_label?: string
+          referral_code?: string
+          status?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       audit_logs: {
         Row: {
           action: string
@@ -157,36 +190,126 @@ export type Database = {
         }
         Relationships: []
       }
-      orders: {
+      job_applications: {
         Row: {
+          cover_letter: string
           created_at: string
+          email: string
+          experience: string
+          full_name: string
           id: string
-          items: Json
-          payment_reference: string | null
-          referral_code: string | null
+          job_slug: string
+          location: string
+          phone: string
+          portfolio_url: string
           status: string
-          total_ngn: number
-          user_id: string
         }
         Insert: {
+          cover_letter?: string
           created_at?: string
+          email: string
+          experience?: string
+          full_name: string
           id?: string
-          items: Json
-          payment_reference?: string | null
-          referral_code?: string | null
+          job_slug: string
+          location?: string
+          phone?: string
+          portfolio_url?: string
           status?: string
-          total_ngn?: number
-          user_id: string
         }
         Update: {
+          cover_letter?: string
           created_at?: string
+          email?: string
+          experience?: string
+          full_name?: string
+          id?: string
+          job_slug?: string
+          location?: string
+          phone?: string
+          portfolio_url?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          access_token: string
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string
+          delivery_fee_ngn: number
+          delivery_zone: string
+          discount_ngn: number
+          fulfillment_status: string
+          id: string
+          items: Json
+          notes: string
+          payment_method: string
+          payment_reference: string | null
+          payment_status: string
+          promo_code: string | null
+          reference: string | null
+          referral_code: string | null
+          shipping_address: Json
+          status: string
+          subtotal_ngn: number
+          total_ngn: number
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          access_token?: string
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          delivery_fee_ngn?: number
+          delivery_zone?: string
+          discount_ngn?: number
+          fulfillment_status?: string
+          id?: string
+          items: Json
+          notes?: string
+          payment_method?: string
+          payment_reference?: string | null
+          payment_status?: string
+          promo_code?: string | null
+          reference?: string | null
+          referral_code?: string | null
+          shipping_address?: Json
+          status?: string
+          subtotal_ngn?: number
+          total_ngn?: number
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          access_token?: string
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string
+          delivery_fee_ngn?: number
+          delivery_zone?: string
+          discount_ngn?: number
+          fulfillment_status?: string
           id?: string
           items?: Json
+          notes?: string
+          payment_method?: string
           payment_reference?: string | null
+          payment_status?: string
+          promo_code?: string | null
+          reference?: string | null
           referral_code?: string | null
+          shipping_address?: Json
           status?: string
+          subtotal_ngn?: number
           total_ngn?: number
-          user_id?: string
+          updated_at?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -259,6 +382,63 @@ export type Database = {
           referral_code?: string | null
           status?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      promo_codes: {
+        Row: {
+          active: boolean
+          amount_off_ngn: number
+          code: string
+          created_at: string
+          description: string
+          expires_at: string | null
+          id: string
+          min_subtotal_ngn: number
+          percent_off: number
+        }
+        Insert: {
+          active?: boolean
+          amount_off_ngn?: number
+          code: string
+          created_at?: string
+          description?: string
+          expires_at?: string | null
+          id?: string
+          min_subtotal_ngn?: number
+          percent_off?: number
+        }
+        Update: {
+          active?: boolean
+          amount_off_ngn?: number
+          code?: string
+          created_at?: string
+          description?: string
+          expires_at?: string | null
+          id?: string
+          min_subtotal_ngn?: number
+          percent_off?: number
+        }
+        Relationships: []
+      }
+      referral_visits: {
+        Row: {
+          created_at: string
+          id: string
+          path: string
+          referral_code: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          path?: string
+          referral_code: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          path?: string
+          referral_code?: string
         }
         Relationships: []
       }

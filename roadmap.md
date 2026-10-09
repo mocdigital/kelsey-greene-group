@@ -1,4 +1,7 @@
 # Kelsey Greene Group platform
+- [x] Multi-step guest checkout writing real orders (zones, promo codes, bank transfer / pay on delivery / card staging), order receipt with tracking, ambassador dashboard, careers + applications, rich recipes/stories, store locator filters, bundles, Breakfast Day hub, shipping/returns pages, cookie notice, CMS-editable announcement/menu highlights/footer, admin orders/promos/applicants/payouts and super-admin users & roles. Test order placed and removed; 39 tests pass.
+- [ ] Replace illustrative delivery fees, bundle prices, 5% commission, bank details, sample stores/jobs/stories/events — blocked by owner approval.
+- [ ] Live card payments — blocked by payment provider setup.
 - [x] Redesign shop and administration from Marketplace/CMS PDFs; 26 CMS items with approved prices, sizing and exchange rates; sticky currency control, 26 photos, bag totals and enquiry-led properties verified on desktop/phone. CMS editor tests pass; live edits blocked by account lacking staff role.
 - [x] Redesign Businesses and Partnerships from their uploaded PDFs, retaining navbar and hero layouts; added below-hero navigation, alternating portfolio photo sections, partnership paths, principles, market section and enquiry form, plus Partnerships hero text/CTAs. Photos and anchors verified; desktop/phone checks show no overflow or page errors; 27 tests passed. Corrected closing-button contrast during visual review.
 - [x] Redesign /movement from the uploaded PDF, preserving shared navigation and existing enquiry handling. Exact three PDF photos installed; participation links, anchors and required fields checked; enquiry success/error tests passed; no desktop/phone overflow or page errors. Corrected button contrast and consent alignment during visual review.
@@ -12,7 +15,7 @@
 - [x] Customer profiles, authentication, orders/subscriptions views and ambassador application/referral-code view.
 - [x] Structured CMS editor, publishing permissions, application review, version history and audit views.
 - [x] Validate all linked routes, public forms and desktop/mobile presentation: 22 routing tests passed; enquiry/application submissions verified and test rows removed; no mobile overflow or page errors.
-- [ ] Verify signed-in account and administration flows — blocked by signed-in account lacking administration role; owner must identify the initial administrator.
+- [ ] Verify signed-in administration flows as mocdigital77@gmail.com (super admin granted).
 - [ ] Complete commissioned-referral analytics and breakfast progress accounting — blocked by approved commission rates and breakfast-experience formula.
 - [ ] Publish approved recipes, stories, locations, bundle contents and final legal policies — blocked by owner content approval.
 - [ ] Activate live commerce and recurring payments — blocked by shop/provider setup and commercial rules.
