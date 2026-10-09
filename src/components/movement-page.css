@@ -43,7 +43,7 @@
 .movement-discovery-copy h3{font-size:34px;margin-bottom:18px;max-width:350px}
 .movement-discovery-copy p{color:var(--muted-foreground);font-size:16px}
 .movement-discovery-copy .movement-actions{align-items:start;flex-direction:column;gap:10px}
-.movement-page .movement-gold-button{background:var(--gold);color:var(--forest-deep)}
+.movement-page .movement-button.movement-gold-button{background:var(--gold);color:var(--forest-deep)}
 .movement-page .movement-gold-button:hover{background:var(--accent)}
 .movement-discovery-photo{padding:12px;border:1px solid var(--border);border-radius:6px;background:var(--background)}
 .movement-discovery-photo img{aspect-ratio:1.8;border-radius:4px}
