@@ -179,7 +179,7 @@ export const updateOrder = createServerFn({ method: 'POST' }).middleware([requir
 export const savePromo = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(z.object({ id: z.string().uuid().optional(), code: z.string().trim().regex(/^[A-Za-z0-9-]{3,40}$/), description: z.string().max(300), percent_off: z.number().min(0).max(100), amount_off_ngn: z.number().min(0), min_subtotal_ngn: z.number().min(0), active: z.boolean(), expires_at: z.string().max(40).nullable() })).handler(async ({ context, data }) => {
   const roles = await rolesOf(context); if (!roles.some(r => COMMERCE.includes(r))) throw new Error('Access denied.');
   const db = await admin();
-  const { error } = await db.from('promo_codes').upsert({ ...data, code: data.code.toUpperCase(), expires_at: data.expires_at || null });
+  const { error } = await db.from('promo_codes').upsert({ ...data, code: data.code.toUpperCase(), expires_at: data.expires_at || null } as never);
   if (error) throw new Error('The promo code could not be saved. Codes must be unique.');
   await db.from('audit_logs').insert({ actor: context.userId, action: 'promo_saved', entity: 'promo_codes', details: data as never });
   return { ok: true };
