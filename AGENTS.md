@@ -20,3 +20,4 @@
 - Render the standalone Values page from the Group payload's values array so the two pages cannot present conflicting brand principles.
 - Keep illustrative sector imagery in a browser-safe shared business-visuals mapping, distinct from CMS editorial content, so directory and detail pages show consistent sector-specific images without claiming company operations.
 - Keep progressive page motion and homepage section tracking in the shared page-experience component, respecting reduced-motion settings and keeping content visible without JavaScript.
+- Scope Movement editorial styles to its page and send participation enquiries through the existing enquiry handler, including region and participation details in the message; this preserves shared navigation and avoids a separate submission pipeline.
