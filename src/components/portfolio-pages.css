@@ -1,6 +1,7 @@
 .portfolio-page .page-intro .hero-actions{margin-top:25px}
 .portfolio-page .page-intro .hero-supporting{margin-top:14px;max-width:680px}
 .portfolio-page .editorial-button{border-radius:0;min-height:46px;height:auto;padding:12px 20px;white-space:normal;line-height:1.4;box-shadow:none}
+.portfolio-page .editorial-button.bg-primary{color:var(--primary-foreground)}
 .portfolio-subnav{background:var(--background);border-block:1px solid var(--border)}
 .portfolio-subnav .container{display:flex;align-items:center;justify-content:space-between;gap:24px;overflow-x:auto}
 .portfolio-subnav a{display:flex;align-items:center;gap:16px;white-space:nowrap;font-size:13px;min-height:65px;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
