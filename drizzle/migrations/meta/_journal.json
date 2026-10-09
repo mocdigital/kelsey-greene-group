@@ -8,6 +8,13 @@
       "when": 1791499179270,
       "tag": "0000_group_platform",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1791538204603,
+      "tag": "0001_add_super_admin_role",
+      "breakpoints": true
     }
   ]
 }
