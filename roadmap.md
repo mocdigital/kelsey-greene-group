@@ -1,5 +1,5 @@
 # Kelsey Greene Group platform
-- [ ] Replace the Group Christian Foundation section with green-and-cream Core Values and match sketch leadership portrait cards.
+- [x] Replace the Group Christian Foundation section with green-and-cream Core Values and match sketch leadership portrait cards. Eight values and six 4:5 portrait cards verified on desktop and phone, no overflow or page errors; 27 tests passed. Approved portraits remain to be supplied.
 - [x] Review every page; enlarge typography, add illustrative sector imagery, restrained motion, hover/focus states and homepage rail; align the Values page with Group content. Six main pages and 24 other public destinations checked at desktop/phone widths without overflow or page errors; rail, tabs, filters, bag, mobile menu and reduced motion verified; 24 tests passed. Page-specific recommendations saved in Files. Signed-in checks remain blocked as below.
 - [x] Combine the sketch About and Leadership content on /group while retaining this project's design; page verified with all eight values and six leadership roles, no page errors or horizontal overflow, and 22 routing tests passed.
 - [x] Recreate PDF homepage and shared design; install supplied logo/favicon.
