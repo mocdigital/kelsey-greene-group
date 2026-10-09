@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { PageIntro, Eyebrow, ArrowLink } from '@/components/editorial';
+import { PageIntro, Eyebrow, ArrowLink, PortfolioStrip } from '@/components/editorial';
 import { contentOptions, meta, payload } from '@/lib/content';
 
 export const Route = createFileRoute('/group')({
@@ -25,10 +25,10 @@ function Group() {
 
   return <>
     <PageIntro eyebrow="WHO WE ARE / KELSEY GREENE GROUP" title={group.title} description={group.description} />
-    <section className="section group-purpose">
+    <section id="purpose" className="section group-purpose">
       <div className="container group-purpose-layout">
         <Eyebrow>01 / OUR PURPOSE</Eyebrow>
-        <div><h2>{String(content['purpose'] ?? '')}</h2><ArrowLink to="/businesses">Explore our portfolio</ArrowLink></div>
+        <div><h2>{String(content['purpose'] ?? '')}</h2><ArrowLink to="/businesses">Explore our portfolio</ArrowLink><PortfolioStrip/></div>
       </div>
     </section>
     <section className="section products-section">
@@ -49,7 +49,7 @@ function Group() {
         <div className="values-grid group-values">{records(content['values']).map((value, index) => <article className="value-item" key={String(value['name'])}><span>{String(index + 1).padStart(2, '0')}</span><h3>{String(value['name'] ?? '')}</h3><p>{String(value['text'] ?? '')}</p></article>)}</div>
       </div>
     </section>
-    <section className="section products-section group-leadership">
+    <section id="leadership" className="section products-section group-leadership">
       <div className="container">
         <div className="group-leadership-heading"><div><Eyebrow>04 / LEADERSHIP</Eyebrow><h2>{String(content['leadership_title'] ?? '')}</h2></div><p>{String(content['leadership_intro'] ?? '')}</p></div>
         <div className="group-leaders">{records(content['leadership']).map((leader, index) => <article key={String(leader['role'])}><span className="gold-note">{String(index + 1).padStart(2, '0')} / LEADERSHIP</span><h3>{String(leader['role'] ?? '')}</h3><p>{String(leader['bio'] ?? '')}</p></article>)}</div>
