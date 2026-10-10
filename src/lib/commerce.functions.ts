@@ -30,7 +30,7 @@ async function evaluatePromo(db: Awaited<ReturnType<typeof admin>>, code: string
 
 const items = z.array(z.object({ slug: z.string().min(1).max(120), quantity: z.number().int().min(1).max(99), frequency: z.enum(SUBSCRIPTION_FREQUENCIES).optional() })).min(1).max(60);
 
-async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: string; quantity: number; frequency?: string }[]) {
+async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: string; quantity: number; frequency?: string | undefined }[]) {
   const { data } = await db.from('cms_records').select('slug,title,payload').eq('kind', 'product').eq('status', 'published').in('slug', bag.map(i => i.slug));
   const { currency } = await settings(db);
   const rate = Number(currency['ngn_per_espee']);

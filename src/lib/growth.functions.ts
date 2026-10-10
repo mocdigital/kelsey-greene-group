@@ -92,7 +92,7 @@ export const updateSubscription = createServerFn({ method: 'POST' }).middleware(
   if (!sub) throw new Error('This subscription could not be found.');
   if (sub.status === 'cancelled') throw new Error('This subscription has been cancelled.');
   const now = new Date().toISOString();
-  const patch: Record<string, unknown> = { updated_at: now };
+  const patch: { updated_at: string; status?: string; next_delivery_at?: string | null; frequency?: string } = { updated_at: now };
   if (data.action === 'pause') patch.status = 'paused';
   if (data.action === 'resume') { patch.status = 'active'; patch.next_delivery_at = addInterval(new Date(), sub.frequency).toISOString(); }
   if (data.action === 'cancel') { patch.status = 'cancelled'; patch.next_delivery_at = null; }
