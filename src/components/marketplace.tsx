@@ -1,9 +1,9 @@
 import {Link} from '@tanstack/react-router';
 import {useSuspenseQuery} from '@tanstack/react-query';
 import {useState} from 'react';
-import {ArrowRight,ShoppingBag,Check,Search} from 'lucide-react';
+import {ArrowRight,ShoppingBag,Search} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {Eyebrow,Price} from '@/components/editorial';
+import {Eyebrow,Price,BagToggle} from '@/components/editorial';
 import {useSite} from '@/components/site-provider';
 import {contentOptions,payload,image,type ContentRecord} from '@/lib/content';
 import {currencies,priceInEspee} from '@/lib/pricing';
