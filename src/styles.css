@@ -65,6 +65,7 @@ main{min-width:0}main [id]{scroll-margin-top:90px}main a:focus-visible,.site-hea
 :root { --public-navbar-height:88px; --home-strip-height:46px; }
 .site-header { position:sticky; top:0; height:auto; z-index:40; box-shadow:var(--shadow-header); }
 .site-header .header-inner { height:var(--public-navbar-height); }
+.site-header .main-nav.open { top:100%; z-index:45; max-height:calc(100dvh - var(--public-navbar-height) - var(--home-strip-height)); overflow-y:auto; }
 .site-header .home-rail { position:relative; top:auto; background:var(--forest-deep); color:var(--cream); border-top:1px solid var(--dark-border); box-shadow:none; }
 .site-header .home-rail a { min-height:var(--home-strip-height); font-size:12px; }
 .site-header .home-rail a > span { display:none; }
