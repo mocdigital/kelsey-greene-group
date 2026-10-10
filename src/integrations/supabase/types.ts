@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      ambassador_commissions: {
+        Row: {
+          amount_ngn: number
+          base_ngn: number
+          created_at: string
+          id: string
+          order_id: string
+          order_reference: string
+          payout_id: string | null
+          percent: number
+          referral_code: string
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          amount_ngn?: number
+          base_ngn?: number
+          created_at?: string
+          id?: string
+          order_id: string
+          order_reference?: string
+          payout_id?: string | null
+          percent?: number
+          referral_code: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount_ngn?: number
+          base_ngn?: number
+          created_at?: string
+          id?: string
+          order_id?: string
+          order_reference?: string
+          payout_id?: string | null
+          percent?: number
+          referral_code?: string
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       ambassador_payouts: {
         Row: {
           amount_ngn: number
@@ -74,6 +119,66 @@ export type Database = {
           entity?: string
           entity_id?: string | null
           id?: string
+        }
+        Relationships: []
+      }
+      campaign_progress: {
+        Row: {
+          goal: number
+          id: string
+          milestones: Json
+          updated_at: string
+          updated_by: string | null
+          verified_experiences: number
+        }
+        Insert: {
+          goal?: number
+          id: string
+          milestones?: Json
+          updated_at?: string
+          updated_by?: string | null
+          verified_experiences?: number
+        }
+        Update: {
+          goal?: number
+          id?: string
+          milestones?: Json
+          updated_at?: string
+          updated_by?: string | null
+          verified_experiences?: number
+        }
+        Relationships: []
+      }
+      campaign_progress_log: {
+        Row: {
+          actor: string | null
+          campaign_id: string
+          created_at: string
+          delta: number
+          id: string
+          new_value: number
+          note: string
+          previous_value: number
+        }
+        Insert: {
+          actor?: string | null
+          campaign_id: string
+          created_at?: string
+          delta: number
+          id?: string
+          new_value: number
+          note?: string
+          previous_value: number
+        }
+        Update: {
+          actor?: string | null
+          campaign_id?: string
+          created_at?: string
+          delta?: number
+          id?: string
+          new_value?: number
+          note?: string
+          previous_value?: number
         }
         Relationships: []
       }
@@ -465,24 +570,36 @@ export type Database = {
           created_at: string
           frequency: string
           id: string
+          next_delivery_at: string | null
+          order_id: string | null
           product_slug: string
+          quantity: number
           status: string
+          updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
           frequency: string
           id?: string
+          next_delivery_at?: string | null
+          order_id?: string | null
           product_slug: string
+          quantity?: number
           status?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
           frequency?: string
           id?: string
+          next_delivery_at?: string | null
+          order_id?: string | null
           product_slug?: string
+          quantity?: number
           status?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []

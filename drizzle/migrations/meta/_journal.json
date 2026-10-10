@@ -22,6 +22,13 @@
       "when": 1791538301135,
       "tag": "0002_commerce_careers_ambassadors",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1791652373863,
+      "tag": "0003_movement_commissions_subscriptions",
+      "breakpoints": true
     }
   ]
 }
