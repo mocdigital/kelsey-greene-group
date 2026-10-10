@@ -5,7 +5,7 @@ describe('Homepage media settings', () => {
   it('defaults to the generated video with an image poster', () => {
     const media = homeMedia({});
     expect(media.type).toBe('video');
-    expect(media.url).toContain('.mp4');
+    expect(media.url).toContain('.webm');
     expect(media.poster).toContain('hero.jpg');
   });
   it('supports a CMS image or video override', () => {

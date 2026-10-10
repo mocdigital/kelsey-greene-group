@@ -1,5 +1,5 @@
 import hero from '@/assets/hero.asset.json';
-import video from '@/assets/home-market-video.mp4.asset.json';
+import video from '@/assets/home-market-video.webm.asset.json';
 
 export function mediaUrl(value: unknown, fallback = '') {
   if (typeof value !== 'string') return fallback;
