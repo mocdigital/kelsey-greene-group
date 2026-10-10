@@ -2,3 +2,11 @@
 @media(max-width:1050px){.market-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.market-intro{gap:30px}.market-intro h1{font-size:44px}.market-enquiry-layout{gap:40px}}
 @media(max-width:740px){.market-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}.market-intro,.market-featured,.market-enquiry-layout{grid-template-columns:1fr;gap:28px}.market-intro{margin-top:32px}.market-intro h1{font-size:42px}.market-card-copy{padding:12px}.market-card h3{font-size:23px}.market-card-bottom{align-items:start;flex-direction:column;gap:0}.market-sticky>.container{gap:10px;min-height:68px}.market-wordmark{display:none}.market-currency{margin-right:auto;font-size:12px;gap:8px}.market-currency select{width:136px;font-size:13px}.market-sticky a{font-size:12px;padding:8px}.market-featured{margin-top:55px}.market-results{flex-wrap:wrap}.market-enquiry{padding:55px 0}.market-enquiry h2{font-size:42px}.market-enquiry .form-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){.market-card,.market-photo img{transition:none}}
+.products-section .product-grid{gap:24px 20px}
+.bag-toggle .bag-icon-remove,.bag-toggle .bag-label-remove{display:none}
+.bag-toggle.in-bag{color:var(--primary)}
+.bag-toggle.in-bag:hover,.bag-toggle.in-bag:focus-visible{color:var(--destructive)}
+.bag-toggle.in-bag:hover .bag-icon-check,.bag-toggle.in-bag:hover .bag-label-added,.bag-toggle.in-bag:focus-visible .bag-icon-check,.bag-toggle.in-bag:focus-visible .bag-label-added{display:none}
+.bag-toggle.in-bag:hover .bag-icon-remove,.bag-toggle.in-bag:hover .bag-label-remove,.bag-toggle.in-bag:focus-visible .bag-icon-remove,.bag-toggle.in-bag:focus-visible .bag-label-remove{display:inline}
+@media(hover:none){.bag-toggle.in-bag .bag-label-added::after{content:' · Remove'}}
+@media(max-width:740px){.products-section .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}}
