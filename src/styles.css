@@ -70,7 +70,7 @@ main{min-width:0}main [id]{scroll-margin-top:90px}main a:focus-visible,.site-hea
 .site-header .home-rail a > span { display:none; }
 .site-header .home-rail a:hover, .site-header .home-rail a[aria-current] { color:var(--gold); }
 .site-header .home-rail .home-reading-progress { background:var(--dark-border); }
-.market-sticky { top:var(--public-navbar-height); z-index:28; }
+.marketplace .market-sticky { top:var(--public-navbar-height); z-index:28; }
 html { scroll-padding-top:calc(var(--public-navbar-height) + 18px); }
 main [id] { scroll-margin-top:calc(var(--public-navbar-height) + 18px); }
 .home-page [id] { scroll-margin-top:calc(var(--public-navbar-height) + var(--home-strip-height) + 18px); }
