@@ -31,3 +31,5 @@
 - Guest order receipts are read by order id plus a secret access token; never expose orders by id alone.
 - Only super_admin may change user roles, through server functions that re-check the caller's roles.
 - Shared announcement, menu highlights and footer links live in the CMS site/shell record so they have one edit location.
+- Store homepage media type, URL, poster and description in the homepage CMS payload and render through the shared home-media helper; this keeps image/video editing within existing publication permissions and provides a poster fallback and reduced-motion playback controls.
+- Mount the homepage section strip inside the sticky public header and offset other sticky controls using navbar-height tokens; this prevents stacked navigation overlap without changing the administration shell.
