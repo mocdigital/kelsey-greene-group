@@ -19,7 +19,8 @@
 - Render leadership CMS entries through portrait-ready cards with optional image and name fields and a missing-photo fallback; this supports approved portraits without inventing leader identities.
 - Render the standalone Values page from the Group payload's values array so the two pages cannot present conflicting brand principles.
 - Keep illustrative sector imagery in a browser-safe shared business-visuals mapping, distinct from CMS editorial content, so directory and detail pages show consistent sector-specific images without claiming company operations.
-- Keep progressive page motion and homepage section tracking in the shared page-experience component, respecting reduced-motion settings and keeping content visible without JavaScript.
+- Keep progressive page motion and homepage section tracking in the shared page-experience component, observing newly rendered public content and respecting live reduced-motion preferences; this keeps filtering, navigation, and no-JavaScript content accessible.
+- Keep cross-page visual polish in the global stylesheet and scope homepage changes to its page wrapper; this preserves PDF-specific layouts and leaves business flows unchanged.
 - Scope Movement editorial styles to its page and send participation enquiries through the existing enquiry handler, including region and participation details in the message; this preserves shared navigation and avoids a separate submission pipeline.
 - Isolate Businesses and Partnerships editorial layouts in page-specific components with scoped shared styles, retain CMS-driven business records, and reuse the enquiry handler for partnership details; this prevents redesigns from changing the homepage or shared shell.
 - Keep the cross-business marketplace in CMS product records with a listing_type discriminator; property listings stay enquiry-led and are excluded from bag purchases.

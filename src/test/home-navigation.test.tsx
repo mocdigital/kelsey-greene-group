@@ -20,4 +20,8 @@ describe('Homepage section navigation', () => {
     expect(screen.getByRole('link', { name: /The Group/ })).toHaveAttribute('aria-current', 'location');
     section.remove();
   });
+  it('provides a reading progress indicator', () => {
+    render(<HomeNavigationRail />);
+    expect(screen.getByRole('progressbar', { name: 'Homepage reading progress' })).toHaveAttribute('max', '100');
+  });
 });
