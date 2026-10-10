@@ -189,4 +189,13 @@ main :is(button, [role='button']):focus-visible { outline: 2px solid var(--gold)
 @media(prefers-reduced-motion:reduce) {
   .reveal-ready, .reveal-ready.is-revealed { opacity:1; translate:none; transform:none; animation:none; }
   .home-rail a::after, .market-card { transition:none; }
-}
+}.milestone-track{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:12px}
+.milestone{display:flex;flex-direction:column;align-items:flex-start;gap:4px;border-top:2px solid var(--border);padding-top:12px;position:relative}
+.milestone-dot{position:absolute;top:-9px;left:0;width:16px;height:16px;border-radius:50%;background:var(--card);border:2px solid var(--border);display:grid;place-items:center;color:var(--primary-foreground)}
+.milestone strong{font-family:var(--font-display);font-weight:400;font-size:24px}.milestone small{font-size:12px}
+.milestone.is-reached{border-color:var(--gold)}.milestone.is-reached .milestone-dot{background:var(--gold);border-color:var(--gold)}
+.milestone.is-next .milestone-dot{border-color:var(--gold);animation:milestone-pulse 2s ease-in-out infinite}
+@keyframes milestone-pulse{50%{box-shadow:0 0 0 6px color-mix(in oklch,var(--gold) 25%,transparent)}}
+@media(prefers-reduced-motion:reduce){.milestone.is-next .milestone-dot{animation:none}}
+.product-plan{border:1px solid var(--border);padding:14px 16px;margin:18px 0;display:grid;gap:8px}.product-plan legend{font-size:14px;font-weight:600;padding:0 6px}.product-plan label{display:flex;gap:10px;align-items:center;font-size:15px}.product-plan input{width:16px;height:16px;accent-color:var(--primary)}.product-plan b{font-weight:500;display:inline-flex;gap:6px;align-items:center}.product-plan small{font-size:13px;color:var(--muted-foreground)}
+.product-plan-select{display:flex;flex-direction:column;gap:4px;font-size:13px;margin-top:10px;max-width:280px}.product-in-bag{display:grid;gap:10px;margin:18px 0}
