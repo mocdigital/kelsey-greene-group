@@ -1,0 +1,34 @@
+import {useState} from 'react';
+import {useQuery,useQueryClient} from '@tanstack/react-query';
+import {useServerFn} from '@tanstack/react-start';
+import {Button} from '@/components/ui/button';
+import {getCampaignAdmin,updateCampaign,getCommissionQueue,reviewCommission,createPayoutFromApproved,markPayoutPaid} from '@/lib/growth.functions';
+import {getOperations} from '@/lib/commerce.functions';
+import {campaignState,DEFAULT_MILESTONES} from '@/lib/growth';
+import {ngn,label} from '@/lib/money';
+import {MilestoneTrack} from './movement-progress';
+
+function useRun(keys:string[][]){const qc=useQueryClient(),[msg,setMsg]=useState('');return {msg,async run(fn:()=>Promise<unknown>,ok:string){setMsg('');try{await fn();await Promise.all(keys.map(k=>qc.invalidateQueries({queryKey:k})));setMsg(ok)}catch(e){setMsg(e instanceof Error?e.message:'Action failed.')}}};}
+
+export function CampaignPanel(){
+ const fetch=useServerFn(getCampaignAdmin),save=useServerFn(updateCampaign),{msg,run}=useRun([['campaign-admin'],['campaign-progress']]);
+ const {data,error,isPending}=useQuery({queryKey:['campaign-admin'],queryFn:()=>fetch(),retry:false});
+ if(isPending)return <p>Loading campaign…</p>;if(error)return <p role="alert">{error.message}</p>;
+ const p=data.progress,verified=Number(p?.verified_experiences??0),goal=Number(p?.goal??1000000),milestones=Array.isArray(p?.milestones)?(p.milestones as number[]):DEFAULT_MILESTONES,state=campaignState(verified,goal,milestones);
+ return <section><h2>Campaign progress</h2><p>The authoritative count of verified breakfast experiences shown on the Movement page. Every change is logged with a reason. Edit the campaign page copy under 1 Million Breakfasts.</p>{msg&&<p className="notice" role="status">{msg}</p>}
+ <div className="kg-stats"><div className="kg-stat"><span>Verified experiences</span><strong>{state.verified.toLocaleString()}</strong></div><div className="kg-stat"><span>Remaining</span><strong>{state.remaining.toLocaleString()}</strong></div><div className="kg-stat"><span>Progress</span><strong>{state.percent}%</strong></div><div className="kg-stat"><span>Last updated</span><strong className="text-base">{p?.updated_at?new Date(p.updated_at).toLocaleDateString():'—'}</strong></div></div>
+ <MilestoneTrack state={state}/>
+ <form className="admin-item mt-8" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget),list=String(f.get('milestones')).split(/[\s,]+/).map(Number).filter(n=>Number.isInteger(n)&&n>0);run(()=>save({data:{mode:String(f.get('mode')) as 'set'|'add',value:Number(f.get('value')),note:String(f.get('note')),goal:Number(f.get('goal')),milestones:list}}),'Campaign updated.')}}><div className="form-grid"><label>Update type<select name="mode" defaultValue="add"><option value="add">Add verified experiences (use a negative number to correct)</option><option value="set">Set the total exactly</option></select></label><label>Number<input name="value" type="number" required step={1}/></label><label>Goal<input name="goal" type="number" min={1} defaultValue={goal} required/></label><label>Milestones (comma separated)<input name="milestones" defaultValue={milestones.join(', ')} required/></label><label className="span-two">Reason / source of verification<input name="note" required minLength={3} maxLength={300} placeholder="e.g. Lagos school breakfast event, 12 Oct — attendance sheets"/></label></div><Button>Save update</Button></form>
+ <h3 className="mt-8">Change log</h3>{data.log.length?<div className="kg-table-wrap"><table className="list-table"><thead><tr><th>Date</th><th>Change</th><th>New total</th><th>Reason</th></tr></thead><tbody>{data.log.map(l=><tr key={l.id}><td>{new Date(l.created_at).toLocaleString()}</td><td>{l.delta>=0?'+':''}{Number(l.delta).toLocaleString()}</td><td>{Number(l.new_value).toLocaleString()}</td><td>{l.note}</td></tr>)}</tbody></table></div>:<p className="empty-state">No updates recorded yet.</p>}</section>;
+}
+
+export function CommissionsPanel(){
+ const fetch=useServerFn(getCommissionQueue),ops=useServerFn(getOperations),review=useServerFn(reviewCommission),create=useServerFn(createPayoutFromApproved),paid=useServerFn(markPayoutPaid),{msg,run}=useRun([['commissions'],['admin-ops']]);
+ const {data,error,isPending}=useQuery({queryKey:['commissions'],queryFn:()=>fetch(),retry:false}),{data:o}=useQuery({queryKey:['admin-ops'],queryFn:()=>ops(),retry:false});
+ if(isPending)return <p>Loading commissions…</p>;if(error)return <p role="alert">{error.message}</p>;
+ const approvedByCode=Object.entries(data.filter(c=>c.status==='approved').reduce<Record<string,number>>((m,c)=>({...m,[c.referral_code]:(m[c.referral_code]??0)+Number(c.amount_ngn)}),{}));
+ return <section><h2>Commissions</h2><p>Commission is calculated automatically on every order placed with an ambassador code, using the configured commission rate. Approve once the order is paid, then bundle approved commissions into a payout.</p>{msg&&<p className="notice" role="status">{msg}</p>}
+ <h3 className="mt-6">Ready for payout</h3>{approvedByCode.length?approvedByCode.map(([code,amount])=><form key={code} className="admin-item" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);run(()=>create({data:{referral_code:code,period_label:String(f.get('period'))}}),'Payout created.')}}><div><h3>{code} · {ngn(amount)}</h3></div><div className="admin-buttons"><input name="period" required placeholder="Period, e.g. Oct 2026" aria-label={`Payout period for ${code}`}/><Button size="sm">Create payout</Button></div></form>):<p className="empty-state">No approved commissions waiting.</p>}
+ <h3 className="mt-6">Commission queue</h3>{data.length?<div className="kg-table-wrap"><table className="list-table"><thead><tr><th>Order</th><th>Code</th><th>Sale</th><th>Commission</th><th>Status</th><th>Action</th></tr></thead><tbody>{data.map(c=><tr key={c.id}><td>{c.order_reference}</td><td>{c.referral_code}</td><td>{ngn(c.base_ngn)}</td><td>{ngn(c.amount_ngn)} ({Number(c.percent)}%)</td><td>{label(c.status)}</td><td>{['pending','approved','rejected'].includes(c.status)?<select aria-label={`Status for ${c.order_reference}`} value={c.status} onChange={e=>run(()=>review({data:{id:c.id,status:e.target.value as 'approved'}}),'Commission updated.')}><option value="pending">Pending</option><option value="approved">Approve</option><option value="rejected">Reject</option></select>:'—'}</td></tr>)}</tbody></table></div>:<p className="empty-state">No attributed orders yet.</p>}
+ <h3 className="mt-6">Payouts</h3>{o?.payouts.length?o.payouts.map(p=><article key={p.id} className="admin-item"><div><h3>{p.referral_code} · {ngn(p.amount_ngn)} · {label(p.status)}</h3><p>{p.period_label} · {p.note}</p></div>{p.status!=='paid'&&<Button size="sm" variant="outline" onClick={()=>run(()=>paid({data:{id:p.id}}),'Payout marked as paid.')}>Mark paid</Button>}</article>):<p className="empty-state">No payouts yet.</p>}</section>;
+}

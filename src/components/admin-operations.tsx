@@ -7,12 +7,15 @@ import {ngn,label,paymentLabels} from '@/lib/money';
 const ROLES:[string,string][]=[['super_admin','Manage users and every role'],['admin','Full content, commerce and community access'],['publisher','Edit and publish content'],['content_editor','Edit non-commerce content as drafts'],['commerce_manager','Products, orders, promo codes'],['community_manager','Applications, careers, ambassadors, payouts']];
 const FUL=['received','processing','dispatched','delivered','cancelled'] as const;
 const PAY=['awaiting_transfer','pay_on_delivery','card_staging','paid','refunded','failed'] as const;
+import {CampaignPanel,CommissionsPanel} from './admin-growth';
 export function AdminOperations({section}:{section:string}){
  const fetch=useServerFn(getOperations),qc=useQueryClient(),[msg,setMsg]=useState('');
  const {data,error,isPending}=useQuery({queryKey:['admin-ops'],queryFn:()=>fetch(),retry:false});
  const upd=useServerFn(updateOrder),promo=useServerFn(savePromo),job=useServerFn(updateJobApplication),payout=useServerFn(savePayout);
  async function run(fn:()=>Promise<unknown>,ok:string){setMsg('');try{await fn();await qc.invalidateQueries({queryKey:['admin-ops']});setMsg(ok)}catch(e){setMsg(e instanceof Error?e.message:'Action failed.')}}
  if(section==='Users & roles')return <UsersPanel/>;
+ if(section==='Campaign progress')return <CampaignPanel/>;
+ if(section==='Commissions')return <CommissionsPanel/>;
  if(isPending)return <p>Loading…</p>;if(error)return <p role="alert">{error.message}</p>;
  const status=msg&&<p className="notice" role="status">{msg}</p>;
  if(section==='Orders & fulfilment')return <section><h2>Orders & fulfilment</h2>{status}{data.orders.length?data.orders.map(o=><article key={o.id} className="admin-item"><div><h3>{o.reference??o.id.slice(0,8)} · {ngn(o.total_ngn)}</h3><p>{new Date(o.created_at).toLocaleString()} · {o.customer_name} · {o.customer_email} · {o.customer_phone}</p><p>{o.delivery_zone} · {paymentLabels[o.payment_method]??o.payment_method}{o.promo_code&&` · promo ${o.promo_code}`}{o.referral_code&&` · ref ${o.referral_code}`}</p><p>{(o.items as {title:string;quantity:number}[]).map(i=>`${i.quantity}× ${i.title}`).join(', ')}</p></div><form className="admin-buttons" onSubmit={e=>{e.preventDefault();const f=new FormData(e.currentTarget);run(()=>upd({data:{id:o.id,fulfillment_status:String(f.get('f')) as typeof FUL[number],payment_status:String(f.get('p')) as typeof PAY[number]}}),'Order updated.')}}><select name="f" defaultValue={o.fulfillment_status} aria-label="Fulfilment status">{FUL.map(s=><option key={s} value={s}>{label(s)}</option>)}</select><select name="p" defaultValue={o.payment_status} aria-label="Payment status">{PAY.map(s=><option key={s} value={s}>{label(s)}</option>)}</select><Button size="sm">Update</Button></form></article>):<p className="empty-state">No orders yet, or your role cannot view orders.</p>}</section>;

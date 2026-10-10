@@ -28,7 +28,7 @@ export function PageExperience() {
     const register = () => {
       if (preference.matches) return;
       main.querySelectorAll(selector).forEach(element => {
-        if (elements.has(element) || element.parentElement?.closest('.reveal-ready')) return;
+        if (elements.has(element) || element.parentElement?.closest('.reveal-ready') || element.closest('.product-marquee')) return;
         elements.add(element);
         // Already-visible content stays visible; only incoming content animates.
         if (element.getBoundingClientRect().top < window.innerHeight - 32) return;
@@ -64,22 +64,14 @@ export function PageExperience() {
   return null;
 }
 
+/** Sleek reading-progress line beneath the sticky navbar; fills left to right as the homepage scrolls. */
 export function HomeNavigationRail() {
-  const [active, setActive] = useState('');
   const [progress, setProgress] = useState(0);
   useEffect(() => {
     let frame = 0;
     const update = () => {
-      const sections = homeSections.map(section => ({ id: section.id, element: document.getElementById(section.id) }));
-      const current = sections.filter(section => section.element && section.element.getBoundingClientRect().top <= 240).at(-1);
-      setActive(current?.id ?? '');
-      const start = sections[0]?.element;
-      const end = sections.at(-1)?.element;
-      if (start && end) {
-        const startY = start.getBoundingClientRect().top + window.scrollY - 64;
-        const endY = end.getBoundingClientRect().bottom + window.scrollY - window.innerHeight;
-        setProgress(Math.max(0, Math.min(100, (window.scrollY - startY) / Math.max(1, endY - startY) * 100)));
-      }
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.max(0, Math.min(100, window.scrollY / max * 100)) : 0);
       frame = 0;
     };
     const schedule = () => { if (!frame) frame = window.requestAnimationFrame(update); };
@@ -92,11 +84,5 @@ export function HomeNavigationRail() {
       window.removeEventListener('resize', schedule);
     };
   }, []);
-  useEffect(() => {
-    const link = document.querySelector('.home-rail a[aria-current]');
-    const rail = link?.parentElement;
-    if (!(link instanceof HTMLElement) || !rail || rail.scrollWidth <= rail.clientWidth) return;
-    rail.scrollTo({ left: link.offsetLeft - rail.offsetLeft - 24, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
-  }, [active]);
-  return <nav className="home-rail" aria-label="Homepage sections"><div className="container">{homeSections.map((section, index) => <a key={section.id} href={`#${section.id}`} aria-current={active === section.id ? 'location' : undefined}><span>{String(index + 1).padStart(2, '0')}</span>{section.label}</a>)}</div><progress className="home-reading-progress" value={progress} max={100} aria-label="Homepage reading progress" /></nav>;
+  return <div className="home-progress-line" role="progressbar" aria-label="Homepage reading progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(progress)}><span style={{ transform: `scaleX(${progress / 100})` }} /></div>;
 }
