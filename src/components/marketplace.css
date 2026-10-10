@@ -10,3 +10,12 @@
 .bag-toggle.in-bag:hover .bag-icon-remove,.bag-toggle.in-bag:hover .bag-label-remove,.bag-toggle.in-bag:focus-visible .bag-icon-remove,.bag-toggle.in-bag:focus-visible .bag-label-remove{display:inline}
 @media(hover:none){.bag-toggle.in-bag .bag-label-added::after{content:' · Remove'}}
 @media(max-width:740px){.products-section .product-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 12px}}
+.product-marquee{position:relative;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}
+.product-marquee-track{display:flex;width:max-content;animation:product-marquee var(--marquee-duration,35s) linear infinite}
+.product-marquee-item{width:320px;flex-shrink:0;padding-right:20px;display:flex}.product-marquee-item>.market-card{width:100%}
+.product-marquee:hover .product-marquee-track,.product-marquee:focus-within .product-marquee-track,.product-marquee.is-paused .product-marquee-track{animation-play-state:paused}
+.product-marquee-toggle{margin-top:18px;border-radius:0;font-size:12px}
+@keyframes product-marquee{to{transform:translateX(calc(-100% / var(--marquee-copies,2)))}}
+@media(max-width:740px){.product-marquee-item{width:260px;padding-right:12px}}
+@media(prefers-reduced-motion:reduce){.product-marquee{overflow-x:auto;mask-image:none}.product-marquee-track{animation:none}.product-marquee-toggle{display:none}}
+.quantity input{width:52px;text-align:center;border:0;background:transparent;padding:0;-moz-appearance:textfield;font-weight:600}.quantity input::-webkit-inner-spin-button,.quantity input::-webkit-outer-spin-button{appearance:none;margin:0}
