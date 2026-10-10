@@ -199,3 +199,8 @@ main :is(button, [role='button']):focus-visible { outline: 2px solid var(--gold)
 @media(prefers-reduced-motion:reduce){.milestone.is-next .milestone-dot{animation:none}}
 .product-plan{border:1px solid var(--border);padding:14px 16px;margin:18px 0;display:grid;gap:8px}.product-plan legend{font-size:14px;font-weight:600;padding:0 6px}.product-plan label{display:flex;gap:10px;align-items:center;font-size:15px}.product-plan input{width:16px;height:16px;accent-color:var(--primary)}.product-plan b{font-weight:500;display:inline-flex;gap:6px;align-items:center}.product-plan small{font-size:13px;color:var(--muted-foreground)}
 .product-plan-select{display:flex;flex-direction:column;gap:4px;font-size:13px;margin-top:10px;max-width:280px}.product-in-bag{display:grid;gap:10px;margin:18px 0}
+:root{--home-strip-height:3px}
+@media(max-width:640px){:root{--home-strip-height:3px}}
+.home-progress-line{height:var(--home-strip-height);background:color-mix(in oklch,var(--cream) 14%,transparent);overflow:hidden}
+.home-progress-line>span{display:block;height:100%;background:linear-gradient(90deg,var(--gold),color-mix(in oklch,var(--gold) 70%,var(--cream)));transform-origin:left;transition:transform .12s linear;will-change:transform}
+@media(prefers-reduced-motion:reduce){.home-progress-line>span{transition:none}}

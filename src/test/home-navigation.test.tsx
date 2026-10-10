@@ -1,27 +1,24 @@
 import { render, screen, fireEvent, cleanup } from '@testing-library/react';
 import { afterEach, describe, expect, it } from 'vitest';
-import { HomeNavigationRail, homeSections } from '@/components/page-experience';
+import { HomeNavigationRail } from '@/components/page-experience';
 
 afterEach(cleanup);
-describe('Homepage section navigation', () => {
-  it('links to all six homepage sections with accessible names', () => {
+describe('Homepage progress line', () => {
+  it('renders a slim progress line without section titles', () => {
     render(<HomeNavigationRail />);
-    expect(screen.getByRole('navigation', { name: 'Homepage sections' })).toBeInTheDocument();
-    for (const section of homeSections) {
-      expect(screen.getByRole('link', { name: new RegExp(section.label) })).toHaveAttribute('href', `#${section.id}`);
-    }
+    const bar = screen.getByRole('progressbar', { name: 'Homepage reading progress' });
+    expect(bar).toHaveAttribute('aria-valuemax', '100');
+    expect(screen.queryByRole('link')).toBeNull();
   });
-  it('marks the current section when scrolling', () => {
-    const section = document.createElement('section');
-    section.id = 'group';
-    document.body.append(section);
+  it('fills as the page scrolls', () => {
+    Object.defineProperty(document.documentElement, 'scrollHeight', { configurable: true, value: 2000 });
+    Object.defineProperty(window, 'innerHeight', { configurable: true, value: 1000 });
     render(<HomeNavigationRail />);
+    Object.defineProperty(window, 'scrollY', { configurable: true, value: 500 });
     fireEvent.scroll(window);
-    expect(screen.getByRole('link', { name: /The Group/ })).toHaveAttribute('aria-current', 'location');
-    section.remove();
-  });
-  it('provides a reading progress indicator', () => {
-    render(<HomeNavigationRail />);
-    expect(screen.getByRole('progressbar', { name: 'Homepage reading progress' })).toHaveAttribute('max', '100');
+    return new Promise<void>(resolve => requestAnimationFrame(() => {
+      expect(screen.getByRole('progressbar')).toHaveAttribute('aria-valuenow', '50');
+      resolve();
+    }));
   });
 });
