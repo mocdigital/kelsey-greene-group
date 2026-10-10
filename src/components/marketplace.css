@@ -19,3 +19,4 @@
 @media(max-width:740px){.product-marquee-item{width:260px;padding-right:12px}}
 @media(prefers-reduced-motion:reduce){.product-marquee{overflow-x:auto;mask-image:none}.product-marquee-track{animation:none}.product-marquee-toggle{display:none}}
 .quantity input{width:52px;text-align:center;border:0;background:transparent;padding:0;-moz-appearance:textfield;font-weight:600}.quantity input::-webkit-inner-spin-button,.quantity input::-webkit-outer-spin-button{appearance:none;margin:0}
+.quantity{display:inline-flex;align-items:center;width:fit-content;max-width:100%}
