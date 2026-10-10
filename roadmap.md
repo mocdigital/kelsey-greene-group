@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Refine public-page design with improved homepage imagery, progressive scroll reveals, reading-progress wayfinding, and consistent accessible interactions; verify main pages and existing flows.
 - [x] Multi-step guest checkout writing real orders (zones, promo codes, bank transfer / pay on delivery / card staging), order receipt with tracking, ambassador dashboard, careers + applications, rich recipes/stories, store locator filters, bundles, Breakfast Day hub, shipping/returns pages, cookie notice, CMS-editable announcement/menu highlights/footer, admin orders/promos/applicants/payouts and super-admin users & roles. Test order placed and removed; 39 tests pass.
 - [ ] Replace illustrative delivery fees, bundle prices, 5% commission, bank details, sample stores/jobs/stories/events — blocked by owner approval.
 - [ ] Live card payments — blocked by payment provider setup.
