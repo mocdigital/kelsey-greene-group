@@ -67,6 +67,8 @@ main{min-width:0}main [id]{scroll-margin-top:90px}main a:focus-visible,.site-hea
   --motion-editorial: cubic-bezier(.22, 1, .36, 1);
 }
 main { overflow-wrap: break-word; }
+.skip-link:not(:focus-visible) { clip-path:inset(50%); width:1px; height:1px; overflow:hidden; padding:0; }
+.skip-link:focus-visible { clip-path:none; width:auto; height:auto; transform:translateY(0); }
 ::selection { background: var(--gold); color: var(--forest-deep); }
 main :is(input, select, textarea):not([type='checkbox']):not([type='radio']):focus-visible {
   outline: 2px solid var(--gold); border-color: var(--gold); outline-offset: 3px;
@@ -143,7 +145,10 @@ main :is(button, [role='button']):focus-visible { outline: 2px solid var(--gold)
 }
 @media(max-width:640px) {
   .home-page .hero { min-height:590px; }
-  .home-page .hero-inner { padding-top:36px; padding-bottom:132px; }
+  .home-page .hero-inner { padding-top:24px; padding-bottom:112px; }
+  .home-page .hero h1 { font-size:46px; margin-block:18px; }
+  .home-page .hero p { font-size:16px; line-height:1.6; }
+  .home-page .hero .eyebrow { font-size:22px; }
   .home-page #group .group-layout { grid-template-columns:1fr; gap:28px; }
   .home-group-visuals { margin-top:32px; }
   .home-group-visuals .portfolio-strip { grid-template-columns:1fr; gap:20px; }
