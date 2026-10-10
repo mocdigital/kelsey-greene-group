@@ -105,6 +105,9 @@ main :is(button, [role='button']):focus-visible { outline: 2px solid var(--gold)
 .article-item h3 { transition:color .2s; }
 .article-item:hover h3 { color:var(--primary); }
 .article-item .arrow-link { margin-top:20px; }
+.arrow-link:hover { gap:20px; }
+.arrow-link svg { flex-shrink:0; transition:transform .25s var(--motion-editorial); }
+.arrow-link:hover svg { transform:translateX(5px); }
 .market-card { transition: border-color .25s, box-shadow .25s, translate .3s var(--motion-editorial); }
 .market-card:hover { box-shadow:var(--shadow-editorial); translate:0 -3px; }
 .market-card:focus-within { border-color:var(--primary); }

@@ -14,7 +14,7 @@ export function PageExperience() {
   const pathname = useLocation({ select: location => location.pathname });
   useEffect(() => {
     const main = document.querySelector('main');
-    if (!main || !('IntersectionObserver' in window)) return;
+    if (!main || typeof window.IntersectionObserver !== 'function') return;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     const elements = new Set<Element>();
     const selector = '.section-heading, .group-layout, .group-purpose-layout, .group-direction > div, .group-leadership-heading, .business-feature, .business-card, .product-card, .value-item, .leadership-card, .portfolio-strip > a, .partnerships-layout > div, .movement-layout > div, .movement-ambition > div, .enquiry-layout > div, .portfolio-business-layout > *, .portfolio-principles > article, .portfolio-band-layout > *, .partnership-heading > *, .partnership-path, .partnership-business-row, .movement-two-column > *, .movement-range-heading, .movement-path, .market-intro > *, .market-card, .market-featured > div, .article-item, .kg-card, .participation-grid > a';
