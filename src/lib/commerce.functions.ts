@@ -2,6 +2,7 @@ import { createServerFn } from '@tanstack/react-start';
 import { getRequest } from '@tanstack/react-start/server';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
+import { SUBSCRIPTION_FREQUENCIES, addInterval, subscriptionEligible } from '@/lib/growth';
 
 type Obj = Record<string, unknown>;
 const obj = (v: unknown): Obj => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Obj) : {});
@@ -27,9 +28,9 @@ async function evaluatePromo(db: Awaited<ReturnType<typeof admin>>, code: string
   return { ok: true as const, code: data.code, discount, description: data.description };
 }
 
-const items = z.array(z.object({ slug: z.string().min(1).max(120), quantity: z.number().int().min(1).max(99) })).min(1).max(60);
+const items = z.array(z.object({ slug: z.string().min(1).max(120), quantity: z.number().int().min(1).max(99), frequency: z.enum(SUBSCRIPTION_FREQUENCIES).optional() })).min(1).max(60);
 
-async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: string; quantity: number }[]) {
+async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: string; quantity: number; frequency?: string }[]) {
   const { data } = await db.from('cms_records').select('slug,title,payload').eq('kind', 'product').eq('status', 'published').in('slug', bag.map(i => i.slug));
   const { currency } = await settings(db);
   const rate = Number(currency['ngn_per_espee']);
@@ -39,7 +40,8 @@ async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: stri
     if (!r || p['listing_type'] === 'property') throw new Error('One of the items in your bag is no longer available.');
     const espee = espeeOf(p); if (espee === null) throw new Error(`${r.title} has no price yet.`);
     const unit = Math.round(espee * rate);
-    return { slug: i.slug, title: r.title, quantity: i.quantity, unit_espee: espee, unit_ngn: unit, line_ngn: unit * i.quantity, size: String(p['size'] ?? '') };
+    if (i.frequency && !subscriptionEligible(p)) throw new Error(`${r.title} is not available as a subscription.`);
+    return { frequency: i.frequency ?? null, slug: i.slug, title: r.title, quantity: i.quantity, unit_espee: espee, unit_ngn: unit, line_ngn: unit * i.quantity, size: String(p['size'] ?? '') };
   });
   return { lines, subtotal: lines.reduce((n, l) => n + l.line_ngn, 0) };
 }
@@ -84,6 +86,7 @@ export const placeOrder = createServerFn({ method: 'POST' }).inputValidator(z.ob
   const bearer = getRequest().headers.get('authorization')?.replace(/^Bearer /i, '');
   let userId: string | null = null;
   if (bearer) { const { data: who } = await db.auth.getUser(bearer); userId = who.user?.id ?? null; }
+  if (!userId && lines.some(l => l.frequency)) throw new Error('Please sign in to start a subscription. One-time items can be ordered as a guest.');
   const payment_status = data.payment_method === 'bank_transfer' ? 'awaiting_transfer' : data.payment_method === 'pay_on_delivery' ? 'pay_on_delivery' : 'card_staging';
   const reference = `KG-${new Date().toISOString().slice(2, 10).replaceAll('-', '')}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
   const { data: order, error } = await db.from('orders').insert({
@@ -92,6 +95,15 @@ export const placeOrder = createServerFn({ method: 'POST' }).inputValidator(z.ob
     shipping_address: data.address as never, delivery_zone: String(zone['label']), payment_method: data.payment_method, payment_status, fulfillment_status: 'received', status: 'placed',
   }).select('id,access_token').single();
   if (error) throw new Error('Your order could not be saved. Please try again.');
+  const recurring = lines.filter(l => l.frequency);
+  if (recurring.length && userId) {
+    await db.from('subscriptions').insert(recurring.map(l => ({ user_id: userId, product_slug: l.slug, frequency: l.frequency!, quantity: l.quantity, status: 'active', order_id: order.id, next_delivery_at: addInterval(new Date(), l.frequency!).toISOString() })));
+  }
+  if (referral) {
+    const { data: amb } = await db.from('programme_applications').select('user_id').eq('programme', 'ambassador').eq('status', 'approved').eq('referral_code', referral).maybeSingle();
+    const pct = Number(s.commerce['commission_percent']) || 0, base = Math.max(0, subtotal - discount);
+    await db.from('ambassador_commissions').insert({ order_id: order.id, order_reference: reference, referral_code: referral, user_id: amb?.user_id ?? null, base_ngn: base, percent: pct, amount_ngn: Math.round(base * pct / 100), status: 'pending' });
+  }
   return { id: order.id, token: order.access_token };
 });
 
@@ -119,18 +131,19 @@ export const trackReferralVisit = createServerFn({ method: 'POST' }).inputValida
 export const getAmbassador = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).handler(async ({ context }) => {
   const { data: apps } = await context.supabase.from('programme_applications').select('id,status,referral_code,created_at').eq('user_id', context.userId).eq('programme', 'ambassador').order('created_at', { ascending: false });
   const approved = apps?.find(a => a.status === 'approved' && a.referral_code);
-  if (!approved) return { status: apps?.[0]?.status ?? 'none', code: null, visits: 0, orders: [], sales_ngn: 0, commission_percent: 0, commission_ngn: 0, payouts: [] };
+  if (!approved) return { status: apps?.[0]?.status ?? 'none', code: null, visits: 0, orders: [], sales_ngn: 0, commission_percent: 0, commission_ngn: 0, payouts: [], commissions: [] };
   const db = await admin(); const code = approved.referral_code!;
-  const [{ count }, { data: orders }, { commerce }, { data: payouts }] = await Promise.all([
+  const [{ count }, { data: orders }, { commerce }, { data: payouts }, { data: commissions }] = await Promise.all([
     db.from('referral_visits').select('id', { count: 'exact', head: true }).eq('referral_code', code),
     db.from('orders').select('reference,created_at,subtotal_ngn,discount_ngn,status,payment_status,fulfillment_status').eq('referral_code', code).order('created_at', { ascending: false }),
     settings(db),
     context.supabase.from('ambassador_payouts').select('*').order('created_at', { ascending: false }),
+    context.supabase.from('ambassador_commissions').select('*').order('created_at', { ascending: false }),
   ]);
   const eligible = (orders ?? []).filter(o => o.status !== 'cancelled' && o.fulfillment_status !== 'cancelled');
   const sales = eligible.reduce((n, o) => n + Number(o.subtotal_ngn) - Number(o.discount_ngn), 0);
   const pct = Number(commerce['commission_percent']) || 0;
-  return { status: 'approved', code, visits: count ?? 0, orders: orders ?? [], sales_ngn: sales, commission_percent: pct, commission_ngn: Math.round(sales * pct / 100), payouts: payouts ?? [] };
+  return { status: 'approved', code, visits: count ?? 0, orders: orders ?? [], sales_ngn: sales, commission_percent: pct, commission_ngn: Math.round(sales * pct / 100), payouts: payouts ?? [], commissions: commissions ?? [] };
 });
 
 export const submitJobApplication = createServerFn({ method: 'POST' }).inputValidator(z.object({
@@ -172,6 +185,7 @@ export const updateOrder = createServerFn({ method: 'POST' }).middleware([requir
   const db = await admin();
   const { error } = await db.from('orders').update({ fulfillment_status: data.fulfillment_status, payment_status: data.payment_status, status: data.fulfillment_status === 'cancelled' ? 'cancelled' : 'placed', updated_at: new Date().toISOString() }).eq('id', data.id);
   if (error) throw new Error('The order could not be updated.');
+  if (data.fulfillment_status === 'cancelled' || data.payment_status === 'refunded') await db.from('ambassador_commissions').update({ status: 'void', updated_at: new Date().toISOString() }).eq('order_id', data.id).in('status', ['pending', 'approved']);
   await db.from('audit_logs').insert({ actor: context.userId, action: 'order_updated', entity: 'orders', entity_id: data.id, details: data as never });
   return { ok: true };
 });
