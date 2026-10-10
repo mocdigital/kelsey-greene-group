@@ -28,7 +28,7 @@ export function PageExperience() {
     const register = () => {
       if (preference.matches) return;
       main.querySelectorAll(selector).forEach(element => {
-        if (elements.has(element) || element.parentElement?.closest('.reveal-ready')) return;
+        if (elements.has(element) || element.parentElement?.closest('.reveal-ready') || element.closest('.product-marquee')) return;
         elements.add(element);
         // Already-visible content stays visible; only incoming content animates.
         if (element.getBoundingClientRect().top < window.innerHeight - 32) return;
