@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Card quantity editing/removal; selected-currency checkout and receipt; persistent flow currency selector; uploaded-logo loading transitions and motion verification.
 - [x] Portable repository-hosted imagery, persistent CMS upload/library/URL selection and published media priority across public pages; loading/fallbacks. Signed-in upload, unpublished denial, publication, product listing/detail consistency, refresh and library selection verified; original product restored afterwards.
 - [x] Manual product carousel, darker announcement, two-card phone layouts, sticky shop search, bag counter, button contrast, larger promo field and marketplace/contact copy; desktop/phone checks and 53 tests passed.
 - [x] Movement counter with milestones and audited admin updates; referral cookie + ?ambassador=, automatic commission ledger, payout queue; subscriptions (monthly/3/6 months) with pause/resume/frequency/cancel; Breakfast Club tab; bag quantity steppers; auto-sliding product carousel; progress-line under navbar. 47 tests pass.
