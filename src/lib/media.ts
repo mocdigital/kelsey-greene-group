@@ -3,6 +3,8 @@ export function portableAsset(asset: AssetPointer) { return `/media/${asset.asse
 export function resolveMedia(value: unknown, fallback = ''): string {
   if (typeof value !== 'string') return fallback;
   const url = value.trim();
+  const legacy = url.match(/^\/__l5e\/assets-v1\/([a-zA-Z0-9-]+)\/(.+)$/);
+  if (legacy) return `/media/${legacy[1]}/${legacy[2]}`;
   if (/^cms-media:uploads\/[a-zA-Z0-9._-]+$/.test(url)) return `/api/public/media?path=${encodeURIComponent(url.slice(10))}`;
   if (/^https:\/\//i.test(url) || (url.startsWith('/') && !url.startsWith('//') && !url.startsWith('/__l5e/'))) return url;
   return fallback;

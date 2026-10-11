@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Upload, Images, Check, LoaderCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { CmsImage } from './cms-image';
@@ -9,6 +9,13 @@ type Entry = { name: string; reference: string; preview: string; video: boolean 
 export function MediaPicker({ name, label, defaultValue = '', video = false, required = false }: { name: string; label: string; defaultValue?: string; video?: boolean; required?: boolean }) {
   const [value, setValue] = useState(defaultValue), [preview, setPreview] = useState(''), [open, setOpen] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState(''), [entries, setEntries] = useState<Entry[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    let active = true;
+    if (/^cms-media:uploads\/[a-zA-Z0-9._-]+$/.test(value)) {
+      supabase.storage.from('cms-media').createSignedUrl(value.slice(10), 3600).then(({ data }) => { if (active && data) setPreview(data.signedUrl); }).catch(() => {});
+    }
+    return () => { active = false; };
+  }, [value]);
   async function library() {
     setOpen(true); setBusy(true); setError('');
     try {
