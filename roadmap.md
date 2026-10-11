@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Replace the shared site logo with the uploaded leaf mark on a contrasting backing; slightly extend the first homepage transition per session and verify repeat visits.
 - [x] Card quantity editing/removal; selected-currency checkout and receipt; persistent flow currency selector; uploaded-logo loading transitions and favicon. Desktop/phone editing, removal, ESPEE/USD continuity, refresh, delivery formatting and reduced motion verified; 57 tests passed. Actual bank transfer instructions retain the required NGN settlement amount; live payment remains staged.
 - [x] Portable repository-hosted imagery, persistent CMS upload/library/URL selection and published media priority across public pages; loading/fallbacks. Signed-in upload, unpublished denial, publication, product listing/detail consistency, refresh and library selection verified; original product restored afterwards.
 - [x] Manual product carousel, darker announcement, two-card phone layouts, sticky shop search, bag counter, button contrast, larger promo field and marketplace/contact copy; desktop/phone checks and 53 tests passed.
