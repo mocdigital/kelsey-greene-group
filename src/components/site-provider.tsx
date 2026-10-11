@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from '
 import type { User } from '@supabase/supabase-js';
 import { supabase } from '@/integrations/supabase/client';
 import { trackReferralVisit } from '@/lib/commerce.functions';
+import { currencies } from '@/lib/pricing';
 import { SUBSCRIPTION_FREQUENCIES, type SubscriptionFrequency } from '@/lib/growth';
 export type CartItem={slug:string;quantity:number;frequency?:SubscriptionFrequency};
 type Site={user:User|null;cart:CartItem[];add:(slug:string,quantity?:number)=>void;change:(slug:string,quantity:number)=>void;setFrequency:(slug:string,frequency?:SubscriptionFrequency)=>void;clear:()=>void;currency:string;setCurrency:(c:string)=>void;referral:string};

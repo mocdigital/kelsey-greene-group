@@ -14,6 +14,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { SiteProvider } from "@/components/site-provider";
 import { PageExperience } from '@/components/page-experience';
+import { BrandTransition } from '@/components/brand-transition';
+import { ShoppingCurrencyBar } from '@/components/currency-selector';
 import { Button } from '@/components/ui/button';
 import { Header, Footer } from "@/components/site-shell";
 import { contentOptions } from "@/lib/content";
@@ -141,7 +143,7 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <SiteProvider>{!administration&&<Header />}<main id="main-content"><Outlet /></main>{!administration&&<><PageExperience/><Footer /></>}</SiteProvider>
+      <SiteProvider>{!administration&&<><Header /><ShoppingCurrencyBar/><BrandTransition/></>}<main id="main-content"><Outlet /></main>{!administration&&<><PageExperience/><Footer /></>}</SiteProvider>
     </QueryClientProvider>
   );
 }

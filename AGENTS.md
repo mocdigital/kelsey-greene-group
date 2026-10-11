@@ -36,3 +36,6 @@
 - Shared announcement, menu highlights and footer links live in the CMS site/shell record so they have one edit location.
 - Store homepage media type, URL, poster and description in the homepage CMS payload and render through the shared home-media helper; this keeps image/video editing within existing publication permissions and provides a poster fallback and reduced-motion playback controls.
 - Mount the homepage section strip inside the sticky public header and offset other sticky controls using navbar-height tokens; this prevents stacked navigation overlap without changing the administration shell.
+
+- Reuse card bag controls and a session-persisted currency selector across the shopping flow, formatting NGN ledger amounts through shared pricing helpers; display conversions must never alter server settlement totals.
+- Keep branded navigation feedback in the public root shell with bounded non-blocking timing and reduced-motion support; navigation and loading failures must never leave an overlay trapping users.
