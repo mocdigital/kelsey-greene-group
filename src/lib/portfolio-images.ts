@@ -1,3 +1,4 @@
+import { portableAsset } from '@/lib/media';
 import foods from '@/assets/portfolio-foods.asset.json';
 import poultry from '@/assets/portfolio-poultry.asset.json';
 import meat from '@/assets/portfolio-meat.asset.json';
@@ -6,10 +7,10 @@ import apparel from '@/assets/portfolio-apparel.asset.json';
 import properties from '@/assets/portfolio-properties.asset.json';
 
 export function portfolioImage(slug: string) {
-  if (slug.includes('poultry')) return poultry.url;
-  if (slug.includes('meat')) return meat.url;
-  if (slug.includes('greenhouse')) return greenhouse.url;
-  if (slug.includes('apparel') || slug.includes('quintax')) return apparel.url;
-  if (slug.includes('propert')) return properties.url;
-  return foods.url;
+  if (slug.includes('poultry')) return portableAsset(poultry);
+  if (slug.includes('meat')) return portableAsset(meat);
+  if (slug.includes('greenhouse')) return portableAsset(greenhouse);
+  if (slug.includes('apparel') || slug.includes('quintax')) return portableAsset(apparel);
+  if (slug.includes('propert')) return portableAsset(properties);
+  return portableAsset(foods);
 }

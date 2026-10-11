@@ -67,7 +67,7 @@ export const saveContent = createServerFn({method:'POST'}).middleware([requireSu
   if(!names.length) throw new Error('Access denied.');
   const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
   const previous=data.id ? await supabaseAdmin.from('cms_records').select('*').eq('id',data.id).single() : null;
-  const admin=names.includes('admin');
+  const admin=names.includes('admin') || names.includes('super_admin');
   const canEdit=admin || names.includes('publisher') || (names.includes('content_editor') && !['product','setting'].includes(data.kind)) || (names.includes('commerce_manager') && ['product','bundle'].includes(data.kind));
   const canPublish=admin || names.includes('publisher');
   if(previous?.error) throw new Error('The record could not be loaded.');

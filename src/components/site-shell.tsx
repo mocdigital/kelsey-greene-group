@@ -1,3 +1,4 @@
+import { portableAsset } from '@/lib/media';
 import { Link, useNavigate, useRouter, useLocation } from '@tanstack/react-router';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -12,7 +13,7 @@ import { HomeNavigationRail } from './page-experience';
 type L={label:string;path:string};
 const arr=(v:unknown)=>Array.isArray(v)?v as Record<string,unknown>[]:[];
 function useShell(){const {data}=useSuspenseQuery(contentOptions);return payload(data.find(r=>r.kind==='site'&&r.slug==='shell'));}
-export function Brand(){return <Link to="/" className="brand"><img src={logo.url} alt="Kelsey Greene Group"/><span>KELSEY GREENE<small>GROUP</small></span></Link>}
+export function Brand(){return <Link to="/" className="brand"><img src={portableAsset(logo)} alt="Kelsey Greene Group"/><span>KELSEY GREENE<small>GROUP</small></span></Link>}
 function Announcement(){const a=useShell()['announcement'] as Record<string,unknown>|undefined;if(!a||!a['active']||!a['text'])return null;return <div className="bg-primary text-primary-foreground text-center text-sm py-2 px-4" role="region" aria-label="Announcement">{String(a['text'])} {a['path']?<Link to={String(a['path'])} className="underline underline-offset-4 ml-2 font-semibold">{String(a['label']??'Learn more')} →</Link>:null}</div>}
 export function Header(){const {data}=useSuspenseQuery(contentOptions),shell=useShell(),{user,cart}=useSite(),[open,setOpen]=useState(false);const qc=useQueryClient(),navigate=useNavigate(),router=useRouter();const highlights=arr(shell['menu_highlights']);const homepage=useLocation({select:location=>location.pathname==='/' });
  async function signOut(){await qc.cancelQueries();qc.clear();await supabase.auth.signOut();await navigate({to:'/auth',replace:true});router.invalidate();}
