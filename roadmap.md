@@ -1,6 +1,6 @@
 # Kelsey Greene Group platform
-- [ ] Portable imagery, persistent CMS upload/library/URL selection and published image priority across public pages; image loading/fallbacks.
-- [ ] Manual product carousel, darker announcement, two-card phone layouts, sticky shop search, bag counter, button contrast, promo field and marketplace/contact copy.
+- [x] Portable repository-hosted imagery, persistent CMS upload/library/URL selection and published media priority across public pages; loading/fallbacks. Signed-in upload, unpublished denial, publication, product listing/detail consistency, refresh and library selection verified; original product restored afterwards.
+- [x] Manual product carousel, darker announcement, two-card phone layouts, sticky shop search, bag counter, button contrast, larger promo field and marketplace/contact copy; desktop/phone checks and 53 tests passed.
 - [x] Movement counter with milestones and audited admin updates; referral cookie + ?ambassador=, automatic commission ledger, payout queue; subscriptions (monthly/3/6 months) with pause/resume/frequency/cancel; Breakfast Club tab; bag quantity steppers; auto-sliding product carousel; progress-line under navbar. 47 tests pass.
 - [x] Keep public navbar persistent and place compact homepage strip directly beneath it. Homepage CMS editor supports image/video URLs and poster; generated six-second video plays with pause, poster fallback and reduced-motion support. Hover zoom, phone menu, sticky currency stacking and admin save-field tests verified; 46 tests passed. Live signed-in CMS publication remains covered by the existing administration verification task.
 - [x] Refine public-page design with homepage sector photography, staggered scroll reveals, reading-progress wayfinding, clearer marketplace cards and accessible interactions. Main and supporting public pages checked without broken images or page errors; phone layouts, filtering, bag feedback, and reduced motion verified; all 42 tests passed. Business flows and shared navbar preserved.
@@ -20,7 +20,7 @@
 - [x] Customer profiles, authentication, orders/subscriptions views and ambassador application/referral-code view.
 - [x] Structured CMS editor, publishing permissions, application review, version history and audit views.
 - [x] Validate all linked routes, public forms and desktop/mobile presentation: 22 routing tests passed; enquiry/application submissions verified and test rows removed; no mobile overflow or page errors.
-- [ ] Verify signed-in administration flows as mocdigital77@gmail.com (super admin granted).
+- [x] Verify signed-in CMS media administration flows as mocdigital77@gmail.com; upload, publish, library selection and refresh persistence confirmed.
 - [ ] Complete commissioned-referral analytics and breakfast progress accounting — blocked by approved commission rates and breakfast-experience formula.
 - [ ] Publish approved recipes, stories, locations, bundle contents and final legal policies — blocked by owner content approval.
 - [ ] Activate live commerce and recurring payments — blocked by shop/provider setup and commercial rules.
