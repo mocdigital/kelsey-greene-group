@@ -9,7 +9,7 @@ vi.mock('@/components/site-shell',()=>({Brand:()=> <a>Kelsey Greene Group</a>}))
 vi.mock('@/components/site-provider',()=>({useSite:()=>({user:null})}));
 vi.mock('@/integrations/supabase/client',()=>({supabase:{auth:{signOut:vi.fn()}}}));
 vi.mock('@tanstack/react-router',()=>({Link:({children,to,...props}:{children:React.ReactNode;to:string})=><a href={to} {...props}>{children}</a>}));
-vi.mock('@/lib/content',()=>({payload:(r:{payload?:Record<string,unknown>})=>r?.payload??{},image:()=>'/test.jpg',contentOptions:{},assets:{}}));
+vi.mock('@/lib/content',()=>({payload:(r:{payload?:Record<string,unknown>})=>r?.payload??{},image:()=>'/test.jpg',imageFallback:()=>'/test.jpg',contentOptions:{},assets:{}}));
 import {AdminWorkspace} from '@/components/admin-workspace';
 afterEach(()=>{cleanup();vi.clearAllMocks();});
 describe('Administration workspace',()=>{
