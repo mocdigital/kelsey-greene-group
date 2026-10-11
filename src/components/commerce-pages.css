@@ -48,7 +48,7 @@
 .kg-cookie,.kg-cookie p{color:var(--foreground)}
 .kg-cookie a{color:var(--primary)}
 .kg-cookie button[class*="outline"]{color:var(--foreground)}
-.kg-cookie .primary-button{color:var(--primary-foreground)}
+.kg-cookie button.primary-button{color:var(--primary-foreground)}
 .club-card{border:1px solid var(--border);padding:24px;background:var(--secondary);display:grid;gap:10px}.club-card small{font-size:12px;letter-spacing:.08em;color:var(--muted-foreground)}.club-card h3{font-family:var(--font-display);font-weight:400;font-size:32px}
 .club-card.is-member{background:var(--forest);color:var(--cream)}.club-card.is-member small,.club-card.is-member p{color:var(--light-muted)}
 .club-perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:12px}.club-perks>div{border:1px solid var(--border);padding:16px;display:grid;gap:6px}.club-perks svg{color:var(--gold)}.club-perks .is-locked{opacity:.65}
