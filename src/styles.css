@@ -240,13 +240,14 @@ img[data-loading]{background:var(--secondary);animation:media-loading 1.4s ease-
 @keyframes brand-breathe{50%{transform:scale(.96);opacity:.85}}
 @keyframes brand-line{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 .card-bag-controls{display:flex;align-items:center;gap:4px;max-width:100%;flex-wrap:wrap}
-.market-card-bottom .card-bag-controls{flex-basis:100%;margin-top:6px}
+.market-card-bottom .card-bag-controls{width:100%;margin-top:6px}
 .market-card .card-bag-controls .quantity{width:122px;min-width:0;height:44px;flex-shrink:0}
 .market-card .card-bag-controls .quantity button{width:36px;height:42px;flex-shrink:0}
-.market-card .card-bag-controls .quantity input{width:46px;min-width:0;font-size:16px;height:42px}
+.market-card .card-bag-controls .quantity input{width:46px;min-width:0;font-size:16px;height:42px;flex:1}
 .market-card .card-bag-controls .card-remove{width:36px;height:44px;color:var(--destructive);flex-shrink:0}
 .kg-line>span:last-child{flex-shrink:0;text-align:right}.kg-two>*{min-width:0}.kg-actions button{max-width:100%;white-space:normal;height:auto;min-height:44px}
 @media(max-width:740px){.shopping-currency-bar>.container{gap:10px;min-height:64px}.shopping-flow-label{display:none}.shopping-currency-bar .market-currency{margin-left:0}.market-card .card-bag-controls .quantity{width:100%;max-width:142px}.market-card .card-bag-controls{width:100%;gap:0}.market-card .card-bag-controls .card-remove{margin-left:auto}.kg-two .kg-panel{padding:20px}.kg-line{gap:10px;font-size:15px}.kg-line>span:last-child{max-width:48%;overflow-wrap:anywhere}}
 @media(hover:none){.market-card:hover img,.business-card:hover,.product-card:hover,.leadership-card:hover img,.portfolio-strip a:hover img{transform:none;translate:none}.arrow-link:hover{gap:20px}}
 @media(prefers-reduced-motion:reduce){.brand-transition,.brand-transition img,.brand-loading-line:after{transition:none;animation:none}html{scroll-behavior:auto}}
 @media print{.shopping-currency-bar,.brand-transition{display:none}}
+.market-card .card-bag-controls button{scroll-margin-top:calc(var(--public-navbar-height) + 150px)}
