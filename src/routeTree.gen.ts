@@ -46,6 +46,7 @@ import { Route as ShopIndexRouteImport } from './routes/shop.index'
 import { Route as ShopSlugRouteImport } from './routes/shop.$slug'
 import { Route as StoriesIndexRouteImport } from './routes/stories.index'
 import { Route as StoriesSlugRouteImport } from './routes/stories.$slug'
+import { Route as ApiPublicMediaRouteImport } from './routes/api/public/media'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -231,6 +232,11 @@ const StoriesSlugRoute = StoriesSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => StoriesRoute,
 } as any)
+const ApiPublicMediaRoute = ApiPublicMediaRouteImport.update({
+  id: '/api/public/media',
+  path: '/api/public/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -269,6 +275,7 @@ export interface FileRoutesByFullPath {
   '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/api/public/media': typeof ApiPublicMediaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -303,6 +310,7 @@ export interface FileRoutesByTo {
   '/recipes': typeof RecipesIndexRoute
   '/shop': typeof ShopIndexRoute
   '/stories': typeof StoriesIndexRoute
+  '/api/public/media': typeof ApiPublicMediaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -343,6 +351,7 @@ export interface FileRoutesById {
   '/recipes/': typeof RecipesIndexRoute
   '/shop/': typeof ShopIndexRoute
   '/stories/': typeof StoriesIndexRoute
+  '/api/public/media': typeof ApiPublicMediaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -383,6 +392,7 @@ export interface FileRouteTypes {
     | '/recipes/'
     | '/shop/'
     | '/stories/'
+    | '/api/public/media'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -417,6 +427,7 @@ export interface FileRouteTypes {
     | '/recipes'
     | '/shop'
     | '/stories'
+    | '/api/public/media'
   id:
     | '__root__'
     | '/'
@@ -456,6 +467,7 @@ export interface FileRouteTypes {
     | '/recipes/'
     | '/shop/'
     | '/stories/'
+    | '/api/public/media'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -485,6 +497,7 @@ export interface RootRouteChildren {
   OrdersIdRoute: typeof OrdersIdRoute
   ParticipateProgrammeRoute: typeof ParticipateProgrammeRoute
   CareersIndexRoute: typeof CareersIndexRoute
+  ApiPublicMediaRoute: typeof ApiPublicMediaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -748,6 +761,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StoriesSlugRouteImport
       parentRoute: typeof StoriesRoute
     }
+    '/api/public/media': {
+      id: '/api/public/media'
+      path: '/api/public/media'
+      fullPath: '/api/public/media'
+      preLoaderRoute: typeof ApiPublicMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -845,6 +865,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrdersIdRoute: OrdersIdRoute,
   ParticipateProgrammeRoute: ParticipateProgrammeRoute,
   CareersIndexRoute: CareersIndexRoute,
+  ApiPublicMediaRoute: ApiPublicMediaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
