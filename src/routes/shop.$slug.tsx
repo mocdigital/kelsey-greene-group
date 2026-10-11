@@ -8,7 +8,7 @@ import {Eyebrow,Price,QuantityStepper} from '@/components/editorial';
 import {contentOptions,payload,image,meta} from '@/lib/content';
 import {useSite} from '@/components/site-provider';
 import {SUBSCRIPTION_FREQUENCIES,frequencyLabels,subscriptionEligible,type SubscriptionFrequency} from '@/lib/growth';
-export const Route=createFileRoute('/shop/$slug')({head:({params})=>meta(params.slug.replaceAll('-',' '),'Discover the ingredients and breakfast products of Kelsey Greene Foods & Agro-Allied.'),component:Product});
+export const Route=createFileRoute('/shop/$slug')({head:({params})=>meta(params.slug.replaceAll('-',' '),'Explore products, specifications and property listings from the Kelsey Greene Group marketplace.'),component:Product});
 function Product(){
  const {slug}=Route.useParams(),{data}=useSuspenseQuery(contentOptions),{cart,add,change,setFrequency,user}=useSite(),[qty,setQty]=useState(1),[plan,setPlan]=useState<'once'|SubscriptionFrequency>('once'),r=data.find(v=>v.kind==='product'&&v.slug===slug);
  if(!r)return <section className="section container"><h1>Product not found</h1><Link to="/shop">Return to products</Link></section>;

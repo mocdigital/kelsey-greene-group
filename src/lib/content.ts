@@ -14,5 +14,6 @@ export const assets={hero:portableAsset(hero),agro:portableAsset(agro),breakfast
 export const contentOptions=queryOptions({queryKey:['public-content'],queryFn:()=>getContent(),staleTime:0,refetchInterval:15000,refetchOnWindowFocus:true});
 export type ContentRecord=Awaited<ReturnType<typeof getContent>>[number];
 export function payload(r:ContentRecord|undefined):Record<string,unknown>{return r?.payload && typeof r.payload==='object' && !Array.isArray(r.payload) ? r.payload as Record<string,unknown> : {};}
-export function image(r:ContentRecord){const p=payload(r);const key=String(p['image_url']??p['image']??'');return resolveMedia(key,marketplaceImages[key]??assets[key as keyof typeof assets]??marketplaceImages[`marketplace-${r.slug}`]??assets.agro);}
+export function imageFallback(r:ContentRecord){const key=String(payload(r)['image']??'');return marketplaceImages[key]??assets[key as keyof typeof assets]??marketplaceImages[`marketplace-${r.slug}`]??assets.agro;}
+export function image(r:ContentRecord){const p=payload(r);return resolveMedia(p['image_url']??p['image'],imageFallback(r));}
 export function meta(title:string,description:string){return {meta:[{title:`${title} — Kelsey Greene Group`},{name:'description',content:description},{property:'og:title',content:`${title} — Kelsey Greene Group`},{property:'og:description',content:description},{property:'og:type',content:'website'},{name:'twitter:card',content:'summary_large_image'}]};}
