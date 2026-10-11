@@ -205,6 +205,7 @@ main :is(button, [role='button']):focus-visible { outline: 2px solid var(--gold)
 /* CMS media and marketplace accessibility */
 .site-announcement{background:var(--forest-deep);color:var(--cream)}
 img[data-loading]{background:var(--secondary);animation:media-loading 1.4s ease-in-out infinite}
+.brand-mark img[data-loading]{background:none;animation:none}
 @keyframes media-loading{50%{background:var(--accent)}}
 .primary-button,.primary-button:visited{color:var(--primary-foreground)}
 .outline-button{color:var(--foreground)}
