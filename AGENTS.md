@@ -10,6 +10,9 @@
 <!-- LOVABLE:END -->
 
 ## Platform architecture
+- Serve default media from repository-owned public/media paths and resolve published CMS overrides through shared media helpers; this keeps GitHub/Vercel deployments independent of Lovable asset hosting.
+- Store CMS uploads as immutable private-storage references and expose only files referenced by published CMS records through a verified public media handler; this respects storage policy and prevents draft media leaks.
+- Keep image selection in each CMS record and render through the shared loading/error-aware image component, refreshing public content periodically; this makes published replacements consistent without redeployment.
 - Keep public structured content in CMS records and load it through a public server function with RLS; this keeps pages publishable and content centrally managed.
 - Keep private customer and administration pages beneath the authenticated layout and verify identity and roles inside every server mutation; page guards alone do not protect data.
 - Keep roles separate from profiles and require publishing privileges for changes to live records; editing must not bypass publication review.

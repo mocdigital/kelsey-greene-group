@@ -2,9 +2,10 @@ import { createServerFn } from '@tanstack/react-start';
 import { createClient } from '@supabase/supabase-js';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
-import { getRequest } from '@tanstack/react-start/server';
+import { getRequest, setResponseHeader } from '@tanstack/react-start/server';
 
 export const getContent = createServerFn({ method: 'GET' }).handler(async () => {
+  setResponseHeader('Cache-Control', 'no-store');
   const key = process.env['SUPABASE_PUBLISHABLE_KEY']!;
   const client = createClient(process.env['SUPABASE_URL']!, key, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_') && headers.get('Authorization') === `Bearer ${key}`) headers.delete('Authorization'); headers.set('apikey',key); return fetch(input,{...init,headers}); } } });
   const {data,error} = await client.from('cms_records').select('id,kind,slug,title,description,payload,status,position,seo_title,seo_description').eq('status','published').order('position');
@@ -67,7 +68,7 @@ export const saveContent = createServerFn({method:'POST'}).middleware([requireSu
   if(!names.length) throw new Error('Access denied.');
   const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
   const previous=data.id ? await supabaseAdmin.from('cms_records').select('*').eq('id',data.id).single() : null;
-  const admin=names.includes('admin');
+  const admin=names.includes('admin') || names.includes('super_admin');
   const canEdit=admin || names.includes('publisher') || (names.includes('content_editor') && !['product','setting'].includes(data.kind)) || (names.includes('commerce_manager') && ['product','bundle'].includes(data.kind));
   const canPublish=admin || names.includes('publisher');
   if(previous?.error) throw new Error('The record could not be loaded.');
