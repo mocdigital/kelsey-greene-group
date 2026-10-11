@@ -12,10 +12,22 @@ export function BrandTransition() {
       setVisible(true);
       timer.current = setTimeout(() => setVisible(false), duration);
     };
-    if (path === '/') show(650);
+    const showForPage = (pathname: string, duration: number) => {
+      if (pathname === '/') {
+        try {
+          if (!sessionStorage.getItem('kelsey-home-intro-seen')) {
+            sessionStorage.setItem('kelsey-home-intro-seen', 'true');
+            show(1100);
+            return;
+          }
+        } catch { /* Keep feedback bounded when browser storage is unavailable. */ }
+      }
+      show(duration);
+    };
+    if (path === '/') showForPage(path, 650);
     const unsubscribe = router.subscribe('onBeforeLoad', event => {
       if (event.fromLocation?.pathname === event.toLocation.pathname) return;
-      show(380);
+      showForPage(event.toLocation.pathname, 380);
     });
     return () => { unsubscribe(); clearTimeout(timer.current); };
   }, [router]);

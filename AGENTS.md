@@ -38,4 +38,4 @@
 - Mount the homepage section strip inside the sticky public header and offset other sticky controls using navbar-height tokens; this prevents stacked navigation overlap without changing the administration shell.
 
 - Reuse card bag controls and a session-persisted currency selector across the shopping flow, formatting NGN ledger amounts through shared pricing helpers; display conversions must never alter server settlement totals.
-- Keep branded navigation feedback in the public root shell with bounded non-blocking timing and reduced-motion support; navigation and loading failures must never leave an overlay trapping users.
+- Keep bounded, non-blocking logo feedback in the public shell with a session-scoped first-homepage marker and reduced-motion support; repeat visits stay brief and failures never trap users.

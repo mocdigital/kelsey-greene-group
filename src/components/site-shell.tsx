@@ -1,5 +1,5 @@
 import { CmsImage } from '@/components/cms-image';
-import { portableAsset, contentMedia } from '@/lib/media';
+import { contentMedia } from '@/lib/media';
 import { Link, useNavigate, useRouter, useLocation } from '@tanstack/react-router';
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
@@ -8,13 +8,12 @@ import { Button } from '@/components/ui/button';
 import { contentOptions,payload } from '@/lib/content';
 import { useSite } from './site-provider';
 import { supabase } from '@/integrations/supabase/client';
-import logo from '@/assets/logo.asset.json';
 import './commerce-pages.css';
 import { HomeNavigationRail } from './page-experience';
 type L={label:string;path:string};
 const arr=(v:unknown)=>Array.isArray(v)?v as Record<string,unknown>[]:[];
 function useShell(){const {data}=useSuspenseQuery(contentOptions);return payload(data.find(r=>r.kind==='site'&&r.slug==='shell'));}
-export function Brand(){const shell=useShell();return <Link to="/" className="brand"><CmsImage src={contentMedia(shell,'logo_image',portableAsset(logo))} alt="Kelsey Greene Group"/><span>KELSEY GREENE<small>GROUP</small></span></Link>}
+export function Brand(){const shell=useShell();return <Link to="/" className="brand"><span className="brand-mark"><CmsImage src={contentMedia(shell,'logo_image','/media/brand/loading-logo.png')} fallback="/media/brand/loading-logo.png" alt="Kelsey Greene Group" width={48} height={48}/></span><span>KELSEY GREENE<small>GROUP</small></span></Link>}
 function Announcement(){const a=useShell()['announcement'] as Record<string,unknown>|undefined;if(!a||!a['active']||!a['text'])return null;return <div className="site-announcement text-center text-sm py-2 px-4" role="region" aria-label="Announcement">{String(a['text'])} {a['path']?<Link to={String(a['path'])} className="underline underline-offset-4 ml-2 font-semibold">{String(a['label']??'Learn more')} →</Link>:null}</div>}
 export function Header(){const {data}=useSuspenseQuery(contentOptions),shell=useShell(),{user,cart}=useSite(),[open,setOpen]=useState(false);const qc=useQueryClient(),navigate=useNavigate(),router=useRouter();const highlights=arr(shell['menu_highlights']);const homepage=useLocation({select:location=>location.pathname==='/' });
  async function signOut(){await qc.cancelQueries();qc.clear();await supabase.auth.signOut();await navigate({to:'/auth',replace:true});router.invalidate();}
