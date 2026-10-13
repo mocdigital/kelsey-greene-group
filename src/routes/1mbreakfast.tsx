@@ -13,7 +13,7 @@ import discovery from '@/assets/movement-discovery.asset.json';
 import community from '@/assets/movement-community.asset.json';
 import '@/components/movement-page.css';
 
-export const Route = createFileRoute('/movement')({
+export const Route = createFileRoute('/1mbreakfast')({
   head: () => meta('1 Million Breakfast Movement', 'Nourishing People, Empowering Communities, Feeding a Global Future. Discover African breakfast products and find your place at our shared table.'),
   component: MovementPage,
 });
