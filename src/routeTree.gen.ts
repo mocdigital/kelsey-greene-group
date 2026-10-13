@@ -20,6 +20,7 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as DiscoveryBoxRouteImport } from './routes/discovery-box'
 import { Route as EnquiryRouteImport } from './routes/enquiry'
 import { Route as GroupRouteImport } from './routes/group'
+import { Route as MovementRouteImport } from './routes/movement'
 import { Route as PartnershipsRouteImport } from './routes/partnerships'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
@@ -100,6 +101,11 @@ const EnquiryRoute = EnquiryRouteImport.update({
 const GroupRoute = GroupRouteImport.update({
   id: '/group',
   path: '/group',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MovementRoute = MovementRouteImport.update({
+  id: '/movement',
+  path: '/movement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnershipsRoute = PartnershipsRouteImport.update({
@@ -249,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -287,6 +294,7 @@ export interface FileRoutesByTo {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -325,6 +333,7 @@ export interface FileRoutesById {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
+  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -366,6 +375,7 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
+    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/recipes'
@@ -404,6 +414,7 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
+    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/reset-password'
@@ -441,6 +452,7 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
+    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/recipes'
@@ -482,6 +494,7 @@ export interface RootRouteChildren {
   DiscoveryBoxRoute: typeof DiscoveryBoxRoute
   EnquiryRoute: typeof EnquiryRoute
   GroupRoute: typeof GroupRoute
+  MovementRoute: typeof MovementRoute
   PartnershipsRoute: typeof PartnershipsRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
@@ -577,6 +590,13 @@ declare module '@tanstack/react-router' {
       path: '/group'
       fullPath: '/group'
       preLoaderRoute: typeof GroupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movement': {
+      id: '/movement'
+      path: '/movement'
+      fullPath: '/movement'
+      preLoaderRoute: typeof MovementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partnerships': {
@@ -850,6 +870,7 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoveryBoxRoute: DiscoveryBoxRoute,
   EnquiryRoute: EnquiryRoute,
   GroupRoute: GroupRoute,
+  MovementRoute: MovementRoute,
   PartnershipsRoute: PartnershipsRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
