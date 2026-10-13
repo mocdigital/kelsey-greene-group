@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as R1mbreakfastRouteImport } from './routes/1mbreakfast'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BreakfastDayRouteImport } from './routes/breakfast-day'
@@ -51,6 +52,11 @@ import { Route as ApiPublicMediaRouteImport } from './routes/api/public/media'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R1mbreakfastRoute = R1mbreakfastRouteImport.update({
+  id: '/1mbreakfast',
+  path: '/1mbreakfast',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -240,6 +246,7 @@ const ApiPublicMediaRoute = ApiPublicMediaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
@@ -279,6 +286,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/cart': typeof CartRoute
@@ -316,6 +324,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
@@ -357,6 +366,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/businesses'
@@ -396,6 +406,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/cart'
@@ -432,6 +443,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/businesses'
@@ -473,6 +485,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  R1mbreakfastRoute: typeof R1mbreakfastRoute
   AuthRoute: typeof AuthRoute
   BreakfastDayRoute: typeof BreakfastDayRoute
   BusinessesRoute: typeof BusinessesRouteWithChildren
@@ -507,6 +520,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/1mbreakfast': {
+      id: '/1mbreakfast'
+      path: '/1mbreakfast'
+      fullPath: '/1mbreakfast'
+      preLoaderRoute: typeof R1mbreakfastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -841,6 +861,7 @@ const StoriesRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  R1mbreakfastRoute: R1mbreakfastRoute,
   AuthRoute: AuthRoute,
   BreakfastDayRoute: BreakfastDayRoute,
   BusinessesRoute: BusinessesRouteWithChildren,
