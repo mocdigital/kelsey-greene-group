@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as R1mbreakfastRouteImport } from './routes/1mbreakfast'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as BreakfastDayRouteImport } from './routes/breakfast-day'
@@ -19,7 +20,6 @@ import { Route as CheckoutRouteImport } from './routes/checkout'
 import { Route as DiscoveryBoxRouteImport } from './routes/discovery-box'
 import { Route as EnquiryRouteImport } from './routes/enquiry'
 import { Route as GroupRouteImport } from './routes/group'
-import { Route as MovementRouteImport } from './routes/movement'
 import { Route as PartnershipsRouteImport } from './routes/partnerships'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as RecipesRouteImport } from './routes/recipes'
@@ -51,6 +51,11 @@ import { Route as ApiPublicMediaRouteImport } from './routes/api/public/media'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R1mbreakfastRoute = R1mbreakfastRouteImport.update({
+  id: '/1mbreakfast',
+  path: '/1mbreakfast',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
@@ -95,11 +100,6 @@ const EnquiryRoute = EnquiryRouteImport.update({
 const GroupRoute = GroupRouteImport.update({
   id: '/group',
   path: '/group',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MovementRoute = MovementRouteImport.update({
-  id: '/movement',
-  path: '/movement',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PartnershipsRoute = PartnershipsRouteImport.update({
@@ -240,6 +240,7 @@ const ApiPublicMediaRoute = ApiPublicMediaRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
@@ -248,7 +249,6 @@ export interface FileRoutesByFullPath {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
-  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -279,6 +279,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/cart': typeof CartRoute
@@ -286,7 +287,6 @@ export interface FileRoutesByTo {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
-  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/reset-password': typeof ResetPasswordRoute
@@ -316,6 +316,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/1mbreakfast': typeof R1mbreakfastRoute
   '/auth': typeof AuthRoute
   '/breakfast-day': typeof BreakfastDayRoute
   '/businesses': typeof BusinessesRouteWithChildren
@@ -324,7 +325,6 @@ export interface FileRoutesById {
   '/discovery-box': typeof DiscoveryBoxRoute
   '/enquiry': typeof EnquiryRoute
   '/group': typeof GroupRoute
-  '/movement': typeof MovementRoute
   '/partnerships': typeof PartnershipsRoute
   '/privacy': typeof PrivacyRoute
   '/recipes': typeof RecipesRouteWithChildren
@@ -357,6 +357,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/businesses'
@@ -365,7 +366,6 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
-    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/recipes'
@@ -396,6 +396,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/cart'
@@ -403,7 +404,6 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
-    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/reset-password'
@@ -432,6 +432,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_authenticated'
+    | '/1mbreakfast'
     | '/auth'
     | '/breakfast-day'
     | '/businesses'
@@ -440,7 +441,6 @@ export interface FileRouteTypes {
     | '/discovery-box'
     | '/enquiry'
     | '/group'
-    | '/movement'
     | '/partnerships'
     | '/privacy'
     | '/recipes'
@@ -473,6 +473,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  R1mbreakfastRoute: typeof R1mbreakfastRoute
   AuthRoute: typeof AuthRoute
   BreakfastDayRoute: typeof BreakfastDayRoute
   BusinessesRoute: typeof BusinessesRouteWithChildren
@@ -481,7 +482,6 @@ export interface RootRouteChildren {
   DiscoveryBoxRoute: typeof DiscoveryBoxRoute
   EnquiryRoute: typeof EnquiryRoute
   GroupRoute: typeof GroupRoute
-  MovementRoute: typeof MovementRoute
   PartnershipsRoute: typeof PartnershipsRoute
   PrivacyRoute: typeof PrivacyRoute
   RecipesRoute: typeof RecipesRouteWithChildren
@@ -507,6 +507,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/1mbreakfast': {
+      id: '/1mbreakfast'
+      path: '/1mbreakfast'
+      fullPath: '/1mbreakfast'
+      preLoaderRoute: typeof R1mbreakfastRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -570,13 +577,6 @@ declare module '@tanstack/react-router' {
       path: '/group'
       fullPath: '/group'
       preLoaderRoute: typeof GroupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/movement': {
-      id: '/movement'
-      path: '/movement'
-      fullPath: '/movement'
-      preLoaderRoute: typeof MovementRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/partnerships': {
@@ -841,6 +841,7 @@ const StoriesRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  R1mbreakfastRoute: R1mbreakfastRoute,
   AuthRoute: AuthRoute,
   BreakfastDayRoute: BreakfastDayRoute,
   BusinessesRoute: BusinessesRouteWithChildren,
@@ -849,7 +850,6 @@ const rootRouteChildren: RootRouteChildren = {
   DiscoveryBoxRoute: DiscoveryBoxRoute,
   EnquiryRoute: EnquiryRoute,
   GroupRoute: GroupRoute,
-  MovementRoute: MovementRoute,
   PartnershipsRoute: PartnershipsRoute,
   PrivacyRoute: PrivacyRoute,
   RecipesRoute: RecipesRouteWithChildren,
