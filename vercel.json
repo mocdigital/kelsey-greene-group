@@ -1,0 +1,5 @@
+{
+  "redirects": [
+    { "source": "/~oauth/:path*", "destination": "https://oauth.lovable.app/:path*", "permanent": false }
+  ]
+}
