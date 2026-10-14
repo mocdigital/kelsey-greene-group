@@ -46,6 +46,11 @@ function isH3SwallowedErrorBody(body: string): boolean {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    // Managed Google sign-in: non-Lovable hosts (e.g. Vercel) have no /~oauth proxy, so forward to the broker.
+    const url = new URL(request.url);
+    if (url.pathname.startsWith("/~oauth/")) {
+      return Response.redirect(`https://oauth.lovable.app/${url.pathname.slice(8)}${url.search}`, 302);
+    }
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
