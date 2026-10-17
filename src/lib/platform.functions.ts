@@ -66,7 +66,8 @@ export const getAdminData = createServerFn({method:'POST'}).middleware([requireS
 export const saveContent = createServerFn({method:'POST'}).middleware([requireSupabaseAuth]).inputValidator(z.object({id:z.string().uuid().optional(),kind:z.string().min(1).max(80),slug:z.string().regex(/^[a-z0-9-]+$/),title:z.string().min(1).max(200),description:z.string().max(10000),payload:z.record(z.unknown()),status:z.enum(['draft','published','archived']),position:z.number().int(),seo_title:z.string().max(200),seo_description:z.string().max(500)})).handler(async({context,data})=>{
   const {data:roles}=await context.supabase.from('user_roles').select('role').eq('user_id',context.userId); const names=roles?.map(r=>r.role)??[];
   if(!names.length) throw new Error('Access denied.');
-  const {supabaseAdmin}=await import('@/integrations/supabase/client.server');
+  // External hosts (e.g. Vercel) have no service key; fall back to the editor's own session, which RLS checks.
+  const supabaseAdmin=process.env['SUPABASE_SERVICE_ROLE_KEY'] ? (await import('@/integrations/supabase/client.server')).supabaseAdmin : context.supabase;
   const previous=data.id ? await supabaseAdmin.from('cms_records').select('*').eq('id',data.id).single() : null;
   const admin=names.includes('admin') || names.includes('super_admin');
   const canEdit=admin || names.includes('publisher') || (names.includes('content_editor') && !['product','setting'].includes(data.kind)) || (names.includes('commerce_manager') && ['product','bundle'].includes(data.kind));
