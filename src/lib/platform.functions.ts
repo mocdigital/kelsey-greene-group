@@ -6,8 +6,8 @@ import { getRequest, setResponseHeader } from '@tanstack/react-start/server';
 
 export const getContent = createServerFn({ method: 'GET' }).handler(async () => {
   setResponseHeader('Cache-Control', 'no-store');
-  const key = process.env['SUPABASE_PUBLISHABLE_KEY']!;
-  const client = createClient(process.env['SUPABASE_URL']!, key, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_') && headers.get('Authorization') === `Bearer ${key}`) headers.delete('Authorization'); headers.set('apikey',key); return fetch(input,{...init,headers}); } } });
+  const key = (process.env['SUPABASE_PUBLISHABLE_KEY'] ?? process.env['VITE_SUPABASE_PUBLISHABLE_KEY'])!;
+  const client = createClient((process.env['SUPABASE_URL'] ?? process.env['VITE_SUPABASE_URL'])!, key, { auth: { persistSession: false, autoRefreshToken: false }, global: { fetch: (input, init) => { const headers = new Headers(init?.headers); if (key.startsWith('sb_') && headers.get('Authorization') === `Bearer ${key}`) headers.delete('Authorization'); headers.set('apikey',key); return fetch(input,{...init,headers}); } } });
   const {data,error} = await client.from('cms_records').select('id,kind,slug,title,description,payload,status,position,seo_title,seo_description').eq('status','published').order('position');
   if(error) throw new Error('The content could not be loaded. Please try again.');
   return data ?? [];
