@@ -3,15 +3,17 @@ import { getRequest } from '@tanstack/react-start/server';
 import { z } from 'zod';
 import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import { SUBSCRIPTION_FREQUENCIES, addInterval, subscriptionEligible } from '@/lib/growth';
+import { createClient } from '@supabase/supabase-js';
+import { paymentConfig } from '@/lib/payment-options';
 
 type Obj = Record<string, unknown>;
 const obj = (v: unknown): Obj => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Obj) : {});
 
 async function admin() { return (await import('@/integrations/supabase/client.server')).supabaseAdmin; }
 async function settings(db: Awaited<ReturnType<typeof admin>>) {
-  const { data } = await db.from('cms_records').select('slug,payload').eq('kind', 'setting').in('slug', ['currency', 'delivery', 'commerce']);
+  const { data } = await db.from('cms_records').select('slug,payload').eq('kind', 'setting').eq('status','published').in('slug', ['currency', 'delivery', 'payment', 'commerce']);
   const get = (s: string) => obj(data?.find(r => r.slug === s)?.payload);
-  return { currency: get('currency'), delivery: get('delivery'), commerce: get('commerce') };
+  return { currency: get('currency'), delivery: get('delivery'), commerce: data?.some(r=>r.slug==='payment') ? get('payment') : get('commerce') };
 }
 async function rolesOf(ctx: { supabase: any; userId: string }) {
   const { data } = await ctx.supabase.from('user_roles').select('role').eq('user_id', ctx.userId);
@@ -46,12 +48,12 @@ async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: stri
   return { lines, subtotal: lines.reduce((n, l) => n + l.line_ngn, 0) };
 }
 
-function paymentConfig(commerce: Obj) {
-  const merchants = (Array.isArray(commerce['espee_merchants']) ? commerce['espee_merchants'] as Obj[] : []).map(m => ({ code: String(m['code'] ?? ''), label: String(m['label'] ?? ''), businesses: Array.isArray(m['businesses']) ? (m['businesses'] as unknown[]).map(String) : [] })).filter(m => m.code);
-  return { bank: { bank_name: String(commerce['bank_name'] ?? ''), account_name: String(commerce['account_name'] ?? ''), account_number: String(commerce['account_number'] ?? '') }, merchants, card_live: commerce['card_mode'] === 'live' };
-}
 export const getCheckoutConfig = createServerFn({ method: 'GET' }).handler(async () => {
-  const db = await admin(); const s = await settings(db);
+  const url=process.env['SUPABASE_URL']??process.env['VITE_SUPABASE_URL'];
+  const key=process.env['SUPABASE_PUBLISHABLE_KEY']??process.env['VITE_SUPABASE_PUBLISHABLE_KEY'];
+  if(!url||!key)throw new Error('Checkout settings are unavailable.');
+  const db=createClient(url,key,{auth:{persistSession:false,autoRefreshToken:false},global:{fetch:(input,init)=>{const headers=new Headers(init?.headers);if(key.startsWith('sb_')&&headers.get('Authorization')===`Bearer ${key}`)headers.delete('Authorization');headers.set('apikey',key);return fetch(input,{...init,headers});}}});
+  const s = await settings(db);
   const zones = Array.isArray(s.delivery['zones']) ? (s.delivery['zones'] as Obj[]).map(z => ({ id: String(z['id']), label: String(z['label']), fee_ngn: Number(z['fee_ngn']) || 0, eta: String(z['eta'] ?? ''), active: z['active'] !== false })) : [];
   return { zones, ...paymentConfig(s.commerce), ngn_per_espee: Number(s.currency['ngn_per_espee']) || 0 };
 });
