@@ -1,6 +1,7 @@
 import { act, cleanup, render } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { BrandTransition } from '@/components/brand-transition';
+import {renderToString} from 'react-dom/server';
 
 const routing = vi.hoisted(() => ({ path: '/', listener: undefined as undefined | ((event: { fromLocation: { pathname: string }; toLocation: { pathname: string } }) => void) }));
 const router = { subscribe: (_name: string, listener: typeof routing.listener) => { routing.listener = listener; return () => { routing.listener = undefined; }; } };
@@ -9,6 +10,20 @@ vi.mock('@tanstack/react-router', () => ({ useRouter: () => router, useRouterSta
 beforeEach(() => { vi.useFakeTimers(); sessionStorage.clear(); routing.path = '/'; });
 afterEach(() => { cleanup(); vi.useRealTimers(); });
 describe('Branded page feedback', () => {
+  it('covers the initial page in server markup before effects run',()=>{
+    expect(renderToString(<BrandTransition/>)).toContain('brand-transition is-visible');
+    routing.path='/shop';
+    expect(renderToString(<BrandTransition/>)).toContain('brand-transition is-visible');
+  });
+  it('covers another page immediately and dismisses within 380ms',()=>{
+    routing.path='/shop';
+    const view=render(<BrandTransition/>);
+    expect(view.container.firstChild).toHaveClass('is-visible');
+    act(()=>{vi.advanceTimersByTime(380);});
+    expect(view.container.firstChild).not.toHaveClass('is-visible');
+    act(()=>{routing.listener?.({fromLocation:{pathname:'/shop'},toLocation:{pathname:'/group'}});});
+    expect(view.container.firstChild).toHaveClass('is-visible');
+  });
   it('extends only the first homepage opening in the session', () => {
     const first = render(<BrandTransition />);
     act(() => { vi.advanceTimersByTime(700); });

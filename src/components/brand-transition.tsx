@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { useRouter, useRouterState } from '@tanstack/react-router';
 
 export function BrandTransition() {
   const router = useRouter();
   const path = useRouterState({ select: state => state.location.pathname });
-  const [visible, setVisible] = useState(false);
+  // The server and first client paint must already contain the loading screen.
+  const [visible, setVisible] = useState(true);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => {
     const show = (duration: number) => {
@@ -24,10 +26,11 @@ export function BrandTransition() {
       }
       show(duration);
     };
-    if (path === '/') showForPage(path, 650);
+    showForPage(path, path === '/' ? 650 : 380);
     const unsubscribe = router.subscribe('onBeforeLoad', event => {
       if (event.fromLocation?.pathname === event.toLocation.pathname) return;
-      showForPage(event.toLocation.pathname, 380);
+      // Commit the opaque cover before the destination can render.
+      flushSync(() => showForPage(event.toLocation.pathname, 380));
     });
     return () => { unsubscribe(); clearTimeout(timer.current); };
   }, [router]);
