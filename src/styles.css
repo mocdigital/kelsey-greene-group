@@ -237,7 +237,7 @@ img[data-loading]{background:var(--secondary);animation:media-loading 1.4s ease-
 .shopping-flow-label{margin-right:auto;font-family:var(--font-display);font-size:26px}
 .shopping-currency-bar .market-currency{margin-left:auto}
 .brand-transition{position:fixed;inset:0;z-index:100;background:var(--forest-deep);display:grid;place-items:center;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .22s ease,visibility .22s ease}
-.brand-transition.is-visible{opacity:1;visibility:visible}
+.brand-transition.is-visible{opacity:1;visibility:visible;pointer-events:auto;transition:none}
 .brand-transition>div{width:160px;display:grid;justify-items:center;gap:28px}
 .brand-transition img{width:160px;height:160px;object-fit:contain;animation:brand-breathe 1.4s ease-in-out infinite}
 .brand-loading-line{width:80px;height:2px;background:var(--dark-border);position:relative;overflow:hidden}

@@ -39,4 +39,5 @@
 - Mount the homepage section strip inside the sticky public header and offset other sticky controls using navbar-height tokens; this prevents stacked navigation overlap without changing the administration shell.
 
 - Reuse card bag controls and a session-persisted currency selector across the shopping flow, formatting NGN ledger amounts through shared pricing helpers; display conversions must never alter server settlement totals.
-- Keep bounded, non-blocking logo feedback in the public shell with a session-scoped first-homepage marker and reduced-motion support; repeat visits stay brief and failures never trap users.
+- Render the public logo cover in initial server markup and commit navigation covers before destination rendering, with bounded dismissal and reduced-motion support; this prevents content flashing before feedback without trapping users.
+- Use the CMS publication status for quick catalogue visibility switches through the existing publishing-authorized save action; this keeps hidden products out of every public content surface without a separate visibility flag.
