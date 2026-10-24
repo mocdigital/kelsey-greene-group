@@ -49,7 +49,9 @@ export default {
     // Managed Google sign-in: non-Lovable hosts (e.g. Vercel) have no /~oauth proxy, so forward to the broker.
     const url = new URL(request.url);
     if (url.pathname.startsWith("/~oauth/")) {
-      return Response.redirect(`https://oauth.lovable.app/${url.pathname.slice(8)}${url.search}`, 302);
+      const q = new URLSearchParams(url.search);
+      if (!q.has("project_id")) q.set("project_id", "9be3103f-ec77-442c-a643-a740704ea131");
+      return Response.redirect(`https://oauth.lovable.app/${url.pathname.slice(8)}?${q}`, 302);
     }
     try {
       const handler = await getServerEntry();

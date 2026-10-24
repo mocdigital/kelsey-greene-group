@@ -1,5 +1,5 @@
 {
   "redirects": [
-    { "source": "/~oauth/:path*", "destination": "https://oauth.lovable.app/:path*", "permanent": false }
+    { "source": "/~oauth/:path*", "destination": "https://oauth.lovable.app/:path*?project_id=9be3103f-ec77-442c-a643-a740704ea131", "permanent": false }
   ]
 }
