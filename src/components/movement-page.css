@@ -106,3 +106,5 @@
 .movement-celebrate{display:flex;gap:10px;align-items:center;color:var(--gold);font-weight:600}
 .movement-progress small{color:var(--light-muted)}
 @media(max-width:640px){.movement-progress-figures{grid-template-columns:1fr}.movement-progress-figures strong{font-size:36px}}
+
+.movement-hero h1.movement-hero-logo{margin:18px 0 6px;max-width:420px;line-height:0}.movement-hero-logo img{width:100%;height:auto;display:block}@media(max-width:640px){.movement-hero h1.movement-hero-logo{max-width:300px}}
