@@ -46,10 +46,28 @@ async function priceBag(db: Awaited<ReturnType<typeof admin>>, bag: { slug: stri
   return { lines, subtotal: lines.reduce((n, l) => n + l.line_ngn, 0) };
 }
 
+function paymentConfig(commerce: Obj) {
+  const merchants = (Array.isArray(commerce['espee_merchants']) ? commerce['espee_merchants'] as Obj[] : []).map(m => ({ code: String(m['code'] ?? ''), label: String(m['label'] ?? ''), businesses: Array.isArray(m['businesses']) ? (m['businesses'] as unknown[]).map(String) : [] })).filter(m => m.code);
+  return { bank: { bank_name: String(commerce['bank_name'] ?? ''), account_name: String(commerce['account_name'] ?? ''), account_number: String(commerce['account_number'] ?? '') }, merchants, card_live: commerce['card_mode'] === 'live' };
+}
 export const getCheckoutConfig = createServerFn({ method: 'GET' }).handler(async () => {
   const db = await admin(); const s = await settings(db);
-  const zones = Array.isArray(s.delivery['zones']) ? (s.delivery['zones'] as Obj[]).map(z => ({ id: String(z['id']), label: String(z['label']), fee_ngn: Number(z['fee_ngn']) || 0, eta: String(z['eta'] ?? '') })) : [];
-  return { zones, bank: { bank_name: String(s.commerce['bank_name'] ?? ''), account_name: String(s.commerce['account_name'] ?? ''), account_number: String(s.commerce['account_number'] ?? '') }, ngn_per_espee: Number(s.currency['ngn_per_espee']) || 0 };
+  const zones = Array.isArray(s.delivery['zones']) ? (s.delivery['zones'] as Obj[]).map(z => ({ id: String(z['id']), label: String(z['label']), fee_ngn: Number(z['fee_ngn']) || 0, eta: String(z['eta'] ?? ''), active: z['active'] !== false })) : [];
+  return { zones, ...paymentConfig(s.commerce), ngn_per_espee: Number(s.currency['ngn_per_espee']) || 0 };
+});
+
+export const uploadPaymentProof = createServerFn({ method: 'POST' }).inputValidator(z.object({ id: z.string().uuid(), token: z.string().uuid(), name: z.string().max(200), type: z.enum(['image/jpeg', 'image/png', 'image/webp', 'application/pdf']), base64: z.string().min(10).max(7_000_000) })).handler(async ({ data }) => {
+  const db = await admin();
+  const { data: o } = await db.from('orders').select('id,payment_method').eq('id', data.id).eq('access_token', data.token).maybeSingle();
+  if (!o || !['bank_transfer', 'espees'].includes(o.payment_method)) throw new Error('This order could not be found.');
+  const bytes = Uint8Array.from(atob(data.base64), c => c.charCodeAt(0));
+  if (bytes.length > 5 * 1024 * 1024) throw new Error('Please upload a file under 5 MB.');
+  const ext = data.type === 'application/pdf' ? 'pdf' : data.type.split('/')[1];
+  const path = `payment-proofs/${o.id}/${crypto.randomUUID()}.${ext}`;
+  const { error } = await db.storage.from('cms-media').upload(path, bytes, { contentType: data.type });
+  if (error) throw new Error('Your receipt could not be uploaded. Please try again.');
+  await db.from('orders').update({ payment_reference: path, payment_status: 'proof_submitted', updated_at: new Date().toISOString() }).eq('id', o.id);
+  return { ok: true };
 });
 
 export const validatePromo = createServerFn({ method: 'POST' }).inputValidator(z.object({ code: z.string().trim().min(2).max(40), items })).handler(async ({ data }) => {
@@ -66,7 +84,7 @@ export const placeOrder = createServerFn({ method: 'POST' }).inputValidator(z.ob
   customer: z.object({ full_name: z.string().trim().min(2).max(150), email: z.string().trim().email().max(200), phone: z.string().trim().min(7).max(40) }),
   address: z.object({ line1: z.string().trim().min(3).max(200), line2: z.string().trim().max(200).default(''), city: z.string().trim().min(2).max(100), state: z.string().trim().min(2).max(100), notes: z.string().trim().max(500).default('') }),
   zone: z.string().min(1).max(60),
-  payment_method: z.enum(['bank_transfer', 'pay_on_delivery', 'card']),
+  payment_method: z.enum(['bank_transfer', 'espees', 'pay_on_delivery', 'card']),
   promo_code: z.string().trim().max(40).default(''),
   referral_code: z.string().trim().max(40).default(''),
 })).handler(async ({ data }) => {
@@ -77,7 +95,8 @@ export const placeOrder = createServerFn({ method: 'POST' }).inputValidator(z.ob
   const { lines, subtotal } = await priceBag(db, data.items);
   const s = await settings(db);
   const zone = (Array.isArray(s.delivery['zones']) ? s.delivery['zones'] as Obj[] : []).find(z => z['id'] === data.zone);
-  if (!zone) throw new Error('Please choose a delivery zone.');
+  if (!zone || zone['active'] === false) throw new Error('Please choose an available delivery zone.');
+  if (data.payment_method === 'card' && s.commerce['card_mode'] !== 'live') throw new Error('Card payments are coming soon. Please choose another payment method.');
   const fee = Number(zone['fee_ngn']) || 0;
   let discount = 0, promo: string | null = null;
   if (data.promo_code) { const r = await evaluatePromo(db, data.promo_code, subtotal); if (!r.ok) throw new Error(r.message); discount = r.discount; promo = r.code; }
@@ -87,7 +106,7 @@ export const placeOrder = createServerFn({ method: 'POST' }).inputValidator(z.ob
   let userId: string | null = null;
   if (bearer) { const { data: who } = await db.auth.getUser(bearer); userId = who.user?.id ?? null; }
   if (!userId && lines.some(l => l.frequency)) throw new Error('Please sign in to start a subscription. One-time items can be ordered as a guest.');
-  const payment_status = data.payment_method === 'bank_transfer' ? 'awaiting_transfer' : data.payment_method === 'pay_on_delivery' ? 'pay_on_delivery' : 'card_staging';
+  const payment_status = data.payment_method === 'bank_transfer' ? 'awaiting_transfer' : data.payment_method === 'espees' ? 'awaiting_espees' : data.payment_method === 'pay_on_delivery' ? 'pay_on_delivery' : 'card_staging';
   const reference = `KG-${new Date().toISOString().slice(2, 10).replaceAll('-', '')}-${crypto.randomUUID().slice(0, 6).toUpperCase()}`;
   const { data: order, error } = await db.from('orders').insert({
     user_id: userId, items: lines as never, subtotal_ngn: subtotal, delivery_fee_ngn: fee, discount_ngn: discount, total_ngn: subtotal + fee - discount,
@@ -113,7 +132,7 @@ export const getOrder = createServerFn({ method: 'POST' }).inputValidator(z.obje
   if (!o) throw new Error('This order could not be found.');
   const { commerce } = await settings(db);
   const { access_token: _t, user_id: _u, ...safe } = o;
-  return { order: safe, bank: { bank_name: String(commerce['bank_name'] ?? ''), account_name: String(commerce['account_name'] ?? ''), account_number: String(commerce['account_number'] ?? '') } };
+  return { order: safe, ...paymentConfig(commerce) };
 });
 
 export const trackReferralVisit = createServerFn({ method: 'POST' }).inputValidator(z.object({ code: z.string().trim().min(3).max(40), path: z.string().max(300).default('/') })).handler(async ({ data }) => {
@@ -180,7 +199,7 @@ export const getOperations = createServerFn({ method: 'POST' }).middleware([requ
   return { roles, orders: orders?.data ?? [], promos: promos?.data ?? [], jobs: jobs?.data ?? [], payouts: payouts?.data ?? [] };
 });
 
-export const updateOrder = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(z.object({ id: z.string().uuid(), fulfillment_status: z.enum(['received', 'processing', 'dispatched', 'delivered', 'cancelled']), payment_status: z.enum(['awaiting_transfer', 'pay_on_delivery', 'card_staging', 'paid', 'refunded', 'failed']) })).handler(async ({ context, data }) => {
+export const updateOrder = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(z.object({ id: z.string().uuid(), fulfillment_status: z.enum(['received', 'processing', 'dispatched', 'delivered', 'cancelled']), payment_status: z.enum(['awaiting_transfer', 'awaiting_espees', 'proof_submitted', 'pay_on_delivery', 'card_staging', 'paid', 'refunded', 'failed']) })).handler(async ({ context, data }) => {
   const roles = await rolesOf(context); if (!roles.some(r => COMMERCE.includes(r))) throw new Error('Access denied.');
   const db = await admin();
   const { error } = await db.from('orders').update({ fulfillment_status: data.fulfillment_status, payment_status: data.payment_status, status: data.fulfillment_status === 'cancelled' ? 'cancelled' : 'placed', updated_at: new Date().toISOString() }).eq('id', data.id);
@@ -233,4 +252,14 @@ export const setUserRole = createServerFn({ method: 'POST' }).middleware([requir
   if (error) throw new Error('The role could not be updated.');
   await db.from('audit_logs').insert({ actor: context.userId, action: data.grant ? 'role_granted' : 'role_revoked', entity: 'user_roles', details: data as never });
   return { ok: true };
+});
+
+export const getPaymentProofUrl = createServerFn({ method: 'POST' }).middleware([requireSupabaseAuth]).inputValidator(z.object({ id: z.string().uuid() })).handler(async ({ context, data }) => {
+  const roles = await rolesOf(context); if (!roles.some(r => COMMERCE.includes(r))) throw new Error('Access denied.');
+  const db = await admin();
+  const { data: o } = await db.from('orders').select('payment_reference').eq('id', data.id).maybeSingle();
+  const path = o?.payment_reference; if (!path?.startsWith('payment-proofs/')) throw new Error('No receipt uploaded for this order.');
+  const { data: signed, error } = await db.storage.from('cms-media').createSignedUrl(path, 600);
+  if (error || !signed) throw new Error('The receipt could not be opened.');
+  return { url: signed.signedUrl };
 });
