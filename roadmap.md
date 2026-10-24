@@ -1,4 +1,5 @@
 # Kelsey Greene Group platform
+- [ ] Show all relevant CMS merchant codes as payment choices with details beneath each method; portable breakfast hero logo; editable announcement; diagnose external Google sign-in.
 - [x] Add "Sponsor a box" as the third hero call to action on /1mbreakfast, opening the sponsorship participation page through the existing application handler. Three CTAs, desktop/phone presentation and the sponsorship form verified with no page errors; build and typecheck clean.
 - [x] Move the 1 Million Breakfast Movement page from /movement to /1mbreakfast, updating the header menu, footer link, in-page links and administration preview, with the old address redirecting. New address, redirect, menu, footer, nav click and no page errors verified; 59 tests passed.
 - [x] Replace shared site logo with uploaded leaf mark on a cream-and-gold circular backing; refresh matching favicon and extend first-session homepage transition to 1.1 seconds. Logo rendering and repeat visits verified; four relevant tests passed and build OK.
