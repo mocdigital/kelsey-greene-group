@@ -15,7 +15,7 @@ export const sponsorEspee = (boxes: number) => boxes * ESPEE_PER_BOX;
 const rateKey: Record<string, string> = { NGN: 'ngn_per_espee', USD: 'usd_per_espee', GHS: 'ghs_per_espee' };
 export function espeeToCurrency(espee: number, currency: string, rates: Record<string, unknown>) {
   if (currency === 'ESPEE') return espee;
-  const rate = Number(rates[rateKey[currency]]);
+  const rate = Number(rates[rateKey[currency] ?? '']);
   return rate > 0 ? Math.round(espee * rate * 100) / 100 : 0;
 }
 
