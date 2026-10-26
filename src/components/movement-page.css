@@ -115,3 +115,5 @@
 .sponsor-options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.sponsor-options button{border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px;display:grid;gap:4px;text-align:center;background:var(--background);transition:border-color .2s,background .2s}.sponsor-options button:hover{border-color:var(--primary)}.sponsor-options button.active{border-color:var(--primary);background:var(--primary);color:var(--primary-foreground)}.sponsor-options small{opacity:.8}
 .sponsor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sponsor-grid .span{grid-column:1/-1}.sponsor-sent{display:grid;gap:12px;justify-items:center;text-align:center;padding:20px 0}
 @media(max-width:640px){.sponsor-options{grid-template-columns:repeat(2,1fr)}.sponsor-grid{grid-template-columns:1fr}}
+.movement-page .movement-hero figure img{aspect-ratio:auto!important;object-fit:contain}
+.movement-story-placeholder p{color:var(--primary-foreground)!important;opacity:.85}
