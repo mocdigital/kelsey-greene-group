@@ -1,12 +1,20 @@
 import { Link, useLocation } from '@tanstack/react-router';
+import { useSuspenseQuery } from '@tanstack/react-query';
 import { ShoppingBag } from 'lucide-react';
-import { currencies } from '@/lib/pricing';
+import { currencyOptions } from '@/lib/pricing';
+import { contentOptions, payload } from '@/lib/content';
 import { useSite } from './site-provider';
 import { Button } from './ui/button';
 
+export function useCurrencyOptions() {
+  const { data } = useSuspenseQuery(contentOptions);
+  return currencyOptions(payload(data.find(r => r.kind === 'setting' && r.slug === 'currency')));
+}
+
 export function CurrencySelector() {
   const { currency, setCurrency } = useSite();
-  return <label className="market-currency">Currency<select aria-label="Display currency" value={currency} onChange={event => setCurrency(event.target.value)}>{currencies.map(value => <option key={value} value={value}>{({ ESPEE: 'ESPEE', NGN: 'Naira (NGN)', USD: 'US dollar (USD)', GHS: 'Ghana cedis (GHS)' })[value]}</option>)}</select></label>;
+  const options = useCurrencyOptions();
+  return <label className="market-currency">Currency<select aria-label="Display currency" value={options.some(o => o.code === currency) ? currency : 'ESPEE'} onChange={event => setCurrency(event.target.value)}>{options.map(o => <option key={o.code} value={o.code}>{o.label}</option>)}</select></label>;
 }
 
 export function ShoppingCurrencyBar() {

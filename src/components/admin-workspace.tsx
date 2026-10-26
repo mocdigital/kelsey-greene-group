@@ -27,7 +27,7 @@ const kindMap:Record<string,string>={'Corporate pages':'page','Business pages':'
 export function AdminWorkspace(){
  const fetch=useServerFn(getAdminData),save=useServerFn(saveContent),review=useServerFn(reviewApplication),qc=useQueryClient(),{user}=useSite();
  const {data,error,isPending}=useQuery({queryKey:['admin'],queryFn:()=>fetch(),retry:false});
- const [section,setSection]=useState('Overview'),[search,setSearch]=useState(''),[status,setStatus]=useState('all'),[business,setBusiness]=useState('all'),[editing,setEditing]=useState<Partial<Row>|null>(null),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[navOpen,setNavOpen]=useState(false);
+ const [section,setSection]=useState('Overview'),[enqTab,setEnqTab]=useState('Enquiries'),[search,setSearch]=useState(''),[status,setStatus]=useState('all'),[business,setBusiness]=useState('all'),[editing,setEditing]=useState<Partial<Row>|null>(null),[message,setMessage]=useState(''),[busy,setBusy]=useState(false),[navOpen,setNavOpen]=useState(false);
  const records=data?.records??[],businesses=records.filter(r=>r.kind==='business'),products=records.filter(r=>r.kind==='product');
  function go(s:string){setSection(s);setEditing(null);setMessage('');setSearch('');setStatus('all');setBusiness('all');setNavOpen(false);}
  function create(kind:string){setEditing({kind,status:'draft',payload:kind==='product'?{price_espee:0,size:'',business_slug:'foods-agro-allied',listing_type:section==='Property listings'?'property':'product'}:{}});}
