@@ -25,7 +25,7 @@ export const submitSponsorship = createServerFn({ method: 'POST' }).inputValidat
   return { id: rec.id, token: rec.access_token };
 });
 
-export const uploadSponsorshipProof = createServerFn({ method: 'POST' }).inputValidator(z.object({ id: z.string().uuid(), token: z.string().uuid(), type: z.enum(['image/jpeg', 'image/png', 'image/webp', 'application/pdf']), base64: z.string().min(10).max(7_000_000) })).handler(async ({ data }) => {
+export const uploadSponsorshipProof = createServerFn({ method: 'POST' }).inputValidator(z.object({ id: z.string().uuid(), token: z.string().uuid(), payment_method: z.enum(['espees', 'bank_transfer']), type: z.enum(['image/jpeg', 'image/png', 'image/webp', 'application/pdf']), base64: z.string().min(10).max(7_000_000) })).handler(async ({ data }) => {
   const db = await admin();
   const { data: s } = await db.from('sponsorships').select('id').eq('id', data.id).eq('access_token', data.token).maybeSingle();
   if (!s) throw new Error('This sponsorship could not be found.');
@@ -35,7 +35,7 @@ export const uploadSponsorshipProof = createServerFn({ method: 'POST' }).inputVa
   const path = `sponsorship-proofs/${s.id}/${crypto.randomUUID()}.${ext}`;
   const { error } = await db.storage.from('cms-media').upload(path, bytes, { contentType: data.type });
   if (error) throw new Error('Your receipt could not be uploaded. Please try again.');
-  await db.from('sponsorships').update({ proof_path: path, status: 'proof_submitted' }).eq('id', s.id);
+  await db.from('sponsorships').update({ proof_path: path, status: 'proof_submitted', payment_method: data.payment_method }).eq('id', s.id);
   return { ok: true };
 });
 

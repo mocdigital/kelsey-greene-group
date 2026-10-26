@@ -64,7 +64,7 @@ function SponsorBoxDialog({ open, onOpenChange }: { open: boolean; onOpenChange:
     setPending(true); setError('');
     try {
       const buf = new Uint8Array(await file.arrayBuffer()); let bin = ''; for (let i = 0; i < buf.length; i += 0x8000) bin += String.fromCharCode(...buf.subarray(i, i + 0x8000));
-      await upload({ data: { id: record.id, token: record.token, type: file.type as 'image/png', base64: btoa(bin) } });
+      await upload({ data: { id: record.id, token: record.token, payment_method: method, type: file.type as 'image/png', base64: btoa(bin) } });
       setStep('done');
     } catch (err) { setError(err instanceof Error ? err.message : 'Your receipt could not be uploaded.'); }
     finally { setPending(false); }
