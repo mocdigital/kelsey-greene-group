@@ -108,3 +108,12 @@
 @media(max-width:640px){.movement-progress-figures{grid-template-columns:1fr}.movement-progress-figures strong{font-size:36px}}
 
 .movement-hero h1.movement-hero-logo{margin:18px 0 6px;max-width:420px;line-height:0}.movement-hero-logo img{width:100%;height:auto;display:block}@media(max-width:640px){.movement-hero h1.movement-hero-logo{max-width:300px}}
+.movement-hero figure{margin:0;width:100%}.movement-hero figure img{display:block;width:100%;height:auto}
+.movement-story-video video,.movement-story-placeholder{width:100%;aspect-ratio:16/9;border-radius:var(--radius);background:var(--primary);display:block}
+.movement-story-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--primary-foreground)}.movement-story-placeholder span{font-size:34px;width:72px;height:72px;border-radius:50%;border:1px solid currentColor;display:grid;place-items:center}
+.sponsor-dialog{max-width:620px;max-height:92vh;overflow-y:auto}.sponsor-form{display:grid;gap:16px}.sponsor-form label{display:grid;gap:6px;font-size:14px}.sponsor-form input,.sponsor-form select,.sponsor-form textarea{border:1px solid var(--border);border-radius:var(--radius);padding:10px 12px;background:var(--background);font-size:16px}.sponsor-form fieldset{border:0;padding:0;margin:0}.sponsor-form legend{font-size:14px;margin-bottom:8px}
+.sponsor-options{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.sponsor-options button{border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px;display:grid;gap:4px;text-align:center;background:var(--background);transition:border-color .2s,background .2s}.sponsor-options button:hover{border-color:var(--primary)}.sponsor-options button.active{border-color:var(--primary);background:var(--primary);color:var(--primary-foreground)}.sponsor-options small{opacity:.8}
+.sponsor-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.sponsor-grid .span{grid-column:1/-1}.sponsor-sent{display:grid;gap:12px;justify-items:center;text-align:center;padding:20px 0}
+@media(max-width:640px){.sponsor-options{grid-template-columns:repeat(2,1fr)}.sponsor-grid{grid-template-columns:1fr}}
+.movement-page .movement-hero figure img{aspect-ratio:auto!important;object-fit:contain}
+.movement-story-placeholder p{color:var(--primary-foreground)!important;opacity:.85}

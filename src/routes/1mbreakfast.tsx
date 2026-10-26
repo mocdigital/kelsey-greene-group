@@ -1,5 +1,6 @@
 import { CmsImage } from '@/components/cms-image';
-import { portableAsset, contentMedia } from '@/lib/media';
+import { portableAsset, contentMedia, resolveMedia } from '@/lib/media';
+import { SponsorBoxButton } from '@/components/sponsor-box-dialog';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { ArrowRight, Utensils, Megaphone, Store, Truck } from 'lucide-react';
 import { Eyebrow, ArrowLink } from '@/components/editorial';
@@ -24,18 +25,18 @@ function JoinLink({ children = 'Join the movement' }: { children?: React.ReactNo
 }
 
 function MovementPage() {
-  const {data}=useSuspenseQuery(contentOptions);const p={...payload(data.find(r=>r.kind==='campaign'&&r.slug==='movement')),...payload(data.find(r=>r.kind==='page'&&r.slug==='movement'))};const box=data.find(r=>r.kind==='product'&&r.slug==='discovery-box');
+  const {data}=useSuspenseQuery(contentOptions);const p={...payload(data.find(r=>r.kind==='campaign'&&r.slug==='movement')),...payload(data.find(r=>r.kind==='page'&&r.slug==='movement'))};const storyVideo=resolveMedia(p['brand_story_video'],'');const box=data.find(r=>r.kind==='product'&&r.slug==='discovery-box');
   return <div className="movement-page">
     <div className="movement-subnav"><div className="container"><small>Kelsey Greene Group / Foods & Agro-Allied</small><nav aria-label="Movement sections"><a href="#the-movement">The movement</a><a href="#breakfast-range">Breakfast products</a><a href="#ways-to-participate">Ways to participate</a><a href="#join-movement">Join the movement</a></nav></div></div>
 
     <section id="the-movement" className="section movement-hero"><div className="container movement-hero-layout">
-      <div className="movement-hero-copy"><Eyebrow>AFRICAN FOOD. A SHARED TABLE.</Eyebrow><h1 className="movement-hero-logo"><img src={portableAsset(movementLogo)} alt="1 Million Breakfast Movement" width={612} height={408} fetchPriority="high" /></h1><p className="movement-hero-tagline">Nourishing People, Empowering Communities, Feeding a Global Future.</p><p>A celebration of African breakfast culture. Discover the products, bring your family to the table and find your place in a shared ambition.</p><div className="movement-actions"><Button className="movement-button" asChild><Link to="/shop" search={{initiative:'1mbreakfast'}}>Explore breakfast products <ArrowRight /></Link></Button><Button variant="outline" className="movement-button" asChild><Link to="/participate/$programme" params={{programme:'sponsorship'}}>Sponsor a box <ArrowRight /></Link></Button><JoinLink /></div></div>
+      <div className="movement-hero-copy"><Eyebrow>AFRICAN FOOD. A SHARED TABLE.</Eyebrow><h1 className="movement-hero-logo"><img src={portableAsset(movementLogo)} alt="1 Million Breakfast Movement" width={612} height={408} fetchPriority="high" /></h1><p className="movement-hero-tagline">Nourishing People, Empowering Communities, Feeding a Global Future.</p><p>A celebration of African breakfast culture. Discover the products, bring your family to the table and find your place in a shared ambition.</p><div className="movement-actions"><Button className="movement-button" asChild><Link to="/shop" search={{initiative:'1mbreakfast'}}>Explore breakfast products <ArrowRight /></Link></Button><SponsorBoxButton /><JoinLink /></div></div>
       <figure><CmsImage src={contentMedia(p,'hero_image',contentMedia(p,'image',portableAsset(breakfast)))} alt="Bowls of millet breakfast with dates, grains and nuts on a shared table" width={1145} height={768} fetchPriority="high" /><figcaption><span>A familiar beginning. A new possibility.</span><span>Illustrative food styling</span></figcaption></figure>
     </div></section>
 
     <div className="movement-promise"><div className="container"><p>Organic. No Preservatives. No Additives.</p><small>An initiative of Kelsey Greene Group</small></div></div>
 
-    <section className="section movement-why"><div className="container movement-two-column"><div><Eyebrow>WHY BREAKFAST MATTERS</Eyebrow><h2>More than a morning meal.<br />A connection to who we are.</h2></div><div><p>Breakfast carries the flavours of home, the memories of family and the everyday rituals that bring us together.</p><p>The 1 Million Breakfast Movement connects African breakfast products with people and participation. It is one consumer-facing initiative within Kelsey Greene Group’s wider food and agro-allied portfolio.</p></div></div></section>
+    <section id="brand-story" className="section movement-why movement-story"><div className="container movement-two-column"><div><Eyebrow>OUR BRAND STORY</Eyebrow><h2>More than a morning meal.<br />A connection to who we are.</h2><p>Breakfast carries the flavours of home, the memories of family and the everyday rituals that bring us together.</p></div><div className="movement-story-video">{storyVideo?<video src={storyVideo} controls playsInline preload="metadata" aria-label="1 Million Breakfast brand story video" />:<div className="movement-story-placeholder" role="img" aria-label="Brand story video coming soon"><span>▶</span><p>Brand story video coming soon</p></div>}</div></div></section>
 
     <section className="section movement-dark movement-ambition-band"><div className="container movement-two-column"><div><Eyebrow>OUR AMBITION — A GOAL WE SHARE</Eyebrow><div className="movement-goal">1,000,000</div><p>tracked breakfast experiences.</p></div><div><h3>One breakfast. Part of something bigger.</h3><p>An ambition built around products, people and participation: from a family breakfast to the stories and relationships that grow around it.</p></div></div><div className="container"><MovementProgress/></div></section>
 
