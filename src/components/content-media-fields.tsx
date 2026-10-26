@@ -6,11 +6,12 @@ export function ContentMediaFields({ kind, slug, content }: { kind: string; slug
   if (['business','product','bundle','recipe','story','event','club_content'].includes(kind)) add('image', 'Main image URL or asset key');
   if (kind === 'page' && slug !== 'home') add('hero_image', 'Page cover image');
   if ((kind === 'campaign' && slug === 'movement') || (kind === 'page' && slug === 'movement')) { add('image', 'Movement breakfast image'); add('community_image','Community image'); }
+  const storyVideo = (kind === 'page' && slug === 'movement');
   if (kind === 'page' && slug === 'home') add('movement_image','Movement section image');
   if (kind === 'page' && slug === 'partnerships') add('market_image','Market image');
   if (kind === 'page' && slug === 'businesses') add('movement_image','Movement section image');
   if (kind === 'site') add('logo_image','Site logo');
   function walk(value: unknown, prefix = '') { if (!value || typeof value !== 'object') return; Object.entries(value).forEach(([key, item]) => { const path = prefix ? `${prefix}.${key}` : key; if (typeof item === 'string' && /^(image|image_url|photo|portrait|hero_image|\w+_image)$/.test(key)) add(path, path.replaceAll('.', ' / ').replaceAll('_',' ')); else if (typeof item === 'object') walk(item,path); }); }
   walk(content);
-  return <>{Array.from(fields.values()).map(field => <div key={field.path} className="span-two"><MediaPicker name={`cms_media:${field.path}`} label={field.label} defaultValue={field.value}/></div>)}</>;
+  return <>{storyVideo && <div className="span-two"><MediaPicker name="cms_media:brand_story_video" label="Brand story video (MP4 or WebM)" video defaultValue={String(content['brand_story_video'] ?? '')}/></div>}{Array.from(fields.values()).map(field => <div key={field.path} className="span-two"><MediaPicker name={`cms_media:${field.path}`} label={field.label} defaultValue={field.value}/></div>)}</>;
 }
