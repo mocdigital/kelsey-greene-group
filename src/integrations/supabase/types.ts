@@ -547,6 +547,66 @@ export type Database = {
         }
         Relationships: []
       }
+      sponsorships: {
+        Row: {
+          access_token: string
+          amount: number
+          boxes: number | null
+          city: string
+          country: string
+          created_at: string
+          currency: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          note: string
+          organisation: string
+          payment_method: string
+          phone: string
+          proof_path: string | null
+          status: string
+        }
+        Insert: {
+          access_token?: string
+          amount?: number
+          boxes?: number | null
+          city?: string
+          country?: string
+          created_at?: string
+          currency?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          note?: string
+          organisation?: string
+          payment_method?: string
+          phone?: string
+          proof_path?: string | null
+          status?: string
+        }
+        Update: {
+          access_token?: string
+          amount?: number
+          boxes?: number | null
+          city?: string
+          country?: string
+          created_at?: string
+          currency?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          note?: string
+          organisation?: string
+          payment_method?: string
+          phone?: string
+          proof_path?: string | null
+          status?: string
+        }
+        Relationships: []
+      }
       submission_limits: {
         Row: {
           attempts: number

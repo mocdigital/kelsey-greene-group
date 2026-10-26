@@ -41,3 +41,6 @@
 - Reuse card bag controls and a session-persisted currency selector across the shopping flow, formatting NGN ledger amounts through shared pricing helpers; display conversions must never alter server settlement totals.
 - Render the public logo cover in initial server markup and commit navigation covers before destination rendering, with bounded dismissal and reduced-motion support; this prevents content flashing before feedback without trapping users.
 - Use the CMS publication status for quick catalogue visibility switches through the existing publishing-authorized save action; this keeps hidden products out of every public content surface without a separate visibility flag.
+
+- Record sponsor-a-box submissions in the dedicated sponsorships table with a secret access token for proof upload, reviewed in the admin Enquiries Sponsorships tab; keeps payment proofs out of general enquiries.
+- Build currency lists from built-in ESPEE/NGN plus CMS currency-settings additions via shared pricing helpers; selectors and conversions stay consistent site-wide.

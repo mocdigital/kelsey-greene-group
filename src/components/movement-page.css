@@ -117,3 +117,8 @@
 @media(max-width:640px){.sponsor-options{grid-template-columns:repeat(2,1fr)}.sponsor-grid{grid-template-columns:1fr}}
 .movement-page .movement-hero figure img{aspect-ratio:auto!important;object-fit:contain}
 .movement-story-placeholder p{color:var(--primary-foreground)!important;opacity:.85}
+.sponsor-options.sponsor-methods{grid-template-columns:repeat(2,1fr)}
+.sponsor-pay-details{display:grid;gap:10px;border:1px solid var(--border);border-radius:var(--radius);padding:14px;background:var(--muted)}
+.sponsor-pay-details>div{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.sponsor-pay-details dt{font-size:.85rem;opacity:.75}
+.sponsor-copy{display:inline-flex;align-items:center;gap:4px;font-family:var(--font-mono,monospace);letter-spacing:.04em}

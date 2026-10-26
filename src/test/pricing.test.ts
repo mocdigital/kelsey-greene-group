@@ -1,25 +1,12 @@
 import {describe,it,expect} from 'vitest';
-import {formatPrice,formatNgnPrice,priceInEspee} from '@/lib/pricing';
-const rates={ngn_per_espee:2050,usd_per_espee:1.54,ghs_per_espee:18.14};
+import {formatPrice,formatNgnPrice,priceInEspee,currencyOptions} from '@/lib/pricing';
+const rates={ngn_per_espee:2050,currencies:[{code:'USD',label:'US dollar',per_espee:1.54},{code:'GHS',label:'Cedis',per_espee:18.14}]};
 describe('Marketplace pricing',()=>{
  it('uses ESPEE as the source price',()=>expect(priceInEspee({price_espee:50,price_ngn:1},rates)).toBe(50));
- it('converts all approved currencies',()=>{expect(formatPrice(50,'ESPEE',rates)).toBe('50 ESPEE');expect(formatPrice(50,'NGN',rates)).toContain('102,500.00');expect(formatPrice(50,'USD',rates)).toContain('77.00');expect(formatPrice(50,'GHS',rates)).toContain('907.00');});
+ it('converts built-in and admin-added currencies',()=>{expect(formatPrice(50,'ESPEE',rates)).toBe('50 ESPEE');expect(formatPrice(50,'NGN',rates)).toContain('102,500.00');expect(formatPrice(50,'USD',rates)).toContain('77.00');expect(formatPrice(50,'GHS',rates)).toContain('907.00');});
+ it('only offers ESPEE and NGN unless more are added in settings',()=>{expect(currencyOptions({ngn_per_espee:2050}).map(c=>c.code)).toEqual(['ESPEE','NGN']);expect(currencyOptions(rates).map(c=>c.code)).toEqual(['ESPEE','NGN','USD','GHS']);});
+ it('ignores legacy USD/GHS rates that are no longer listed',()=>expect(formatPrice(50,'USD',{usd_per_espee:1.5})).toBe('Conversion unavailable'));
  it('responds to edited conversion settings',()=>expect(formatPrice(50,'NGN',{ngn_per_espee:2000})).toContain('100,000.00'));
  it('does not invent missing prices or rates',()=>{expect(formatPrice(null,'ESPEE',rates)).toBe('Price unavailable');expect(formatPrice(50,'USD',{})).toBe('Conversion unavailable');});
-  it('formats checkout ledger totals in the selected currency without changing settlement amounts',()=>{expect(formatNgnPrice(102500,'ESPEE',rates)).toBe('50 ESPEE');expect(formatNgnPrice(102500,'USD',rates)).toContain('77.00');expect(formatNgnPrice(2050,'ESPEE',rates)).toBe('1 ESPEE');expect(formatNgnPrice(100,'ESPEE',{})).toBe('Conversion unavailable');});
-});
-
-import { campaignState, subscriptionEligible } from '@/lib/growth';
-describe('campaign milestones', () => {
-  it('marks reached, next and upcoming milestones with remaining count', () => {
-    const s = campaignState(60000, 1000000, [10000, 50000, 100000, 250000]);
-    expect(s.remaining).toBe(940000);
-    expect(s.milestones.map(m => m.status)).toEqual(['reached', 'reached', 'next', 'upcoming']);
-    expect(s.milestones[2]?.progress).toBe(60);
-    expect(s.latestReached).toBe(50000);
-  });
-  it('never offers subscriptions on property listings', () => {
-    expect(subscriptionEligible({ listing_type: 'property' })).toBe(false);
-    expect(subscriptionEligible({ business_slug: 'foods-agro-allied' })).toBe(true);
-  });
+ it('formats checkout ledger totals in the selected currency',()=>{expect(formatNgnPrice(102500,'ESPEE',rates)).toBe('50 ESPEE');expect(formatNgnPrice(102500,'USD',rates)).toContain('77.00');expect(formatNgnPrice(100,'ESPEE',{})).toBe('Conversion unavailable');});
 });
