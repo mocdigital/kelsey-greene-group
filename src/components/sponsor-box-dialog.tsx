@@ -1,21 +1,21 @@
 import { useState } from 'react';
 import { useServerFn } from '@tanstack/react-start';
 import { useSuspenseQuery } from '@tanstack/react-query';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { submitEnquiry } from '@/lib/platform.functions';
+import { submitSponsorship, uploadSponsorshipProof } from '@/lib/sponsorship.functions';
 import { contentOptions, payload } from '@/lib/content';
-import { currencies } from '@/lib/pricing';
+import { currencyOptions, rateFor } from '@/lib/pricing';
 import { useSite } from './site-provider';
 
 export const SPONSOR_BOX_OPTIONS = [10, 50, 100, 500] as const;
 export const ESPEE_PER_BOX = 8;
 export const sponsorEspee = (boxes: number) => boxes * ESPEE_PER_BOX;
-const rateKey: Record<string, string> = { NGN: 'ngn_per_espee', USD: 'usd_per_espee', GHS: 'ghs_per_espee' };
+export const SPONSOR_PAYMENT = { merchant_code: 'LWCOMPS', narration: '1MBREAKFAST', account_name: 'CESG COMMERCE-2', account_number: '1000296371', bank_name: 'Parallex Bank' } as const;
 export function espeeToCurrency(espee: number, currency: string, rates: Record<string, unknown>) {
   if (currency === 'ESPEE') return espee;
-  const rate = Number(rates[rateKey[currency] ?? '']);
+  const rate = rateFor(currency, rates);
   return rate > 0 ? Math.round(espee * rate * 100) / 100 : 0;
 }
 
