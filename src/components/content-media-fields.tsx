@@ -6,7 +6,7 @@ export function ContentMediaFields({ kind, slug, content }: { kind: string; slug
   if (['business','product','bundle','recipe','story','event','club_content'].includes(kind)) add('image', 'Main image URL or asset key');
   if (kind === 'page' && slug !== 'home') add('hero_image', 'Page cover image');
   if ((kind === 'campaign' && slug === 'movement') || (kind === 'page' && slug === 'movement')) { add('image', 'Movement breakfast image'); add('community_image','Community image'); }
-  const storyVideo = (kind === 'page' && slug === 'movement');
+  const storyVideo = ((kind === 'page' || kind === 'campaign') && slug === 'movement');
   if (kind === 'page' && slug === 'home') add('movement_image','Movement section image');
   if (kind === 'page' && slug === 'partnerships') add('market_image','Market image');
   if (kind === 'page' && slug === 'businesses') add('movement_image','Movement section image');
