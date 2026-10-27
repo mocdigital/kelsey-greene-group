@@ -38,7 +38,7 @@ export function MediaPicker({ name, label, defaultValue = '', video = false, req
   async function upload(file: File | undefined) {
     if (!file) return;
     const allowed = video ? ['video/mp4', 'video/webm'] : ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'];
-    if (!allowed.includes(file.type) || file.size > 20 * 1024 * 1024) { setError('Choose a supported file smaller than 20 MB.'); return; }
+    if (!allowed.includes(file.type) || file.size > 200 * 1024 * 1024) { setError('Choose a supported file smaller than 200 MB.'); return; }
     setBusy(true); setError('');
     try {
       const extensions: Record<string, string> = { 'image/jpeg':'jpg', 'image/png':'png', 'image/webp':'webp', 'image/gif':'gif', 'image/avif':'avif', 'video/mp4':'mp4', 'video/webm':'webm' };
